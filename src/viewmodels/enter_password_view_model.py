@@ -121,7 +121,7 @@ class EnterWalletPasswordViewModel(QObject, ThreadManager):
         if error.message == ERROR_NETWORK_MISMATCH:
             local_store.clear_settings()
             MessageBox('critical', error.message)
-            QApplication.instance().quit()
+            QApplication.instance().exit()
         self.message.emit(
             ToastPreset.ERROR,
             error.message or ERROR_SOMETHING_WENT_WRONG,

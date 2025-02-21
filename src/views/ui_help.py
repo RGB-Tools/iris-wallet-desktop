@@ -11,6 +11,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QCursor
 from PySide6.QtWidgets import QFrame
 from PySide6.QtWidgets import QGridLayout
+from PySide6.QtWidgets import QHBoxLayout
 from PySide6.QtWidgets import QLabel
 from PySide6.QtWidgets import QScrollArea
 from PySide6.QtWidgets import QSizePolicy
@@ -111,12 +112,34 @@ class HelpWidget(QWidget):
         )
 
     def create_help_frames(self):
-        """This method creates the help frames according to the faucet list"""
-        for card in self._model.card_content:
-            faucet_frame = self.create_help_card(
+        """Creates the help frames and distributes them into two columns."""
+        help_card_horizontal_layout = QHBoxLayout()
+
+        help_card_left_vertical_layout = QVBoxLayout()
+        help_card_right_vertical_layout = QVBoxLayout()
+
+        card_list = self._model.card_content
+        for i, card in enumerate(card_list):
+            help_card = self.create_help_card(
                 card.title, card.detail, card.links,
             )
-            self.vertical_layout_4.addWidget(faucet_frame)
+
+            if i % 2 == 0:
+                help_card_left_vertical_layout.addWidget(help_card)
+            else:
+                help_card_right_vertical_layout.addWidget(help_card)
+
+        help_card_left_vertical_layout.addStretch()
+        help_card_right_vertical_layout.addStretch()
+        self.main_horizontal_spacer = QSpacerItem(
+            40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum,
+        )
+        help_card_horizontal_layout.addLayout(help_card_left_vertical_layout)
+        help_card_horizontal_layout.addLayout(help_card_right_vertical_layout)
+        help_card_horizontal_layout.addItem(self.main_horizontal_spacer)
+
+        self.vertical_layout_4.addLayout(help_card_horizontal_layout)
+
         self.main_vertical_spacer = QSpacerItem(
             20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding,
         )
@@ -152,20 +175,19 @@ class HelpWidget(QWidget):
 
         self.url_vertical_layout = QVBoxLayout()
         self.url_vertical_layout.setObjectName('url_vertical_layout')
-        for link in links:
-            self.url = QLabel(self.help_card_frame)
-            self.url.setObjectName(str(link))
-            self.url.setText(
-                f"<a style='color: #03CA9B;' href='{link}'>{link}</a>",
-            )
-            self.url.setMinimumSize(QSize(0, 15))
-            self.url.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
-            self.url.setTextInteractionFlags(Qt.TextBrowserInteraction)
-            self.url.setOpenExternalLinks(True)
-            self.url_vertical_layout.addWidget(self.url)
+        if links:
+            for link in links:
+                self.url = QLabel(self.help_card_frame)
+                self.url.setObjectName(str(link))
+                self.url.setText(
+                    f"<a style='color: #03CA9B;' href='{link}'>{link}</a>",
+                )
+                self.url.setMinimumSize(QSize(0, 15))
+                self.url.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+                self.url.setTextInteractionFlags(Qt.TextBrowserInteraction)
+                self.url.setOpenExternalLinks(True)
+                self.url_vertical_layout.addWidget(self.url)
 
         self.vertical_layout_3.addLayout(self.url_vertical_layout)
-
-        # self.verticalLayout_4.addWidget(self.help_card_frame)
 
         return self.help_card_frame

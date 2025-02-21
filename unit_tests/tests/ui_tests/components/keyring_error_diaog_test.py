@@ -208,7 +208,7 @@ def test_handle_when_origin_page_set_wallet_unchecked(keyring_error_dialog_widge
         'src.utils.local_store.local_store.clear_settings',
     )
     mock_close = mocker.patch.object(keyring_error_dialog_widget, 'close')
-    mock_quit = mocker.patch('PySide6.QtWidgets.QApplication.instance')
+    mock_exit = mocker.patch('PySide6.QtWidgets.QApplication.instance')
 
     # Set checkbox to unchecked
     keyring_error_dialog_widget.check_box.setChecked(False)
@@ -219,7 +219,7 @@ def test_handle_when_origin_page_set_wallet_unchecked(keyring_error_dialog_widge
     # Verify the unchecked path
     mock_clear_settings.assert_called_once()
     mock_close.assert_called_once()
-    mock_quit.return_value.quit.assert_called_once()
+    mock_exit.return_value.exit.assert_called_once()
 
 
 def test_handle_when_origin_page_set_wallet_common_exception(keyring_error_dialog_widget, mocker):

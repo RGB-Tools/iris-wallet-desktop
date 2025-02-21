@@ -44,15 +44,6 @@ def mock_fungible_asset_view_model():
     return mock_view_model
 
 
-# @pytest.fixture
-# def fungible_asset_nodeinfo_mock():
-#     """Provides a mock for fungible asset nodeinfo."""
-#     mock = MagicMock()
-#     mock.is_ready = MagicMock(return_value=True)
-#     mock.get_network_name = MagicMock(return_value='Testnet')
-#     return mock
-
-
 @pytest.fixture
 def create_fungible_asset_widget(qtbot, mock_fungible_asset_view_model):
     """Fixture to create the FungibleAssetWidget."""
@@ -93,7 +84,7 @@ def test_fungible_asset_widget_show_assets(create_fungible_asset_widget: Fungibl
     bitcoin_mock.name = 'bitcoin'
     bitcoin_mock.balance.future = '0.5'
     bitcoin_mock.ticker = 'BTC'
-    bitcoin_mock.asset_id = 'rgb123rgb'
+    bitcoin_mock.asset_id = 'rBTC'
 
     # Set the mock assets in the view model
     widget._view_model.main_asset_view_model.assets.vanilla = bitcoin_mock
@@ -104,7 +95,7 @@ def test_fungible_asset_widget_show_assets(create_fungible_asset_widget: Fungibl
 
     # Check that the asset name was set correctly
     assert widget.asset_name.text() == 'bitcoin'
-    assert widget.address.text() == 'rgb123rgb'
+    assert widget.address.text() == 'rBTC'
     assert widget.amount.text() == '0.5'
     assert widget.asset_logo.pixmap() is not None
 
@@ -193,7 +184,7 @@ def test_show_assets_with_various_assets(create_fungible_asset_widget, qtbot):
         'iris_wallet_desktop', 'asset_name', None,
     )
     assert widget.address_header.text() == QCoreApplication.translate(
-        'iris_wallet_desktop', 'address', None,
+        'iris_wallet_desktop', 'asset_id', None,
     )
     assert widget.amount_header.text() == QCoreApplication.translate(
         'iris_wallet_desktop', 'on_chain_balance', None,
@@ -235,14 +226,9 @@ def test_update_faucet_availability_when_unavailable(create_fungible_asset_widge
 
     # Check if the stylesheet was set correctly
     faucet_mock.setStyleSheet.assert_called_once_with(
-        'Text-align:left;'
-        'font: 15px "Inter";'
-        'color: rgb(120, 120, 120);'
-        'padding: 17.5px 16px;'
-        'background-image: url(:/assets/right_small.png);'
-        'background-repeat: no-repeat;'
-        'background-position: right center;'
-        'background-origin: content;',
+        'Text-align:left;font: 15px "Inter";color: rgb(120, 120, 120);padding: 17.5px 16px;'
+        'background-image: url(:/assets/right_small.png);background-repeat: no-repeat;'
+        'background-position: right center;background-origin: content;',
     )
 
     # Check if the click event handler was disconnected
@@ -302,24 +288,6 @@ def test_show_faucet_unavailability_message(mocker, mock_fungible_asset_view_mod
     toast_manager_mock.assert_called_once_with(
         description=INFO_FAUCET_NOT_AVAILABLE,
     )
-
-
-def test_set_bitcoin_address(mock_fungible_asset_view_model):
-    """Test that the set_bitcoin_address method sets the text of the provided QLabel."""
-    # Create a mock QLabel
-    label_mock = MagicMock(spec=QLabel)
-
-    # Example Bitcoin address
-    bitcoin_address = '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa'
-
-    # Create an instance of the widget
-    widget = FungibleAssetWidget(mock_fungible_asset_view_model)
-
-    # Call the method
-    widget.set_bitcoin_address(label=label_mock, address=bitcoin_address)
-
-    # Verify that QLabel.setText is called with the correct address
-    label_mock.setText.assert_called_once_with(bitcoin_address)
 
 
 def test_stop_fungible_loading_screen(create_fungible_asset_widget):
@@ -571,9 +539,6 @@ def test_create_fungible_card(create_fungible_asset_widget, qtbot):
         AssetType.BITCOIN.value.lower()
     }'
 
-    # Test signal connection for Bitcoin address updates
-    assert widget.signal_connected is True
-
 
 def test_show_assets(create_fungible_asset_widget, qtbot):
     """Test the show_assets method to ensure assets are cleared and the Bitcoin address signal is managed correctly."""
@@ -613,20 +578,3 @@ def test_show_assets(create_fungible_asset_widget, qtbot):
 
     # Call show_assets
     widget.show_assets()
-
-    # Ensure get_bitcoin_address is called
-    widget._view_model.receive_bitcoin_view_model.get_bitcoin_address.assert_called_once()
-
-    # Check that address.disconnect() was called if signal_connected is True
-    widget._view_model.receive_bitcoin_view_model.address.disconnect.assert_called_once()
-
-    # Check if signal_connected is set to False after disconnection
-    assert widget.signal_connected is False
-
-    # Test the case when signal_connected is False and no disconnection should happen
-    widget.signal_connected = False
-    widget.show_assets()  # Should not attempt to disconnect again
-
-    # Ensure address.disconnect is not called in this case
-    # Should still be called once from previous check
-    widget._view_model.receive_bitcoin_view_model.address.disconnect.assert_called_once()

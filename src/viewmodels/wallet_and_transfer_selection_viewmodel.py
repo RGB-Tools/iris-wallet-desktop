@@ -131,7 +131,7 @@ class WalletTransferSelectionViewModel(QObject, ThreadManager):
             str(error), str(code),
         )
         MessageBox('critical', message_text=ERROR_UNABLE_TO_START_NODE)
-        QApplication.instance().quit()
+        QApplication.instance().exit()
 
     def on_ln_node_already_running(self):
         """Log and toast when node already running"""

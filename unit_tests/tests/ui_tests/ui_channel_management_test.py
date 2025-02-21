@@ -77,10 +77,10 @@ def test_show_available_channels_positive(channel_management_widget, qtbot):
 
     assert channel_management_widget.list_v_box_layout.count() > 1
     assert isinstance(channel_management_widget.list_frame, QFrame)
-    assert isinstance(channel_management_widget.local_balance, QLabel)
-    assert channel_management_widget.local_balance.text() == '1000'
-    assert isinstance(channel_management_widget.remote_balance, QLabel)
-    assert channel_management_widget.remote_balance.text() == '500'
+    assert isinstance(channel_management_widget.local_balance_value, QLabel)
+    assert isinstance(channel_management_widget.remote_balance_value, QLabel)
+    assert channel_management_widget.local_balance_value.text() == '1000'
+    assert channel_management_widget.remote_balance_value.text() == '500'
 
 
 def test_show_available_channels_no_channels(channel_management_widget):
@@ -177,10 +177,10 @@ def test_show_available_channels_with_none_asset_id(mock_create_pixmap, channel_
         # 1 for the channel, 1 for the spacer
         assert channel_management_widget.list_v_box_layout.count() == 2
         assert channel_management_widget.list_frame.findChild(
-            QLabel, 'local_balance',
+            QLabel, 'local_balance_value',
         ).text() == '1000'
         assert channel_management_widget.list_frame.findChild(
-            QLabel, 'remote_balance',
+            QLabel, 'remote_balance_value',
         ).text() == '500'
 
 
@@ -231,13 +231,13 @@ def test_show_available_channels_with_asset_id(mock_create_pixmap, channel_manag
     # 1 for the channel, 1 for spacer
     assert channel_management_widget.list_v_box_layout.count() == 2
     assert channel_management_widget.list_frame.findChild(
-        QLabel, 'local_balance',
+        QLabel, 'local_balance_value',
     ).text() == '777'
     assert channel_management_widget.list_frame.findChild(
-        QLabel, 'remote_balance',
+        QLabel, 'remote_balance_value',
     ).text() == '0'
     tooltip = channel_management_widget.list_frame.findChild(
-        QLabel, 'status',
+        QLabel, 'status_pixmap',
     ).toolTip()
     assert tooltip == 'opening'
     asset_label = channel_management_widget.list_frame.findChild(
@@ -354,7 +354,7 @@ def test_show_available_channels_status_change(channel_management_widget, qtbot)
 
     # Assert status color and tooltip for "Closing"
     assert channel_management_widget.list_frame.findChild(
-        QLabel, 'status',
+        QLabel, 'status_pixmap',
     ).toolTip() == 'closing'
 
     # Change channel status
@@ -363,7 +363,7 @@ def test_show_available_channels_status_change(channel_management_widget, qtbot)
 
     # Assert status color and tooltip for "Opening"
     assert channel_management_widget.list_frame.findChild(
-        QLabel, 'status',
+        QLabel, 'status_pixmap',
     ).toolTip() == 'opening'
 
 
@@ -424,3 +424,38 @@ def test_channel_detail_event(channel_management_widget):
 
         # Assert that the exec method was called on the dialog box
         mock_channel_detail_dialog_box.return_value.exec.assert_called_once()
+
+
+@patch('src.utils.helpers.create_circular_pixmap')
+def test_show_available_channels_with_asset_id_lookup(mock_create_pixmap, channel_management_widget):
+    """Test show_available_channels with asset lookup functionality."""
+    # Mock the return value of create_circular_pixmap to be a QPixmap instance
+    mock_create_pixmap.return_value = QPixmap(16, 16)
+
+    # Mock valid channel data with asset_id
+    mock_channel = MagicMock()
+    mock_channel.peer_pubkey = 'mock_pubkey'
+    mock_channel.asset_local_amount = 777
+    mock_channel.asset_remote_amount = 0
+    mock_channel.asset_id = 'test_asset_123'
+    mock_channel.ready = True
+
+    # Set up the asset lookup dictionary
+    channel_management_widget._view_model.channel_view_model.total_asset_lookup_list = {
+        'test_asset_123': 'Test Asset Name',
+    }
+
+    channel_management_widget._view_model.channel_view_model.channels = [
+        mock_channel,
+    ]
+
+    channel_management_widget.show_available_channels()
+
+    # Assertions to verify the correct display of channel information
+    assert channel_management_widget.list_v_box_layout.count() == 2
+    assert channel_management_widget.list_frame.findChild(
+        QLabel, 'asset_name',
+    ).text() == 'Test Asset Name'
+    assert channel_management_widget.list_frame.findChild(
+        QLabel, 'asset_id',
+    ).text() == 'test_asset_123'

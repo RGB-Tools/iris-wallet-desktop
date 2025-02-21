@@ -97,20 +97,44 @@ def test_send_bitcoin_button(send_bitcoin_widget: SendBitcoinWidget, qtbot):
 
 def test_handle_button_enabled(send_bitcoin_widget: SendBitcoinWidget):
     """Test the handle_button_enabled method."""
+    # Test valid address, amount, fee and payment
     send_bitcoin_widget.send_bitcoin_page.asset_address_value.setText(
         '1BitcoinAddress',
     )
     send_bitcoin_widget.send_bitcoin_page.asset_amount_value.setText('0.001')
     send_bitcoin_widget.send_bitcoin_page.fee_rate_value.setText('0.0001')
+    send_bitcoin_widget.send_bitcoin_page.pay_amount = 1000
+    send_bitcoin_widget.send_bitcoin_page.spendable_amount = 2000
 
     send_bitcoin_widget.handle_button_enabled()
-
     assert send_bitcoin_widget.send_bitcoin_page.send_btn.isEnabled()
 
-    # Clear one of the inputs to disable the button again
+    # Test invalid address (empty)
     send_bitcoin_widget.send_bitcoin_page.asset_address_value.clear()
     send_bitcoin_widget.handle_button_enabled()
+    assert not send_bitcoin_widget.send_bitcoin_page.send_btn.isEnabled()
 
+    # Test invalid amount (zero)
+    send_bitcoin_widget.send_bitcoin_page.asset_amount_value.setText('0')
+    send_bitcoin_widget.handle_button_enabled()
+    assert not send_bitcoin_widget.send_bitcoin_page.send_btn.isEnabled()
+
+    # Test invalid fee (empty)
+    send_bitcoin_widget.send_bitcoin_page.asset_amount_value.setText('0.001')
+    send_bitcoin_widget.send_bitcoin_page.fee_rate_value.clear()
+    send_bitcoin_widget.handle_button_enabled()
+    assert not send_bitcoin_widget.send_bitcoin_page.send_btn.isEnabled()
+
+    # Test invalid fee (zero)
+    send_bitcoin_widget.send_bitcoin_page.fee_rate_value.setText('0')
+    send_bitcoin_widget.handle_button_enabled()
+    assert not send_bitcoin_widget.send_bitcoin_page.send_btn.isEnabled()
+
+    # Test invalid payment (pay_amount > spendable_amount)
+    send_bitcoin_widget.send_bitcoin_page.fee_rate_value.setText('0.0001')
+    send_bitcoin_widget.send_bitcoin_page.pay_amount = 3000
+    send_bitcoin_widget.send_bitcoin_page.spendable_amount = 2000
+    send_bitcoin_widget.handle_button_enabled()
     assert not send_bitcoin_widget.send_bitcoin_page.send_btn.isEnabled()
 
 

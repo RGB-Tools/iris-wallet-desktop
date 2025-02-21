@@ -30,3 +30,4 @@ build_info.json
 settings.json
 /appimages/
 temp_build_constant.py
+.DS_Store

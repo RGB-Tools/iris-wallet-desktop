@@ -5,6 +5,7 @@ import socket
 
 from PySide6.QtCore import QObject
 from PySide6.QtCore import QThread
+from PySide6.QtCore import QTimer
 from PySide6.QtCore import Signal
 
 from src.utils.constant import PING_DNS_ADDRESS_FOR_NETWORK_CHECK
@@ -12,26 +13,17 @@ from src.utils.constant import PING_DNS_SERVER_CALL_INTERVAL
 
 
 class NetworkCheckerThread(QThread):
-    """View model to handle network connectivity"""
+    """Thread to handle network connectivity checking."""
     network_status_signal = Signal(bool)
-    _instance = None
-
-    def __init__(self):
-        super().__init__()
-        self.running = True
 
     def run(self):
-        """Run the network checking loop."""
-        while self.running:
-            is_connected = self.check_internet_conn()
-            self.network_status_signal.emit(is_connected)
-            # Wait 5 seconds before the next check
-            self.msleep(PING_DNS_SERVER_CALL_INTERVAL)
+        """Run the network check once."""
+        is_connected = self.check_internet_conn()
+        self.network_status_signal.emit(is_connected)
 
     def check_internet_conn(self):
-        """Check internet connection by making a request to the specified URL."""
+        """Check internet connection and return status."""
         try:
-            # Attempt to resolve the hostname of Google to test internet
             socket.create_connection(
                 (PING_DNS_ADDRESS_FOR_NETWORK_CHECK, 53), timeout=3,
             )
@@ -39,19 +31,26 @@ class NetworkCheckerThread(QThread):
         except OSError:
             return False
 
-    def stop(self):
-        """Stop the thread."""
-        self.running = False
-        self.quit()
-        self.wait()
-
 
 class HeaderFrameViewModel(QObject):
-    """Handle network connectivity"""
+    """Handles network connectivity in the UI."""
     network_status_signal = Signal(bool)
 
     def __init__(self):
-        super().__init__()  # Call the parent constructor
+        super().__init__()
+
+        self.network_checker = None
+
+        # Use QTimer in the main thread
+        self.timer = QTimer(self)
+        self.timer.setInterval(PING_DNS_SERVER_CALL_INTERVAL)
+        self.timer.timeout.connect(self.start_network_check)
+
+        # Start checking
+        self.timer.start()
+
+    def start_network_check(self):
+        """Start a new network check using a separate thread."""
         self.network_checker = NetworkCheckerThread()
         self.network_checker.network_status_signal.connect(
             self.handle_network_status,
@@ -59,9 +58,9 @@ class HeaderFrameViewModel(QObject):
         self.network_checker.start()
 
     def handle_network_status(self, is_connected):
-        """Handle the network status change."""
+        """Emit network status signal."""
         self.network_status_signal.emit(is_connected)
 
     def stop_network_checker(self):
-        """Stop the network checker when no longer needed."""
-        self.network_checker.stop()
+        """Stop network checking when it's no longer needed."""
+        self.timer.stop()

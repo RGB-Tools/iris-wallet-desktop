@@ -1,7 +1,7 @@
 """
 Module for handling the OnCloseDialogBox, which manages the closing process of application
 """
-# pylint: disable=E1121
+# pylint: disable=E1121,too-many-instance-attributes
 from __future__ import annotations
 
 from PySide6.QtCore import QProcess
@@ -27,6 +27,7 @@ from src.utils.keyring_storage import get_value
 from src.utils.ln_node_manage import LnNodeServerManager
 from src.utils.logging import logger
 from src.utils.worker import ThreadManager
+from src.viewmodels.header_frame_view_model import HeaderFrameViewModel
 from src.views.ui_restore_mnemonic import RestoreMnemonicWidget
 
 
@@ -59,6 +60,7 @@ class OnCloseDialogBox(QDialog, ThreadManager):
         self.ln_node_manage.process_finished_on_request_app_close_error.connect(
             self._on_error_of_closing_node,
         )
+        self.header_frame_view_model = HeaderFrameViewModel()
 
         # Set minimum size for flexibility but still prevent excessive resizing
         self.setMinimumSize(200, 200)
@@ -190,7 +192,7 @@ class OnCloseDialogBox(QDialog, ThreadManager):
         self._update_status(ERROR_UNABLE_TO_STOP_NODE)
         self.qmessage_info = ERROR_UNABLE_TO_STOP_NODE
         QMessageBox.critical(self, 'Failed', self.qmessage_info)
-        QApplication.instance().quit()
+        QApplication.instance().exit()
 
     def _on_success_close_node(self):
         """
@@ -198,7 +200,8 @@ class OnCloseDialogBox(QDialog, ThreadManager):
         """
         self.is_node_closing_onprogress = False
         self._update_status('The node closed successfully!')
-        QApplication.instance().quit()
+        self.header_frame_view_model.stop_network_checker()
+        QApplication.instance().exit()
 
     def _close_node_app(self):
         """
@@ -216,7 +219,8 @@ class OnCloseDialogBox(QDialog, ThreadManager):
             self.dialog_title = 'Node closing in progress'
             self.ln_node_manage.stop_server_from_close_button()
         else:
-            QApplication.instance().quit()
+            self.header_frame_view_model.stop_network_checker()
+            QApplication.instance().exit()
 
     # pylint disable(invalid-name) because of closeEvent is internal function of QWidget
     def closeEvent(self, event):  # pylint:disable=invalid-name
@@ -246,4 +250,4 @@ class OnCloseDialogBox(QDialog, ThreadManager):
             )
         else:
             event.accept()
-            QApplication.instance().quit()
+            QApplication.instance().exit()

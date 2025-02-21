@@ -30,6 +30,7 @@ from src.model.channels_model import ChannelDetailDialogModel
 from src.utils.clickable_frame import ClickableFrame
 from src.utils.common_utils import generate_identicon
 from src.utils.common_utils import get_bitcoin_info_by_network
+from src.utils.common_utils import translate_value
 from src.utils.helpers import create_circular_pixmap
 from src.utils.helpers import load_stylesheet
 from src.utils.render_timer import RenderTimer
@@ -66,11 +67,6 @@ class ChannelManagement(QWidget):
         self.list_h_box_layout = None
         self.counter_party = None
         self.pub_key = None
-        self.opened_date = None
-        self.asset_remote_balance = None
-        self.asset = None
-        self.channel_status = None
-        self.status = None
         self.scroll_v_spacer = None
         self.asset_local_balance = None
         self.channel_management_loading_screen = None
@@ -80,11 +76,12 @@ class ChannelManagement(QWidget):
         self.asset_name = None
         self.local_balance = None
         self.remote_balance = None
-        self.asset_name_logo = None
         self.nia_asset_lookup = {}
-        self.grid_layout_2 = None
-        self.asset_logo_container = None
-        self.horizontal_layout_3 = None
+        self.status_pixmap = None
+        self.local_balance_value = None
+        self.remote_balance_value = None
+        self.channel_frame_horizontal_layout = None
+        self.asset_id_value = None
 
         self.setObjectName('channel_management_page')
         self.vertical_layout_channel = QVBoxLayout(self)
@@ -132,15 +129,6 @@ class ChannelManagement(QWidget):
         self.main_list_v_layout.setObjectName('main_list_v_layout')
         self.main_list_v_layout.setContentsMargins(0, 0, 0, 0)
 
-        self.frame = QFrame(self)
-        self.frame.setObjectName('header')
-        self.frame.setMinimumSize(QSize(0, 70))
-
-        self.frame.setFrameShape(QFrame.StyledPanel)
-        self.frame.setFrameShadow(QFrame.Raised)
-        self.grid_layout = QGridLayout(self.frame)
-        self.grid_layout.setContentsMargins(20, 0, 22, 0)
-
         self.scroll_area = QScrollArea(self)
         self.scroll_area.setObjectName('scroll_area')
         self.scroll_area.setAutoFillBackground(False)
@@ -171,52 +159,77 @@ class ChannelManagement(QWidget):
         self.vertical_layout_channel.addWidget(self.widget_channel)
         self.vertical_layout_2_channel.addLayout(self.horizontal_layout_2)
 
+        self.channel_header = QFrame(self)
+        self.channel_header.setObjectName('channel_header')
+        self.channel_header.setMinimumSize(QSize(900, 70))
+        self.channel_header.setMaximumSize(QSize(16777215, 70))
+        self.channel_header.setFrameShape(QFrame.Shape.StyledPanel)
+        self.channel_header.setFrameShadow(QFrame.Shadow.Raised)
+
+        self.channel_header_layout = QHBoxLayout(self.channel_header)
+        self.channel_header_layout.setSpacing(6)
+        self.channel_header_layout.setObjectName('channel_header_layout')
+
+        self.asset_logo_label = QLabel(self.channel_header)
+        self.asset_logo_label.setObjectName('asset_logo_label')
+        self.asset_logo_label.setMinimumSize(QSize(40, 40))
+        self.asset_logo_label.setMaximumSize(QSize(40, 40))
+
+        self.channel_header_layout.addWidget(self.asset_logo_label)
+
+        self.asset_name_label = QLabel(self.channel_header)
+        self.asset_name_label.setObjectName('asset_name_label')
+        self.asset_name_label.setMinimumSize(QSize(136, 40))
+        self.channel_header_layout.addWidget(self.asset_name_label)
+
+        self.asset_id_label = QLabel(self.channel_header)
+        self.asset_id_label.setObjectName('asset_id_label')
+        self.asset_id_label.setMinimumSize(QSize(450, 0))
+        self.asset_id_label.setMaximumSize(QSize(16777215, 16777215))
+        self.asset_id_label.setAlignment(
+            Qt.AlignmentFlag.AlignLeading | Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter,
+        )
+
+        self.channel_header_layout.addWidget(self.asset_id_label)
+
+        self.local_balance_label = QLabel(self.channel_header)
+        self.local_balance_label.setObjectName('local_balance_label')
+        self.local_balance_label.setMinimumSize(QSize(136, 0))
+        self.local_balance_label.setAlignment(
+            Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignLeading | Qt.AlignmentFlag.AlignVCenter,
+        )
+
+        self.channel_header_layout.addWidget(self.local_balance_label)
+
+        self.remote_balance_label = QLabel(self.channel_header)
+        self.remote_balance_label.setObjectName('remote_balance_label')
+        self.remote_balance_label.setMinimumSize(QSize(136, 0))
+        self.remote_balance_label.setAlignment(
+            Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignLeading | Qt.AlignmentFlag.AlignVCenter,
+        )
+
+        self.channel_header_layout.addWidget(self.remote_balance_label)
+
+        self.status_label = QLabel(self.channel_header)
+        self.status_label.setObjectName('status_label')
+        self.status_label.setMinimumSize(QSize(60, 0))
+        self.status_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.channel_header_layout.addWidget(self.status_label)
+
+        self.vertical_spacer = QSpacerItem(
+            20, 78, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding,
+        )
+
+        self.vertical_layout_2_channel.addWidget(self.channel_header)
+
         self.scroll_area.setWidget(self.scroll_area_widget_contents)
-        self.setup_headers()
         self.main_list_v_layout.addWidget(self.scroll_area)
         self.vertical_layout_2_channel.addWidget(self.channel_list_widget)
         self.retranslate_ui()
         self.setup_ui_connection()
         self._view_model.channel_view_model.available_channels()
         self._view_model.channel_view_model.get_asset_list()
-
-    def create_header_label(self, text, min_width, alignment):
-        """
-        Helper function to create header labels.
-        """
-        label = QLabel(self.frame)
-        label.setObjectName('header_label')
-        label.setMinimumWidth(min_width)
-        label.setText(QCoreApplication.translate('iris_wallet', text, None))
-        label.setWordWrap(True)
-        label.setStyleSheet(
-            'color: white;font: 14px \"Inter\";\n'
-            'background: transparent;\n'
-            'border: none;\n'
-            'font-weight: 600;\n',
-        )
-        self.grid_layout.addWidget(
-            label, 0, alignment, Qt.AlignLeft if alignment != 1 else Qt.AlignCenter,
-        )
-        return label
-
-    def setup_headers(self):
-        """
-        Creates and adds header labels to the grid layout.
-        """
-        column_counter = 0
-        for header in self.header_col:
-            if header == 'Asset ID':
-                self.header_label_asset_id = self.create_header_label(
-                    header, 450, 1,
-                )
-            else:
-                self.header_labels = self.create_header_label(
-                    header, 136, column_counter,
-                )
-            column_counter += 1
-
-        self.main_list_v_layout.addWidget(self.frame)
 
     def show_available_channels(self):
         """This method shows the available channels."""
@@ -239,27 +252,33 @@ class ChannelManagement(QWidget):
             self.list_frame.setObjectName('list_frame')
             self.list_frame.setMinimumSize(QSize(0, 70))
             self.list_frame.setMaximumSize(QSize(16777215, 70))
-            self.list_frame.setStyleSheet(
-                'background:transparent;'
-                'background-color: rgba(21, 28, 52, 1);\n'
-                'color:white;\n'
-                'font:14px Inter;\n'
-                'border-radius:8px;\n'
-                'border:none\n',
-            )
-            self.list_frame.setFrameShape(QFrame.StyledPanel)
-            self.list_frame.setFrameShadow(QFrame.Raised)
-            self.grid_layout_2 = QGridLayout(self.list_frame)
-            self.grid_layout_2.setContentsMargins(20, 0, 20, 0)
-            self.asset_logo_container = QWidget()
-            self.horizontal_layout_3 = QHBoxLayout(self.asset_logo_container)
-            self.horizontal_layout_3.setContentsMargins(0, 0, 0, 0)
+            self.list_frame.setFrameShape(QFrame.Shape.StyledPanel)
+            self.list_frame.setFrameShadow(QFrame.Shadow.Raised)
 
-            self.asset_logo = QLabel(self.asset_logo_container)
+            self.channel_frame_horizontal_layout = QHBoxLayout(self.list_frame)
+            self.channel_frame_horizontal_layout.setSpacing(6)
+            self.channel_frame_horizontal_layout.setContentsMargins(
+                20, 0, 20, 0,
+            )
+
+            self.asset_logo = QLabel(self.list_frame)
             self.asset_logo.setObjectName('asset_logo')
-            self.asset_logo.setMaximumWidth(40)
+            self.asset_logo.setMinimumSize(QSize(40, 0))
+            self.asset_logo.setMaximumSize(QSize(40, 16777215))
+
+            self.channel_frame_horizontal_layout.addWidget(
+                self.asset_logo, Qt.AlignmentFlag.AlignLeading | Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter,
+            )
+
+            self.asset_name = QLabel(self.list_frame)
+            self.asset_name.setObjectName('asset_name')
+            self.asset_name.setMinimumSize(QSize(136, 40))
 
             if channel.asset_id:
+                for key, value in self._view_model.channel_view_model.total_asset_lookup_list.items():
+                    if channel.asset_id == key:
+                        self.asset_name.setText(value)
+
                 img_str = generate_identicon(channel.asset_id)
                 image = QImage.fromData(
                     QByteArray.fromBase64(img_str.encode()),
@@ -267,58 +286,58 @@ class ChannelManagement(QWidget):
                 pixmap = QPixmap.fromImage(image)
                 self.asset_logo.setPixmap(pixmap)
 
-            self.horizontal_layout_3.addWidget(self.asset_logo)
+            self.channel_frame_horizontal_layout.addWidget(self.asset_name)
 
-            self.asset_name = QLabel(self.asset_logo)
-            self.asset_name.setObjectName('asset_name')
+            self.asset_id_value = QLabel(self.list_frame)
+            self.asset_id_value.setObjectName('asset_id')
+            self.asset_id_value.setMinimumSize(QSize(450, 0))
+            self.asset_id_value.setText(channel.asset_id)
 
-            if channel.asset_id:
-                for key, value in self._view_model.channel_view_model.total_asset_lookup_list.items():
-                    if channel.asset_id == key:
-                        self.asset_name.setText(value)
-            self.horizontal_layout_3.addWidget(self.asset_name)
-            self.asset_logo_container.setMinimumWidth(136)
-            self.asset_logo_container.setMinimumHeight(40)
-            self.grid_layout_2.addWidget(self.asset_logo_container, 0, 0)
+            self.channel_frame_horizontal_layout.addWidget(self.asset_id_value)
 
-            self.asset = QLabel(self.list_frame)
-            self.asset.setObjectName('asset_id')
-            self.asset.setMinimumWidth(450)
-            self.asset.setText(channel.asset_id)
-
-            self.grid_layout_2.addWidget(self.asset, 0, 1, Qt.AlignLeft)
-
-            self.local_balance = QLabel(self.list_frame)
-            self.local_balance.setObjectName('local_balance')
-            self.local_balance.setMinimumWidth(136)
-            self.local_balance.setText(
+            self.local_balance_value = QLabel(self.list_frame)
+            self.local_balance_value.setObjectName('local_balance_value')
+            self.local_balance_value.setMinimumSize(QSize(136, 0))
+            self.local_balance_value.setText(
                 str(
                     channel.asset_local_amount if channel.asset_id else int(
                         channel.outbound_balance_msat/1000,
                     ),
                 ),
             )
-            self.grid_layout_2.addWidget(
-                self.local_balance, 0, 2, Qt.AlignLeft,
+            self.local_balance_value.setAlignment(
+                Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignTrailing | Qt.AlignmentFlag.AlignVCenter,
             )
 
-            self.remote_balance = QLabel(self.list_frame)
-            self.remote_balance.setObjectName('remote_balance')
-            self.remote_balance.setMinimumWidth(136)
-            self.remote_balance.setText(
+            self.channel_frame_horizontal_layout.addWidget(
+                self.local_balance_value,
+            )
+
+            self.remote_balance_value = QLabel(self.list_frame)
+            self.remote_balance_value.setObjectName('remote_balance_value')
+            self.remote_balance_value.setMinimumSize(QSize(136, 0))
+            self.remote_balance_value.setText(
                 str(
                     channel.asset_remote_amount if channel.asset_id else int(
                         channel.inbound_balance_msat/1000,
                     ),
                 ),
             )
-
-            self.grid_layout_2.addWidget(
-                self.remote_balance, 0, 3, Qt.AlignLeft,
+            self.remote_balance_value.setAlignment(
+                Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignTrailing | Qt.AlignmentFlag.AlignVCenter,
             )
-            self.status = QLabel(self.list_frame)
-            self.status.setObjectName('status')
-            self.status.setMaximumSize(QSize(40, 40))
+
+            self.channel_frame_horizontal_layout.addWidget(
+                self.remote_balance_value,
+            )
+
+            self.status_pixmap = QLabel(self.list_frame)
+            self.status_pixmap.setObjectName('status_pixmap')
+            self.status_pixmap.setMinimumSize(QSize(60, 0))
+            self.status_pixmap.setStyleSheet(
+                'padding-left:25px;',
+            )
+
             color = (
                 QColor(235, 90, 90) if channel.status == 'Closing' else
                 QColor(0, 201, 145) if channel.is_usable else
@@ -326,7 +345,7 @@ class ChannelManagement(QWidget):
                 QColor(255, 255, 0)
             )
 
-            self.status.setToolTip(
+            self.status_pixmap.setToolTip(
                 QCoreApplication.translate('iris_wallet_desktop', 'closing', None) if color == QColor(235, 90, 90) else
                 QCoreApplication.translate('iris_wallet_desktop', 'opening', None) if color == QColor(0, 201, 145) else
                 QCoreApplication.translate('iris_wallet_desktop', 'offline', None) if color == QColor(169, 169, 169) else
@@ -334,17 +353,16 @@ class ChannelManagement(QWidget):
                     'iris_wallet_desktop', 'pending', None,
                 ),
             )
+            self.status_pixmap.setAlignment(Qt.AlignmentFlag.AlignCenter)
             pixmap = create_circular_pixmap(16, color)
-            self.status.setPixmap(pixmap)
-            self.status.setStyleSheet(
-                'padding-left: 20px;',
-            )
+            self.status_pixmap.setPixmap(pixmap)
 
-            self.grid_layout_2.addWidget(self.status, 0, 4, Qt.AlignLeft)
+            self.channel_frame_horizontal_layout.addWidget(self.status_pixmap)
+
             self.list_v_box_layout.addWidget(self.list_frame)
             if channel.asset_id is None:
                 bitcoin_asset = get_bitcoin_info_by_network()
-                self.asset.setText(bitcoin_asset[0])
+                self.asset_id_value.setText(bitcoin_asset[0])
                 self.asset_name.setText(bitcoin_asset[1])
                 self.asset_logo.setPixmap(QPixmap(bitcoin_asset[2]))
 
@@ -408,6 +426,32 @@ class ChannelManagement(QWidget):
         self.header_frame.action_button.setText(
             QCoreApplication.translate(
                 'iris_wallet_desktop', 'create_channel', None,
+            ),
+        )
+        self.status_label.setText(
+            QCoreApplication.translate(
+                'iris_wallet_desktop', 'status', None,
+            ),
+        )
+
+        self.asset_id_label.setText(
+            QCoreApplication.translate(
+                'iris_wallet_desktop', 'asset_id', None,
+            ),
+        )
+        self.asset_name_label.setText(
+            QCoreApplication.translate(
+                'iris_wallet_desktop', 'asset', None,
+            ),
+        )
+        self.local_balance_label.setText(
+            QCoreApplication.translate(
+                'iris_wallet_desktop', 'local_balance', None,
+            ),
+        )
+        self.remote_balance_label.setText(
+            QCoreApplication.translate(
+                'iris_wallet_desktop', 'remote_balance', None,
             ),
         )
 

@@ -639,7 +639,7 @@ class SettingsWidget(QWidget):
             )
 
     def _set_bitcoind_host(self):
-        """ Set the default announce address based on user input."""
+        """ Set the default bitcoind host based on user input."""
         password = self._check_keyring_state()
         if password:
             self._view_model.setting_view_model.set_bitcoind_host(
@@ -647,7 +647,7 @@ class SettingsWidget(QWidget):
             )
 
     def _set_bitcoind_port(self):
-        """Set the default announce address based on user input."""
+        """Set the default bitcoind port based on user input."""
         password = self._check_keyring_state()
         if password:
             self._view_model.setting_view_model.set_bitcoind_port(

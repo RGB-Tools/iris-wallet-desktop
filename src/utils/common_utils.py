@@ -509,7 +509,7 @@ def sigterm_handler(_sig, _frame):
         # Stop the LN node server and quit the application
         ln_node_manager = LnNodeServerManager.get_instance()
         ln_node_manager.stop_server_from_close_button()
-        QApplication.instance().quit()
+        QApplication.instance().exit()
 
 
 def set_number_validator(input_widget: QLineEdit) -> None:

@@ -58,7 +58,6 @@ class IrisWalletMainWindow(QMainWindow):
 
     def resizeEvent(self, event):  # pylint:disable=invalid-name
         """Handle window resize and trigger toaster repositioning."""
-        # ToasterManager.on_resize(event.size())
         ToasterManager.reposition_toasters()
         super().resizeEvent(event)
 
@@ -72,7 +71,7 @@ class IrisWalletMainWindow(QMainWindow):
             cache.invalidate_cache()
         wallet_type: WalletType = SettingRepository.get_wallet_type()
         if wallet_type.value == WalletType.REMOTE_TYPE_WALLET.value or page_name in excluded_page:
-            QApplication.instance().quit()
+            QApplication.instance().exit()
         else:
             self.show_backup_progress()
             # Ignore the close event until the backup is complete
@@ -95,7 +94,6 @@ class IrisWalletMainWindow(QMainWindow):
                 backup_configure_dialog_box.exec()
             else:
                 self.progress_dialog.exec(True)
-            #   self.progress_dialog.start_process(True)
         self.progress_dialog.exec()
 
 

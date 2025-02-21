@@ -68,7 +68,7 @@ class SplashViewModel(QObject, ThreadManager):
             error, CommonException,
         ) else ERROR_SOMETHING_WENT_WRONG
         ToastManager.error(description=description)
-        QApplication.instance().quit()
+        QApplication.instance().exit()
 
     def is_login_authentication_enabled(self, view_model: WalletTransferSelectionViewModel):
         """Check login authentication enabled"""
@@ -121,7 +121,7 @@ class SplashViewModel(QObject, ThreadManager):
 
         if error_message in [ERROR_CONNECTION_FAILED_WITH_LN, ERROR_REQUEST_TIMEOUT]:
             MessageBox('critical', message_text=ERROR_CONNECTION_FAILED_WITH_LN)
-            QApplication.instance().quit()
+            QApplication.instance().exit()
 
         # Log the error and display a toast message
         logger.error(

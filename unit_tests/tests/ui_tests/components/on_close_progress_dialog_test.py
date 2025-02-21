@@ -106,18 +106,18 @@ def test_on_error_of_backup(mock_close_node, mock_critical, on_close_progress_di
 
 
 @patch.object(QMessageBox, 'critical')
-@patch.object(QApplication, 'quit')
-def test_on_error_of_closing_node(mock_quit, mock_critical, on_close_progress_dialog_widget):
+@patch.object(QApplication, 'exit')
+def test_on_error_of_closing_node(mock_exit, mock_critical, on_close_progress_dialog_widget):
     """Test _on_error_of_closing_node method to ensure error handling during node closing."""
     on_close_progress_dialog_widget._on_error_of_closing_node()
     assert on_close_progress_dialog_widget.is_node_closing_onprogress is False
     mock_critical.assert_called_once_with(
         on_close_progress_dialog_widget, 'Failed', ERROR_UNABLE_TO_STOP_NODE,
     )
-    mock_quit.assert_called_once()
+    mock_exit.assert_called_once()
 
 
-@patch.object(QApplication, 'quit')
+@patch.object(QApplication, 'exit')
 def test_on_success_close_node(mock_quit, on_close_progress_dialog_widget):
     """Test _on_success_close_node method to ensure application quits after node closes."""
     on_close_progress_dialog_widget._on_success_close_node()
@@ -126,8 +126,8 @@ def test_on_success_close_node(mock_quit, on_close_progress_dialog_widget):
 
 
 @patch.object(LnNodeServerManager, 'stop_server_from_close_button')
-@patch.object(QApplication, 'quit')
-def test_close_node_app_when_node_running(mock_quit, mock_stop_server, on_close_progress_dialog_widget):
+@patch.object(QApplication, 'exit')
+def test_close_node_app_when_node_running(mock_exit, mock_stop_server, on_close_progress_dialog_widget):
     """Test _close_node_app method when node is still running."""
     mock_state = MagicMock(return_value=QProcess.Running)
     on_close_progress_dialog_widget.ln_node_manage.process.state = mock_state
@@ -135,16 +135,16 @@ def test_close_node_app_when_node_running(mock_quit, mock_stop_server, on_close_
     assert on_close_progress_dialog_widget.is_backup_onprogress is False
     assert on_close_progress_dialog_widget.is_node_closing_onprogress is True
     mock_stop_server.assert_called_once()
-    mock_quit.assert_not_called()
+    mock_exit.assert_not_called()
 
 
-@patch.object(QApplication, 'quit')
-def test_close_node_app_when_node_not_running(mock_quit, on_close_progress_dialog_widget):
+@patch.object(QApplication, 'exit')
+def test_close_node_app_when_node_not_running(mock_exit, on_close_progress_dialog_widget):
     """Test _close_node_app method when node is not running."""
     mock_state = MagicMock(return_value=QProcess.NotRunning)
     on_close_progress_dialog_widget.ln_node_manage.process.state = mock_state
     on_close_progress_dialog_widget._close_node_app()
-    mock_quit.assert_called_once()
+    mock_exit.assert_called_once()
 
 
 def test_close_event_backup_in_progress(on_close_progress_dialog_widget):

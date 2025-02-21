@@ -75,8 +75,21 @@ def test_handle_button_enabled(send_rgb_asset_widget: SendRGBAssetWidget, qtbot)
         'blind_utxo_123',
     )
     send_rgb_asset_widget.send_rgb_asset_page.asset_amount_value.setText('10')
+
+    # Mocking the spendable balance to be greater than 0
+    send_rgb_asset_widget.asset_spendable_balance = 50
     send_rgb_asset_widget.handle_button_enabled()
     assert send_rgb_asset_widget.send_rgb_asset_page.send_btn.isEnabled() is True
+
+    # Test with invalid amount (zero)
+    send_rgb_asset_widget.send_rgb_asset_page.asset_amount_value.setText('0')
+    send_rgb_asset_widget.handle_button_enabled()
+    assert send_rgb_asset_widget.send_rgb_asset_page.send_btn.isEnabled() is False
+
+    # Test with valid address and invalid spendable balance
+    send_rgb_asset_widget.asset_spendable_balance = 0
+    send_rgb_asset_widget.handle_button_enabled()
+    assert send_rgb_asset_widget.send_rgb_asset_page.send_btn.isEnabled() is False
 
 
 def test_set_asset_balance(send_rgb_asset_widget: SendRGBAssetWidget, qtbot):

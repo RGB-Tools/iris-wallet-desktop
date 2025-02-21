@@ -285,7 +285,7 @@ class KeyringErrorDialog(QDialog):
             else:
                 local_store.clear_settings()
                 self.close()
-                QApplication.instance().quit()
+                QApplication.instance().exit()
         except CommonException as exc:
             self.error.emit(exc.message)
             ToastManager.error(

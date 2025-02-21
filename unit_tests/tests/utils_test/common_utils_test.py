@@ -968,7 +968,7 @@ def test_sigterm_handler(mock_qapp_instance, mock_ln_node_manager_get_instance, 
         QMessageBox.Ok | QMessageBox.Cancel,
     )
     mock_ln_node_manager.stop_server_from_close_button.assert_called_once()
-    mock_qapp.quit.assert_called_once()
+    mock_qapp.exit.assert_called_once()
 
     # Reset mocks for next case
     mock_qmessagebox_warning.reset_mock()

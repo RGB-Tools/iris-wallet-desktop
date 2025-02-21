@@ -49,7 +49,7 @@ def test_on_ln_node_error(wallet_transfer_selection_view_model):
             mock_message_box.assert_called_once_with(
                 'critical', message_text='Unable to start node,Please close application and restart',
             )
-            mock_instance.quit.assert_called_once()
+            mock_instance.exit.assert_called_once()
 
 
 def test_on_ln_node_already_running(wallet_transfer_selection_view_model):

@@ -1665,8 +1665,20 @@ If you understand the above remarks and wish to proceed, press the button below 
         <translation>RGB invoice</translation>
     </message>
     <message>
-            <source>copied</source>
-            <translation>Copied!</translation>
+        <source>copied</source>
+        <translation>Copied!</translation>
+    </message>
+    <message>
+        <source>local_balance</source>
+        <translation>Local Balance</translation>
+    </message>
+    <message>
+        <source>remote_balance</source>
+        <translation>Remote Balance</translation>
+    </message>
+    <message>
+        <source>asset</source>
+        <translation>Asset</translation>
     </message>
     <message>
             <source>data_directory_path_label</source>

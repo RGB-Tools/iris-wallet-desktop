@@ -544,7 +544,7 @@ class SettingViewModel(QObject, ThreadManager):
             )
 
     def set_bitcoind_port(self, bitcoind_port: int, password: str):
-        """Sets the Default bitcoind host."""
+        """Sets the Default bitcoind port."""
         self.is_loading.emit(True)
         try:
             self.password = password
@@ -562,7 +562,7 @@ class SettingViewModel(QObject, ThreadManager):
             )
 
     def set_announce_address(self, announce_address: str, password: str):
-        """Sets the Default bitcoind host."""
+        """Sets the Default announce address."""
         self.is_loading.emit(True)
 
         try:
@@ -581,7 +581,7 @@ class SettingViewModel(QObject, ThreadManager):
             )
 
     def set_announce_alias(self, announce_alias: str, password: str):
-        """Sets the Default bitcoind host."""
+        """Sets the Default announce alias."""
         self.is_loading.emit(True)
         try:
             self.password = password
@@ -599,7 +599,7 @@ class SettingViewModel(QObject, ThreadManager):
             )
 
     def set_min_confirmation(self, min_confirmation: int):
-        """Sets the default fee rate."""
+        """Sets the default min confirmation."""
         try:
             success: IsDefaultMinConfirmationSet = SettingCardRepository.set_default_min_confirmation(
                 min_confirmation,

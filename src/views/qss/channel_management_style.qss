@@ -103,3 +103,44 @@ QWidget#btc_scroll_area_widget_contents{
     background:transparent;
     border: none;
 }
+
+#asset_id_label,
+#asset_name_label,
+#local_balance_label,
+#status_label,
+#remote_balance_label{
+    border: none;
+    background: transparent;
+    font: 14px "Inter";
+    color: white;
+    font-weight: 600;
+}
+
+#remote_balance_value,
+#local_balance_value,
+#asset_id,
+#asset_name{
+    border: none;
+    background: transparent;
+    font: 14px "Inter";
+    color: white;
+}
+
+#list_frame{
+    background:transparent;
+    background-color: rgba(21, 28, 52, 1);
+    color:white;
+    font:14px Inter;
+    border-radius:8px;
+    border:none;
+}
+
+#channel_header{
+    border-radius: 8px;
+    background: transparent;
+    background-color: rgb(27, 35, 59);
+}
+QToolTip{
+    background-color: rgba(21, 28, 52, 1);
+    color:white;
+}

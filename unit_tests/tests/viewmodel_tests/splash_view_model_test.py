@@ -49,7 +49,7 @@ def test_on_error_common_exception(mock_qapp, mock_toast_manager, mock_setting_r
     mock_toast_manager.error.assert_called_once_with(
         description='Custom error message',
     )
-    mock_qapp.instance().quit.assert_called_once()
+    mock_qapp.instance().exit.assert_called_once()
 
 
 @patch('src.viewmodels.splash_view_model.SettingRepository')
@@ -66,7 +66,7 @@ def test_on_error_general_exception(mock_qapp, mock_toast_manager, mock_setting_
     mock_toast_manager.error.assert_called_once_with(
         description=ERROR_SOMETHING_WENT_WRONG,
     )
-    mock_qapp.instance().quit.assert_called_once()
+    mock_qapp.instance().exit.assert_called_once()
 
 
 @patch('src.viewmodels.splash_view_model.SettingRepository')

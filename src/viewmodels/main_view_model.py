@@ -12,6 +12,7 @@ from src.viewmodels.channel_management_viewmodel import ChannelManagementViewMod
 from src.viewmodels.enter_password_view_model import EnterWalletPasswordViewModel
 from src.viewmodels.faucets_view_model import FaucetsViewModel
 from src.viewmodels.fee_rate_view_model import EstimateFeeViewModel
+from src.viewmodels.header_frame_view_model import HeaderFrameViewModel
 from src.viewmodels.issue_rgb20_view_model import IssueRGB20ViewModel
 from src.viewmodels.issue_rgb25_view_model import IssueRGB25ViewModel
 from src.viewmodels.ln_endpoint_view_model import LnEndpointViewModel
@@ -108,3 +109,5 @@ class MainViewModel(QObject):
         )
 
         self.estimate_fee_view_model = EstimateFeeViewModel()
+
+        self.header_frame_view_model = HeaderFrameViewModel()
