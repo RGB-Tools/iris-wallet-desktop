@@ -101,18 +101,21 @@ def test_hide_mainnet_frame(network_selection_page_widget: NetworkSelectionWidge
 
 def test_set_frame_click(network_selection_page_widget):
     """Test the frame click setup based on current network."""
-    # Mock the return value of get_wallet_network to simulate the current network
+    # Mock the network to 'regtest'
     mock_network = MagicMock(value='regtest')
     SettingRepository.get_wallet_network = MagicMock(return_value=mock_network)
+    SettingRepository.is_wallet_initialized = MagicMock(
+        return_value=MagicMock(is_wallet_initialized=True),
+    )
 
     # Set the current network and frame click setup
     network_selection_page_widget.set_current_network()
     network_selection_page_widget.set_frame_click()
 
-    # Ensure the frames are enabled based on the current network
-    assert not network_selection_page_widget.regtest_frame.isEnabled() is True
-    assert network_selection_page_widget.testnet_frame.isEnabled() is True
-    assert network_selection_page_widget.mainnet_frame.isEnabled() is True
+    # Ensure the frames are enabled/disabled based on the current network
+    assert network_selection_page_widget.regtest_frame.isEnabled() is False  # Disabled ✅
+    assert network_selection_page_widget.testnet_frame.isEnabled() is True    # Enabled ✅
+    assert network_selection_page_widget.mainnet_frame.isEnabled() is True    # Enabled ✅
 
 
 @patch('src.views.ui_network_selection_page.LoadingTranslucentScreen')

@@ -22,6 +22,13 @@ from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
 import src.resources_rc
+from accessible_constant import BITCOIN_BALANCE
+from accessible_constant import BITCOIN_CLOSE_BUTTON
+from accessible_constant import BITCOIN_REFRESH_BUTTON
+from accessible_constant import BITCOIN_SPENDABLE_BALANCE
+from accessible_constant import BITCOIN_TRANSACTION_DETAIL_FRAME
+from accessible_constant import RECEIVE_BITCOIN_BUTTON
+from accessible_constant import SEND_BITCOIN_BUTTON
 from src.model.btc_model import TransactionListResponse
 from src.model.enums.enums_model import AssetType
 from src.model.enums.enums_model import TransactionStatusEnumModel
@@ -78,6 +85,7 @@ class BtcWidget(QWidget):
         self.btc_horizontal_layout.addWidget(self.bitcoin_title)
         self.refresh_button = QPushButton(self.bitcoin_page)
         self.refresh_button.setObjectName('refresh_button')
+        self.refresh_button.setAccessibleName(BITCOIN_REFRESH_BUTTON)
         self.refresh_button.setCursor(
             QCursor(Qt.CursorShape.PointingHandCursor),
         )
@@ -95,6 +103,7 @@ class BtcWidget(QWidget):
 
         self.bitcoin_close_btn = QPushButton(self.bitcoin_page)
         self.bitcoin_close_btn.setObjectName('bitcoin_close_btn')
+        self.bitcoin_close_btn.setAccessibleDescription(BITCOIN_CLOSE_BUTTON)
         self.bitcoin_close_btn.setCursor(
             QCursor(Qt.CursorShape.PointingHandCursor),
         )
@@ -151,7 +160,7 @@ class BtcWidget(QWidget):
 
         self.bitcoin_balance = QLabel(self.bitcoin_page)
         self.bitcoin_balance.setObjectName('bitcoin_balance')
-
+        self.bitcoin_balance.setAccessibleDescription(BITCOIN_BALANCE)
         self.btc_balance_layout.addWidget(
             self.bitcoin_balance, 0, Qt.AlignHCenter,
         )
@@ -165,7 +174,9 @@ class BtcWidget(QWidget):
 
         self.spendable_balance_value = QLabel(self.bitcoin_page)
         self.spendable_balance_value.setObjectName('spendable_balance_value')
-
+        self.spendable_balance_value.setAccessibleDescription(
+            BITCOIN_SPENDABLE_BALANCE,
+        )
         self.btc_balance_layout.addWidget(
             self.spendable_balance_value, 0, Qt.AlignHCenter,
         )
@@ -181,6 +192,8 @@ class BtcWidget(QWidget):
         self.receive_asset_btn = AssetTransferButton(
             'receive_assets', ':/assets/bottom_left.png',
         )
+        self.receive_asset_btn.setAccessibleName('receive_assets')
+        self.receive_asset_btn.setAccessibleName(RECEIVE_BITCOIN_BUTTON)
         self.receive_asset_btn.setCursor(
             QCursor(Qt.CursorShape.PointingHandCursor),
         )
@@ -188,6 +201,7 @@ class BtcWidget(QWidget):
         self.send_asset_btn = AssetTransferButton(
             'send_assets', ':/assets/top_right.png',
         )
+        self.send_asset_btn.setAccessibleName(SEND_BITCOIN_BUTTON)
         self.send_asset_btn.setCursor(
             QCursor(Qt.CursorShape.PointingHandCursor),
         )
@@ -464,6 +478,9 @@ class BtcWidget(QWidget):
                     confirmation_time=transaction_detail.confirmation_normal_time, transaction_status=transaction_detail.transaction_status,
                     transfer_status=transaction_detail.transfer_status,
                 ),
+            )
+            self.transaction_detail_frame.setAccessibleName(
+                BITCOIN_TRANSACTION_DETAIL_FRAME,
             )
             self.transaction_detail_frame.setCursor(
                 QCursor(Qt.CursorShape.PointingHandCursor),

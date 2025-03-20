@@ -312,7 +312,7 @@ def test_on_error_common_exception_unlocked_node(ln_endpoint_vm, mocker):
         'src.viewmodels.ln_endpoint_view_model.logger.error',
     )
     error_msg = QCoreApplication.translate(
-        IRIS_WALLET_TRANSLATIONS_CONTEXT, 'unlocked_node', None,
+        IRIS_WALLET_TRANSLATIONS_CONTEXT, 'already_unlocked', None,
     )
     error = CommonException(error_msg)
 

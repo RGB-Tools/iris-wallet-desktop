@@ -22,6 +22,7 @@ from PySide6.QtWidgets import QSizePolicy
 from PySide6.QtWidgets import QSpacerItem
 from PySide6.QtWidgets import QVBoxLayout
 
+from accessible_constant import NETWORK_AND_BACKUP_FRAME
 from src.data.repository.setting_repository import SettingRepository
 from src.model.enums.enums_model import NetworkEnumModel
 from src.model.enums.enums_model import WalletType
@@ -86,6 +87,7 @@ class HeaderFrame(QFrame, QObject):
 
         self.network_error_frame = QFrame(self)
         self.network_error_frame.setObjectName('network_error_frame')
+        self.network_error_frame.setAccessibleName(NETWORK_AND_BACKUP_FRAME)
         self.network_error_frame.setMinimumSize(QSize(332, 42))
         self.network_error_frame.setMaximumSize(QSize(332, 42))
         self.network_error_frame.setFrameShape(QFrame.StyledPanel)
@@ -153,6 +155,7 @@ class HeaderFrame(QFrame, QObject):
         self.title_frame_main_horizontal_layout.addWidget(self.action_button)
 
         self.refresh_page_button = QPushButton(self)
+        self.refresh_page_button.setAccessibleName('refresh_button')
         self.refresh_page_button.setCursor(
             QCursor(Qt.CursorShape.PointingHandCursor),
         )

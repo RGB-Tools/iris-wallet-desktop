@@ -9,6 +9,7 @@ from PySide6.QtCore import QRect
 from PySide6.QtCore import QRegularExpression
 from PySide6.QtCore import QSize
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QCursor
 from PySide6.QtGui import QIcon
 from PySide6.QtGui import QRegularExpressionValidator
 from PySide6.QtGui import QValidator
@@ -28,6 +29,15 @@ from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
 import src.resources_rc
+from accessible_constant import CHANNEL_ASSET_AMOUNT
+from accessible_constant import CHANNEL_CAPACITY_SAT
+from accessible_constant import CHANNEL_COMBOBOX
+from accessible_constant import CHANNEL_NEXT_BUTTON
+from accessible_constant import CHANNEL_PREV_BUTTON
+from accessible_constant import CREATE_CHANNEL_CLOSE_BUTTON
+from accessible_constant import CREATE_CHANNEL_ERROR_LABEL
+from accessible_constant import NODE_URI_INPUT
+from accessible_constant import PUSH_MSAT_VALUE
 from src.model.common_operation_model import NodeInfoResponseModel
 from src.model.node_info_model import NodeInfoModel
 from src.model.success_model import SuccessPageModel
@@ -109,9 +119,13 @@ class CreateChannelWidget(QWidget):
 
         self.open_close_button = QPushButton(self.open_channel_page)
         self.open_close_button.setObjectName('open_close_button')
+        self.open_close_button.setAccessibleName(CREATE_CHANNEL_CLOSE_BUTTON)
         self.open_close_button.setMinimumSize(QSize(24, 24))
         self.open_close_button.setMaximumSize(QSize(24, 24))
         self.open_close_button.setAutoFillBackground(False)
+        self.open_close_button.setCursor(
+            QCursor(Qt.CursorShape.PointingHandCursor),
+        )
 
         icon = QIcon()
         icon.addFile(':/assets/x_circle.png', QSize(), QIcon.Normal, QIcon.Off)
@@ -157,6 +171,7 @@ class CreateChannelWidget(QWidget):
 
         self.public_key_input = QLineEdit(self.open_channel_page)
         self.public_key_input.setObjectName('public_key_input')
+        self.public_key_input.setAccessibleName(NODE_URI_INPUT)
         self.public_key_input.setMinimumSize(QSize(335, 40))
 
         self.public_key_input.setClearButtonEnabled(True)
@@ -165,6 +180,7 @@ class CreateChannelWidget(QWidget):
 
         self.error_label = QLabel()
         self.error_label.setObjectName('error_label')
+        self.error_label.setAccessibleDescription(CREATE_CHANNEL_ERROR_LABEL)
         self.error_label.hide()
         self.inner_vertical_layout.addWidget(self.error_label)
 
@@ -240,6 +256,7 @@ class CreateChannelWidget(QWidget):
         self.horizontal_layout.setContentsMargins(6, 15, 6, 15)
         self.amount_line_edit = QLineEdit(self.details_frame)
         self.amount_line_edit.setObjectName('lineEdit')
+        self.amount_line_edit.setAccessibleName(CHANNEL_ASSET_AMOUNT)
         self.number_validation = QRegularExpression(r'^\d+$')
         self.validator = QRegularExpressionValidator(self.number_validation)
         self.amount_line_edit.setValidator(self.validator)
@@ -253,6 +270,7 @@ class CreateChannelWidget(QWidget):
 
         self.combo_box = QComboBox(self.details_frame)
         self.combo_box.setObjectName('comboBox')
+        self.combo_box.setAccessibleDescription(CHANNEL_COMBOBOX)
         self.combo_box.setMinimumSize(QSize(126, 40))
 
         self.grid_layout_4.addWidget(self.combo_box, 0, 0, 1, 1)
@@ -273,6 +291,7 @@ class CreateChannelWidget(QWidget):
         self.capacity_sat_value.setValidator(self.validator)
 
         self.capacity_sat_value.setObjectName('capacity_sat_value')
+        self.capacity_sat_value.setAccessibleName(CHANNEL_CAPACITY_SAT)
         self.capacity_sat_value.setMinimumSize(QSize(0, 40))
         self.grid_layout_4.addWidget(self.capacity_sat_value, 5, 0, 1, 1)
         self.channel_capacity_validation_label = QLabel(self.details_frame)
@@ -293,6 +312,7 @@ class CreateChannelWidget(QWidget):
 
         self.push_msat_value = QLineEdit(self.details_frame)
         self.push_msat_value.setObjectName('push_msat_value')
+        self.push_msat_value.setAccessibleName(PUSH_MSAT_VALUE)
         self.push_msat_value.setMinimumSize(QSize(0, 40))
         self.push_msat_value.setValidator(self.validator)
         self.push_msat_value.setText('0')
@@ -369,6 +389,7 @@ class CreateChannelWidget(QWidget):
         self.horizontal_layout_2 = QHBoxLayout()
         self.horizontal_layout_2.setObjectName('horizontalLayout_5')
         self.channel_prev_button = SecondaryButton()
+        self.channel_prev_button.setAccessibleName(CHANNEL_PREV_BUTTON)
         self.channel_prev_button.setMinimumSize(QSize(201, 40))
         self.channel_prev_button.setMaximumSize(QSize(201, 16777215))
         self.channel_prev_button.setAutoRepeat(False)
@@ -378,6 +399,7 @@ class CreateChannelWidget(QWidget):
         self.horizontal_layout_2.addWidget(self.channel_prev_button)
 
         self.channel_next_button = PrimaryButton()
+        self.channel_next_button.setAccessibleName(CHANNEL_NEXT_BUTTON)
         self.channel_next_button.setMinimumSize(QSize(201, 40))
         self.channel_next_button.setMaximumSize(QSize(201, 16777215))
 

@@ -19,9 +19,12 @@ from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
 import src.resources_rc
+from accessible_constant import UNSPENT_CLICKABLE_FRAME
+from accessible_constant import UNSPENT_UTXO_ASSET_ID
+from accessible_constant import UNSPENT_UTXO_OUTPOINT
+from accessible_constant import UNSPENT_WIDGET
 from src.data.repository.setting_repository import SettingRepository
 from src.model.enums.enums_model import NetworkEnumModel
-from src.model.enums.enums_model import ToastPreset
 from src.utils.clickable_frame import ClickableFrame
 from src.utils.common_utils import copy_text
 from src.utils.constant import IRIS_WALLET_TRANSLATIONS_CONTEXT
@@ -116,6 +119,9 @@ class ViewUnspentList(QWidget):
         self.unspent_scroll_area_widget_contents = QWidget()
         self.unspent_scroll_area_widget_contents.setObjectName(
             'scroll_area_widget_contents',
+        )
+        self.unspent_scroll_area_widget_contents.setAccessibleName(
+            UNSPENT_WIDGET,
         )
         self.unspent_scroll_area_widget_contents.setGeometry(
             QRect(0, 0, 1049, 321),
@@ -225,6 +231,7 @@ class ViewUnspentList(QWidget):
             _list.utxo.outpoint, self.unspent_scroll_area_widget_contents,
         )
         unspent_clickable_frame.setObjectName('frame_4')
+        unspent_clickable_frame.setAccessibleName(UNSPENT_CLICKABLE_FRAME)
         unspent_clickable_frame.setMinimumSize(QSize(900, 75))
         unspent_clickable_frame.setMaximumSize(QSize(16777215, 75))
         unspent_clickable_frame.setFrameShape(QFrame.StyledPanel)
@@ -248,9 +255,10 @@ class ViewUnspentList(QWidget):
         asset_name = QLabel(unspent_clickable_frame)
         asset_name.setToolTip(
             QCoreApplication.translate(
-                IRIS_WALLET_TRANSLATIONS_CONTEXT, 'Click here to copy', None,
+                IRIS_WALLET_TRANSLATIONS_CONTEXT, 'click_to_copy', None,
             ),
         )
+        asset_name.setAccessibleDescription(UNSPENT_UTXO_OUTPOINT)
         asset_name.setText(_list.utxo.outpoint)
 
         asset_detail_vertical_layout = QVBoxLayout()
@@ -263,6 +271,7 @@ class ViewUnspentList(QWidget):
 
         # Add more widgets to the layout
         address = QLabel(unspent_clickable_frame)
+        address.setAccessibleDescription(UNSPENT_UTXO_ASSET_ID)
         self.set_address_label(address, _list, update_layout)
         if not _list.utxo.colorable:
             address.deleteLater()

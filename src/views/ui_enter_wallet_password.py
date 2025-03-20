@@ -20,6 +20,8 @@ from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
 import src.resources_rc
+from accessible_constant import ENTER_WALLET_PASSWORD
+from accessible_constant import LOGIN_BUTTON
 from src.model.enums.enums_model import ToastPreset
 from src.utils.constant import IRIS_WALLET_TRANSLATIONS_CONTEXT
 from src.utils.constant import SYNCING_CHAIN_LABEL_TIMER
@@ -113,6 +115,7 @@ class EnterWalletPassword(QWidget):
             self.enter_wallet_password_widget,
         )
         self.enter_password_input.setObjectName('enter_password_input_3')
+        self.enter_password_input.setAccessibleName(ENTER_WALLET_PASSWORD)
         self.enter_password_input.setMinimumSize(QSize(352, 40))
         self.enter_password_input.setMaximumSize(QSize(352, 40))
 
@@ -181,6 +184,7 @@ class EnterWalletPassword(QWidget):
         self.horizontal_layout_4.addItem(self.horizontal_spacer_1)
 
         self.login_wallet_button = PrimaryButton()
+        self.login_wallet_button.setAccessibleName(LOGIN_BUTTON)
         size_policy_login_button = QSizePolicy(
             QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed,
         )

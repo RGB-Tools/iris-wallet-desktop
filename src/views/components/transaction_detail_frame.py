@@ -17,6 +17,7 @@ from PySide6.QtWidgets import QPushButton
 from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
+from accessible_constant import TRANSFER_STATUS
 from src.model.transaction_detail_page_model import TransactionDetailPageModel
 from src.utils.constant import IRIS_WALLET_TRANSLATIONS_CONTEXT
 
@@ -107,6 +108,7 @@ class TransactionDetailFrame(QFrame):
 
         self.transaction_time = QLabel(self)
         self.transaction_time.setObjectName('label_14')
+        self.transaction_time.setAccessibleDescription(TRANSFER_STATUS)
         self.transaction_time.setMinimumSize(QSize(60, 18))
         self.transaction_time.setStyleSheet(
             'font: 15px "Inter";\n'

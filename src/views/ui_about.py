@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 from PySide6.QtCore import QCoreApplication
+from PySide6.QtCore import QDir
 from PySide6.QtCore import QSize
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QCursor
@@ -17,6 +18,23 @@ from PySide6.QtWidgets import QSpacerItem
 from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
+from accessible_constant import ANNOUNCE_ADDRESS_ACCESSIBLE_DESCRIPTION
+from accessible_constant import ANNOUNCE_ADDRESS_COPY_BUTTON
+from accessible_constant import ANNOUNCE_ALIAS_ACCESSIBLE_DESCRIPTION
+from accessible_constant import ANNOUNCE_ALIAS_COPY_BUTTON
+from accessible_constant import BITCOIND_HOST_ACCESSIBLE_DESCRIPTION
+from accessible_constant import BITCOIND_HOST_COPY_BUTTON
+from accessible_constant import BITCOIND_PORT_ACCESSIBLE_DESCRIPTION
+from accessible_constant import BITCOIND_PORT_COPY_BUTTON
+from accessible_constant import DOWNLOAD_DEBUG_LOG
+from accessible_constant import INDEXER_URL_ACCESSIBLE_DESCRIPTION
+from accessible_constant import INDEXER_URL_COPY_BUTTON
+from accessible_constant import LN_PEER_LISTENING_PORT_ACCESSIBLE_DESCRIPTION
+from accessible_constant import LN_PEER_LISTENING_PORT_COPY_BUTTON
+from accessible_constant import NODE_PUBKEY_ACCESSIBLE_DESCRIPTION
+from accessible_constant import NODE_PUBKEY_COPY_BUTTON
+from accessible_constant import RGB_PROXY_URL_ACCESSIBLE_DESCRIPTION
+from accessible_constant import RGB_PROXY_URL_COPY_BUTTON
 from src.data.repository.setting_repository import SettingRepository
 from src.model.common_operation_model import NodeInfoResponseModel
 from src.model.common_operation_model import UnlockRequestModel
@@ -89,7 +107,12 @@ class AboutWidget(QWidget):
         self.node_pub_key_frame = NodeInfoWidget(
             translation_key='node_pubkey', value=self.node_info.pubkey, v_layout=self.about_vertical_layout,
         )
-
+        self.node_pub_key_frame.value_label.setAccessibleDescription(
+            NODE_PUBKEY_ACCESSIBLE_DESCRIPTION,
+        )
+        self.node_pub_key_frame.node_pub_key_copy_button.setAccessibleName(
+            NODE_PUBKEY_COPY_BUTTON,
+        )
         self.get_bitcoin_config: UnlockRequestModel = get_bitcoin_config(
             self.network, password='',
         )
@@ -97,21 +120,52 @@ class AboutWidget(QWidget):
             self.ldk_port_frame = NodeInfoWidget(
                 translation_key='ln_ldk_port', value=self.ldk_port, v_layout=self.about_vertical_layout,
             )
+            self.ldk_port_frame.value_label.setAccessibleDescription(
+                LN_PEER_LISTENING_PORT_ACCESSIBLE_DESCRIPTION,
+            )
+            self.ldk_port_frame.node_pub_key_copy_button.setAccessibleName(
+                LN_PEER_LISTENING_PORT_COPY_BUTTON,
+            )
         self.bitcoind_host_frame = NodeInfoWidget(
             translation_key='bitcoind_host', value=self.get_bitcoin_config.bitcoind_rpc_host, v_layout=self.about_vertical_layout,
+        )
+        self.bitcoind_host_frame.node_pub_key_copy_button.setAccessibleName(
+            BITCOIND_HOST_COPY_BUTTON,
+        )
+        self.bitcoind_host_frame.value_label.setAccessibleDescription(
+            BITCOIND_HOST_ACCESSIBLE_DESCRIPTION,
         )
 
         self.bitcoind_port_frame = NodeInfoWidget(
             translation_key='bitcoind_port', value=self.get_bitcoin_config.bitcoind_rpc_port, v_layout=self.about_vertical_layout,
         )
+        self.bitcoind_port_frame.node_pub_key_copy_button.setAccessibleName(
+            BITCOIND_PORT_COPY_BUTTON,
+        )
+        self.bitcoind_port_frame.value_label.setAccessibleDescription(
+            BITCOIND_PORT_ACCESSIBLE_DESCRIPTION,
+        )
 
         self.indexer_url_frame = NodeInfoWidget(
             translation_key='indexer_url', value=self.get_bitcoin_config.indexer_url, v_layout=self.about_vertical_layout,
+        )
+        self.indexer_url_frame.node_pub_key_copy_button.setAccessibleName(
+            INDEXER_URL_COPY_BUTTON,
+        )
+        self.indexer_url_frame.value_label.setAccessibleDescription(
+            INDEXER_URL_ACCESSIBLE_DESCRIPTION,
         )
 
         self.proxy_url_frame = NodeInfoWidget(
             translation_key='proxy_url', value=self.get_bitcoin_config.proxy_endpoint, v_layout=self.about_vertical_layout,
         )
+        self.proxy_url_frame.node_pub_key_copy_button.setAccessibleName(
+            RGB_PROXY_URL_COPY_BUTTON,
+        )
+        self.proxy_url_frame.value_label.setAccessibleDescription(
+            RGB_PROXY_URL_ACCESSIBLE_DESCRIPTION,
+        )
+
         if self.get_bitcoin_config.announce_addresses[0] != ANNOUNCE_ADDRESS:
             if isinstance(self.get_bitcoin_config.announce_addresses, list):
                 value = ', '.join(
@@ -120,10 +174,33 @@ class AboutWidget(QWidget):
             self.announce_address_frame = NodeInfoWidget(
                 translation_key='announce_address', value=value, v_layout=self.about_vertical_layout,
             )
+            self.announce_address_frame.node_pub_key_copy_button.setAccessibleName(
+                ANNOUNCE_ADDRESS_COPY_BUTTON,
+            )
+            self.announce_address_frame.value_label.setAccessibleDescription(
+                ANNOUNCE_ADDRESS_ACCESSIBLE_DESCRIPTION,
+            )
         if self.get_bitcoin_config.announce_alias != ANNOUNCE_ALIAS:
             self.announce_alias_frame = NodeInfoWidget(
                 translation_key='announce_alias', value=self.get_bitcoin_config.announce_alias, v_layout=self.about_vertical_layout,
             )
+            self.announce_alias_frame.node_pub_key_copy_button.setAccessibleName(
+                ANNOUNCE_ALIAS_COPY_BUTTON,
+            )
+            self.announce_alias_frame.value_label.setAccessibleDescription(
+                ANNOUNCE_ALIAS_ACCESSIBLE_DESCRIPTION,
+            )
+
+        basepath = local_store.get_path()
+        self.data_directory_path = NodeInfoWidget(
+            translation_key='data_directory_path_label', value=basepath, v_layout=self.about_vertical_layout,
+        )
+
+        connection_type: WalletType = SettingRepository.get_wallet_type()
+
+        self.rln_node_connection_type = NodeInfoWidget(
+            translation_key='connection_type', value=connection_type.value.capitalize(), v_layout=self.about_vertical_layout,
+        )
 
         basepath = local_store.get_path()
         self.data_directory_path = NodeInfoWidget(
@@ -156,6 +233,7 @@ class AboutWidget(QWidget):
         self.download_log.setCursor(
             QCursor(Qt.CursorShape.PointingHandCursor),
         )
+        self.download_log.setAccessibleName(DOWNLOAD_DEBUG_LOG)
         self.download_log.setObjectName('download_log')
         self.download_log.setMinimumSize(QSize(280, 30))
         self.download_log.setMaximumSize(QSize(280, 30))
@@ -233,7 +311,7 @@ class AboutWidget(QWidget):
 
         # Show a file dialog to save the zip file
         save_path, _ = QFileDialog.getSaveFileName(
-            self, 'Save logs File', zip_filename, 'Zip Files (*.zip)',
+            self, 'Save logs File', QDir.homePath() + '/' + zip_filename, 'Zip Files (*.zip)',
         )
 
         if save_path:

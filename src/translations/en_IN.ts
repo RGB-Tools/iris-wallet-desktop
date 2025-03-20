@@ -1714,5 +1714,57 @@ If you understand the above remarks and wish to proceed, press the button below 
         <source>crash_dialog_restart_node</source>
         <translation>Restart RGB Lightning Node</translation>
     </message>
+    <message>
+        <source>click_to_copy</source>
+        <translation>Click here to copy</translation>
+    </message>
+    <message>
+        <source>where_can_i_learn_more_about_rgb</source>
+        <translation>Where can I learn more about RGB?</translation>
+    </message>
+    <message>
+        <source>why_do_i_see_outgoing_bitcoin_transactions_that_i_did_not_authorize</source>
+        <translation>Why do I see outgoing Bitcoin transactions that I didn't authorize?</translation>
+    </message>
+    <message>
+        <source>what_is_the_minimum_bitcoin_balance_needed_to_issue_and_receive_rgb_assets</source>
+        <translation>What is the minimum bitcoin balance needed to issue and receive RGB assets?</translation>
+    </message>
+    <message>
+        <source>where_can_i_send_feedback_or_ask_for_support</source>
+        <translation>Where can I send feedback or ask for support?</translation>
+    </message>
+    <message>
+        <source>where_can_i_get_regtest_bitcoins</source>
+        <translation>Where can I get REGTEST Bitcoins?</translation>
+    </message>
+    <message>
+        <source>where_can_i_get_testnet_bitcoins</source>
+        <translation>Where can I get TESTNET Bitcoins?</translation>
+    </message>
+    <message>
+        <source>outgoing_transaction_without_authorize_detail</source>
+        <translation>In the RGB protocol assets need to be assigned to a Bitcoin output, if you do not have available UTXOs to receive, issue, or send yourself change assets, the wallet will use the available bitcoin balance to generate new UTXOs. Such transactions are marked in the transaction list as "internal"</translation>
+    </message>
+    <message>
+        <source>minimum_bitcoin_balance_needed_to_issue_and_receive_rgb_asset</source>
+        <translation>To create a set of UTXOs needed to issue and receive assets the initial bitcoin balance needs to be at least 10,000 satoshis</translation>
+    </message>
+    <message>
+        <source>support_and_feedback</source>
+        <translation>For support and feedback there is a dedicated Telegram group:</translation>
+    </message>
+    <message>
+        <source>get_regtest_bitcoin</source>
+        <translation>You can receive Regtest Bitcoin by using our Telegram bot. Click the link below to request funds:</translation>
+    </message>
+    <message>
+        <source>get_testnet_bitcoin</source>
+        <translation>You can get Testnet Bitcoin by using one of the many available faucets. Below are a few linked examples, but you can always find more using a search engine:</translation>
+    </message>
+    <message>
+        <source>learn_about_rgb</source>
+        <translation>Visit rgb.info for resources and documentation.</translation>
+    </message>
 </context>
 </TS>

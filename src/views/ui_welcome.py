@@ -18,6 +18,8 @@ from PySide6.QtWidgets import QSpacerItem
 from PySide6.QtWidgets import QWidget
 
 import src.resources_rc
+from accessible_constant import CREATE_BUTTON
+from accessible_constant import RESTORE_BUTTON
 from src.model.enums.enums_model import ToastPreset
 from src.utils.constant import IRIS_WALLET_TRANSLATIONS_CONTEXT
 from src.utils.helpers import load_stylesheet
@@ -135,11 +137,13 @@ class WelcomeWidget(QWidget):
         self.welcome_horizontal_layout.setContentsMargins(8, -1, 8, -1)
 
         self.restore_btn = SecondaryButton()
+        self.restore_btn.setAccessibleName(RESTORE_BUTTON)
         self.restore_btn.setMinimumSize(QSize(318, 40))
         self.restore_btn.setMaximumSize(QSize(318, 40))
         self.welcome_horizontal_layout.addWidget(self.restore_btn)
 
         self.create_btn = PrimaryButton()
+        self.create_btn.setAccessibleName(CREATE_BUTTON)
         self.create_btn.setMinimumSize(QSize(318, 40))
         self.create_btn.setMaximumSize(QSize(318, 40))
 

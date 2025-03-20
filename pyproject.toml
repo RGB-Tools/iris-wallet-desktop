@@ -24,8 +24,7 @@ qrcode = "^7.4.2"
 pydenticon = "^0.3.0"
 
 # Development dependencies
-pytest-mock = "^3.14.0"
-pytest-qt = "^4.4.0"
+[tool.poetry.dev-dependencies]
 pyqt-toast-notification = "^1.2.0"
 pre-commit = "^3.7.1"
 google-auth = "^2.30.0"
@@ -42,13 +41,19 @@ asyncio = "^3.4.3"
 requests-cache = "^1.2.1"
 pytest-xdist = "^3.6.1"
 rgb-lib = "0.3.0a12"
-
-[tool.poetry.dev-dependencies]
+dogtail = "^1.0.5"
+python3-xlib = "^0.15"
+python3-pyatspi = "^1.19.0"
+allure-pytest = "^2.13.5"
+pyperclip = "^1.9.0"
+pygobject = "==3.50.0"
+psutil = "^6.1.1"
+pyotp = "^2.9.0"
+pytest-order = "^1.3.0"
 black = "24.4.1"
 bump2version = "1.0.1"
 pyinstaller = ">=4.5.1"
 pylint = "3.1.0"
-pre-commit = "3.7.1"
 
 #extra package only for windows os
 winsdk = {version = "^1.0.0b10", markers = "sys_platform == 'win32'"}
@@ -60,6 +65,11 @@ iris-wallet = "src.main:main"
 unit-test = "pytest tests --cov=src --cov-report=html:coverage-report --html=coverage-report/pytest_report.html"
 reset-app = "src.utils.reset_app:main"
 build-iris-wallet = "build_script:main"
+single-test = "e2e_tests.e2e_runner:single_test"
+e2e-test = "e2e_tests.e2e_runner:e2e_test"
+result-embedded = "e2e_tests.e2e_runner:result_embedded"
+result-remote = "e2e_tests.e2e_runner:result_remote"
+regtest-start = "e2e_tests.e2e_runner:run_regtest"
 
 # Build system
 

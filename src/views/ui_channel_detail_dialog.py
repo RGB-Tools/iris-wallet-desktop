@@ -20,6 +20,12 @@ from PySide6.QtWidgets import QSpacerItem
 from PySide6.QtWidgets import QVBoxLayout
 
 import src.resources_rc
+from accessible_constant import BTC_LOCAL_VALUE_LABEL
+from accessible_constant import BTC_REMOTE_VALUE_LABEL
+from accessible_constant import CHANNEL_DETAIL_CLOSE_BUTTON
+from accessible_constant import CHANNEL_DETAIL_DIALOG
+from accessible_constant import CHANNEL_PEER_PUBKEY_COPY_BUTTON
+from accessible_constant import CLOSE_CHANNEL_BUTTON
 from src.utils.common_utils import copy_text
 from src.utils.constant import IRIS_WALLET_TRANSLATIONS_CONTEXT
 from src.utils.helpers import load_stylesheet
@@ -33,6 +39,7 @@ class ChannelDetailDialogBox(QDialog):
     def __init__(self, page_navigate, param, parent=None):
         super().__init__(parent)
         self.setObjectName('Dialog')
+        self.setAccessibleName(CHANNEL_DETAIL_DIALOG)
         self.setStyleSheet(
             load_stylesheet(
                 'views/qss/channel_detail.qss',
@@ -73,6 +80,7 @@ class ChannelDetailDialogBox(QDialog):
 
         self.close_button = QPushButton(self.channel_detail_frame)
         self.close_button.setObjectName('close_button')
+        self.close_button.setAccessibleName(CHANNEL_DETAIL_CLOSE_BUTTON)
         self.close_button.setMinimumSize(QSize(0, 24))
         self.close_button.setMaximumSize(QSize(16777215, 16777215))
         self.close_button.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
@@ -126,6 +134,9 @@ class ChannelDetailDialogBox(QDialog):
         self.btc_local_balance_value_label.setObjectName(
             'btc_local_balance_value_label',
         )
+        self.btc_local_balance_value_label.setAccessibleDescription(
+            BTC_LOCAL_VALUE_LABEL,
+        )
         size_policy = QSizePolicy(
             QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred,
         )
@@ -168,6 +179,9 @@ class ChannelDetailDialogBox(QDialog):
         self.btc_remote_balance_value_label = QLabel(self.btc_balance_frame)
         self.btc_remote_balance_value_label.setObjectName(
             'btc_remote_balance_value_label',
+        )
+        self.btc_remote_balance_value_label.setAccessibleDescription(
+            BTC_REMOTE_VALUE_LABEL,
         )
         self.btc_remote_balance_value_label.setMinimumSize(QSize(0, 0))
 
@@ -213,6 +227,7 @@ class ChannelDetailDialogBox(QDialog):
 
         self.copy_button = QPushButton(self.channel_detail_frame)
         self.copy_button.setObjectName('copy_button')
+        self.copy_button.setAccessibleName(CHANNEL_PEER_PUBKEY_COPY_BUTTON)
         self.copy_button.setMaximumSize(QSize(24, 24))
         self.copy_button.setCursor(
             QCursor(Qt.CursorShape.PointingHandCursor),
@@ -259,6 +274,7 @@ class ChannelDetailDialogBox(QDialog):
 
         self.close_channel_button = QPushButton(self.channel_detail_frame)
         self.close_channel_button.setObjectName('close_channel_button')
+        self.close_channel_button.setAccessibleName(CLOSE_CHANNEL_BUTTON)
         size_policy_1 = QSizePolicy(
             QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed,
         )

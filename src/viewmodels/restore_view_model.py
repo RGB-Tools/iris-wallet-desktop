@@ -18,6 +18,7 @@ from src.utils.error_message import ERROR_GOOGLE_CONFIGURE_FAILED
 from src.utils.error_message import ERROR_SOMETHING_WENT_WRONG
 from src.utils.error_message import ERROR_WHILE_RESTORE
 from src.utils.gauth import authenticate
+from src.utils.info_message import INFO_RESTORE_COMPLETED
 from src.utils.keyring_storage import set_value
 from src.utils.worker import ThreadManager
 from src.views.components.keyring_error_dialog import KeyringErrorDialog
@@ -60,7 +61,7 @@ class RestoreViewModel(QObject, ThreadManager):
             if is_set_password and is_set_mnemonic:
                 self.message.emit(
                     ToastPreset.SUCCESS,
-                    'Restore process completed.',
+                    INFO_RESTORE_COMPLETED,
                 )
                 SettingRepository.set_keyring_status(status=False)
                 self.forward_to_fungibles_page()

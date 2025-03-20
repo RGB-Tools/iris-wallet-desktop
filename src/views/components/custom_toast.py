@@ -20,6 +20,10 @@ from PySide6.QtWidgets import QPushButton
 from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
+from accessible_constant import TOASTER_CLOSE_BUTTON
+from accessible_constant import TOASTER_DESCRIPTION
+from accessible_constant import TOASTER_FRAME
+from accessible_constant import TOASTER_TITLE
 from src import resources_rc
 from src.model.enums.enums_model import ToastPreset
 
@@ -88,6 +92,7 @@ class ToasterUi(QWidget):
 
         self.frame = QFrame(self)
         self.frame.setObjectName('toaster_frame')
+        self.frame.setAccessibleName(TOASTER_FRAME)
         self.frame.setStyleSheet(
             'background-color: rgb(3,11,37);',
         )
@@ -131,6 +136,7 @@ class ToasterUi(QWidget):
 
         self.title = QLabel(self.frame)
         self.title.setObjectName('title')
+        self.title.setAccessibleDescription(TOASTER_TITLE)
         self.title.setStyleSheet(
             """
             #title{
@@ -142,6 +148,7 @@ class ToasterUi(QWidget):
 
         self.description = QLabel(self.frame)
         self.description.setObjectName('description')
+        self.description.setAccessibleDescription(TOASTER_DESCRIPTION)
         self.description.setStyleSheet(
             """
             #description{
@@ -158,6 +165,7 @@ class ToasterUi(QWidget):
 
         # Close button
         self.close_button = QPushButton(self.frame)
+        self.close_button.setAccessibleName(TOASTER_CLOSE_BUTTON)
         self.close_button.setMinimumSize(QSize(14, 14))
         self.close_button.setMaximumSize(QSize(14, 14))
         self.close_button.setStyleSheet('border: none;')

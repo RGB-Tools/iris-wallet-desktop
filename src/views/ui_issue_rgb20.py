@@ -21,6 +21,11 @@ from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
 import src.resources_rc
+from accessible_constant import ISSUE_RGB20_ASSET_CLOSE_BUTTON
+from accessible_constant import ISSUE_RGB20_BUTTON
+from accessible_constant import RGB20_ASSET_AMOUNT
+from accessible_constant import RGB20_ASSET_NAME
+from accessible_constant import RGB20_ASSET_TICKER
 from src.model.success_model import SuccessPageModel
 from src.utils.common_utils import set_number_validator
 from src.utils.common_utils import set_placeholder_value
@@ -123,11 +128,14 @@ class IssueRGB20Widget(QWidget):
         self.issue_rgb20_title_layout.addWidget(self.issue_rgb20_title)
 
         self.rgb_20_close_btn = QPushButton(self.issue_rgb_20_widget)
+        self.rgb_20_close_btn.setAccessibleName(ISSUE_RGB20_ASSET_CLOSE_BUTTON)
         self.rgb_20_close_btn.setObjectName('rgb_20_close_btn')
         self.rgb_20_close_btn.setMinimumSize(QSize(24, 24))
         self.rgb_20_close_btn.setMaximumSize(QSize(50, 65))
         self.rgb_20_close_btn.setAutoFillBackground(False)
-
+        self.rgb_20_close_btn.setCursor(
+            QCursor(Qt.CursorShape.PointingHandCursor),
+        )
         issue_rgb20_close_icon = QIcon()
         issue_rgb20_close_icon.addFile(
             ':/assets/x_circle.png',
@@ -175,6 +183,7 @@ class IssueRGB20Widget(QWidget):
             self.issue_rgb_20_widget,
         )
         self.short_identifier_input.setObjectName('issue_rgb20_input')
+        self.short_identifier_input.setAccessibleName(RGB20_ASSET_TICKER)
         self.short_identifier_input.setMinimumSize(QSize(0, 40))
         self.short_identifier_input.setMaximumSize(QSize(370, 40))
 
@@ -202,6 +211,7 @@ class IssueRGB20Widget(QWidget):
             self.issue_rgb_20_widget,
         )
         self.asset_name_input.setObjectName('asset_name_input')
+        self.asset_name_input.setAccessibleName(RGB20_ASSET_NAME)
         self.asset_name_input.setMinimumSize(QSize(0, 40))
         self.asset_name_input.setMaximumSize(QSize(370, 40))
 
@@ -228,6 +238,7 @@ class IssueRGB20Widget(QWidget):
             self.issue_rgb_20_widget,
         )
         self.amount_input.setObjectName('amount_input')
+        self.amount_input.setAccessibleName(RGB20_ASSET_AMOUNT)
         self.amount_input.setMinimumSize(QSize(0, 40))
         self.amount_input.setMaximumSize(QSize(370, 40))
         set_number_validator(self.amount_input)
@@ -264,6 +275,10 @@ class IssueRGB20Widget(QWidget):
         )
         self.vertical_layout_issue_rgb20.addItem(self.issue_button_spacer)
         self.issue_rgb20_btn = PrimaryButton()
+        self.issue_rgb20_btn.setAccessibleName(ISSUE_RGB20_BUTTON)
+        self.issue_rgb20_btn.setCursor(
+            QCursor(Qt.CursorShape.PointingHandCursor),
+        )
         self.issue_rgb20_btn.setMinimumSize(QSize(402, 40))
         self.issue_rgb20_btn.setMaximumSize(QSize(402, 40))
 

@@ -22,6 +22,11 @@ from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
 import src.resources_rc
+from accessible_constant import BACKUP_CLOSE_BUTTON
+from accessible_constant import BACKUP_NODE_DATA_BUTTON
+from accessible_constant import CONFIGURE_BACKUP_BUTTON
+from accessible_constant import MNEMONIC_FRAME
+from accessible_constant import SHOW_MNEMONIC_BUTTON
 from src.data.repository.setting_repository import SettingRepository
 from src.model.enums.enums_model import NetworkEnumModel
 from src.model.enums.enums_model import ToastPreset
@@ -87,6 +92,7 @@ class Backup(QWidget):
 
         self.backup_close_btn = QPushButton(self.backup_widget)
         self.backup_close_btn.setObjectName('backup_close_btn')
+        self.backup_close_btn.setAccessibleName(BACKUP_CLOSE_BUTTON)
         self.backup_close_btn.setMinimumSize(QSize(24, 24))
         self.backup_close_btn.setMaximumSize(QSize(50, 65))
         self.backup_close_btn.setAutoFillBackground(False)
@@ -144,6 +150,7 @@ class Backup(QWidget):
 
         self.show_mnemonic_button = QPushButton(self.show_mnemonic_frame)
         self.show_mnemonic_button.setObjectName('show_mnemonic_button')
+        self.show_mnemonic_button.setAccessibleName(SHOW_MNEMONIC_BUTTON)
         self.show_mnemonic_button.setMinimumSize(QSize(354, 40))
         self.show_mnemonic_button.setMaximumSize(QSize(354, 40))
         self.show_mnemonic_button.setCursor(
@@ -161,6 +168,7 @@ class Backup(QWidget):
 
         self.mnemonic_frame = QFrame(self.show_mnemonic_frame)
         self.mnemonic_frame.setObjectName('mnemonic_frame')
+        self.mnemonic_frame.setAccessibleName(MNEMONIC_FRAME)
         self.mnemonic_frame.setMinimumSize(QSize(354, 157))
         self.mnemonic_frame.setMaximumSize(QSize(354, 157))
         self.mnemonic_frame.setFrameShape(QFrame.StyledPanel)
@@ -306,6 +314,7 @@ class Backup(QWidget):
         )
 
         self.configure_backup_button = QPushButton(self.configure_backup_frame)
+        self.configure_backup_button.setAccessibleName(CONFIGURE_BACKUP_BUTTON)
         self.configure_backup_button.setObjectName('configure_backup_button')
         self.configure_backup_button.setMinimumSize(QSize(354, 40))
         self.configure_backup_button.setMaximumSize(QSize(354, 40))
@@ -326,6 +335,7 @@ class Backup(QWidget):
 
         self.back_node_data_button = PrimaryButton()
         self.back_node_data_button.setObjectName('back_node_data_button')
+        self.back_node_data_button.setAccessibleName(BACKUP_NODE_DATA_BUTTON)
         self.back_node_data_button.setMinimumSize(QSize(354, 40))
         self.back_node_data_button.setMaximumSize(QSize(354, 40))
         self.back_node_data_button.setCursor(

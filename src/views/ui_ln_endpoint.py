@@ -21,6 +21,9 @@ from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
 import src.resources_rc
+from accessible_constant import LN_ENDPOINT_CLOSE_BUTTON
+from accessible_constant import LN_NODE_URL
+from accessible_constant import PROCEED_BUTTON
 from src.data.repository.setting_repository import SettingRepository
 from src.utils.common_utils import close_button_navigation
 from src.utils.constant import BACKED_URL_LIGHTNING_NETWORK
@@ -76,6 +79,7 @@ class LnEndpointWidget(QWidget):
 
         self.close_button = QPushButton(self.lightning_node_widget)
         self.close_button.setObjectName('close_button')
+        self.close_button.setAccessibleName(LN_ENDPOINT_CLOSE_BUTTON)
         self.close_button.setCursor(
             QCursor(Qt.CursorShape.PointingHandCursor),
         )
@@ -122,6 +126,7 @@ class LnEndpointWidget(QWidget):
         self.enter_ln_node_url_layout.setContentsMargins(40, -1, 40, -1)
         self.enter_ln_node_url_input = QLineEdit(self.lightning_node_widget)
         self.enter_ln_node_url_input.setObjectName('enter_ln_node_url_input')
+        self.enter_ln_node_url_input.setAccessibleName(LN_NODE_URL)
         self.enter_ln_node_url_input.setMinimumSize(QSize(402, 40))
         self.enter_ln_node_url_input.setMaximumSize(QSize(370, 40))
 
@@ -172,6 +177,7 @@ class LnEndpointWidget(QWidget):
         self.horizontal_layout_2.addItem(self.horizontal_spacer_1)
 
         self.proceed_button = PrimaryButton()
+        self.proceed_button.setAccessibleName(PROCEED_BUTTON)
         size_policy_proceed_button = QSizePolicy(
             QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed,
         )

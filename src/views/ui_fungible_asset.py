@@ -23,6 +23,8 @@ from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
 import src.resources_rc
+from accessible_constant import FUNGIBLES_SCROLL_WIDGETS
+from accessible_constant import ISSUE_RGB20_ASSET
 from src.data.repository.setting_repository import SettingRepository
 from src.data.service.common_operation_service import CommonOperationService
 from src.model.enums.enums_model import AssetType
@@ -82,6 +84,7 @@ class FungibleAssetWidget(QWidget, ThreadManager):
         self.title_frame = HeaderFrame(
             title_logo_path=':/assets/my_asset.png', title_name='fungibles',
         )
+        self.title_frame.action_button.setAccessibleName(ISSUE_RGB20_ASSET)
         self.fungible_frame = None
         self.vertical_layout_fungible_frame = None
         self.grid_layout_fungible_frame = None
@@ -125,6 +128,9 @@ class FungibleAssetWidget(QWidget, ThreadManager):
         self.scroll_area_widget_fungible = QWidget()
         self.scroll_area_widget_fungible.setObjectName(
             'scrollAreaWidgetContents_2',
+        )
+        self.scroll_area_widget_fungible.setAccessibleName(
+            FUNGIBLES_SCROLL_WIDGETS,
         )
         self.scroll_area_widget_fungible.setGeometry(QRect(0, 0, 1182, 2000))
         self.scroll_area_widget_fungible.setContentsMargins(0, -1, 10, -1)

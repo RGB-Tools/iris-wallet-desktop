@@ -4,6 +4,8 @@ for the Issue RGB25 Asset page activities.
 """
 from __future__ import annotations
 
+from pathlib import Path
+
 from PySide6.QtCore import QObject
 from PySide6.QtCore import Signal
 from PySide6.QtWidgets import QFileDialog
@@ -99,6 +101,8 @@ class IssueRGB25ViewModel(QObject, ThreadManager):
         """
         try:
             file_dialog = QFileDialog()
+            home_dir = str(Path.home())
+            file_dialog.setDirectory(home_dir)  # Open dialog in this directory
             file_dialog.setFileMode(QFileDialog.ExistingFile)
             file_dialog.setNameFilter('Images (*.png *.jpg *.jpeg)')
             if file_dialog.exec_():

@@ -22,6 +22,13 @@ from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
 import src.resources_rc
+from accessible_constant import CONFIRM_PASSWORD_INPUT
+from accessible_constant import CONFIRM_PASSWORD_VISIBILITY_BUTTON
+from accessible_constant import PASSWORD_INPUT
+from accessible_constant import PASSWORD_SUGGESTION_BUTTON
+from accessible_constant import PASSWORD_VISIBILITY_BUTTON
+from accessible_constant import SET_WALLET_PASSWORD_CLOSE_BUTTON
+from accessible_constant import SET_WALLET_PASSWORD_PROCEED_BUTTON
 from src.model.enums.enums_model import ToastPreset
 from src.model.enums.enums_model import WalletType
 from src.model.selection_page_model import SelectionPageModel
@@ -132,6 +139,9 @@ class SetWalletPasswordWidget(QWidget):
             self.setup_wallet_password_widget,
         )
         self.close_btn_set_password_page.setObjectName('close_btn')
+        self.close_btn_set_password_page.setAccessibleName(
+            SET_WALLET_PASSWORD_CLOSE_BUTTON,
+        )
         self.close_btn_set_password_page.setCursor(
             QCursor(Qt.CursorShape.PointingHandCursor),
         )
@@ -186,6 +196,7 @@ class SetWalletPasswordWidget(QWidget):
             self.setup_wallet_password_widget,
         )
         self.enter_password_input.setObjectName('enter_password_input')
+        self.enter_password_input.setAccessibleName(PASSWORD_INPUT)
         self.enter_password_input.setMinimumSize(QSize(350, 40))
         self.enter_password_input.setMaximumSize(QSize(370, 40))
 
@@ -200,6 +211,9 @@ class SetWalletPasswordWidget(QWidget):
         )
         self.enter_password_visibility_button.setObjectName(
             'enter_password_visibility_button',
+        )
+        self.enter_password_visibility_button.setAccessibleName(
+            PASSWORD_VISIBILITY_BUTTON,
         )
         self.enter_password_visibility_button.setCursor(
             QCursor(Qt.CursorShape.PointingHandCursor),
@@ -243,6 +257,7 @@ class SetWalletPasswordWidget(QWidget):
             self.setup_wallet_password_widget,
         )
         self.confirm_password_input.setObjectName('confirm_password_input')
+        self.confirm_password_input.setAccessibleName(CONFIRM_PASSWORD_INPUT)
         self.confirm_password_input.setMinimumSize(QSize(0, 40))
         self.confirm_password_input.setMaximumSize(QSize(370, 40))
 
@@ -257,6 +272,9 @@ class SetWalletPasswordWidget(QWidget):
         )
         self.password_suggestion_button.setObjectName(
             'password_suggestion_button',
+        )
+        self.password_suggestion_button.setAccessibleName(
+            PASSWORD_SUGGESTION_BUTTON,
         )
         self.password_suggestion_button.setCursor(
             QCursor(Qt.CursorShape.PointingHandCursor),
@@ -281,6 +299,9 @@ class SetWalletPasswordWidget(QWidget):
         )
         self.confirm_password_visibility_button.setObjectName(
             'confirm_password_visibility_button',
+        )
+        self.confirm_password_visibility_button.setAccessibleName(
+            CONFIRM_PASSWORD_VISIBILITY_BUTTON,
         )
         self.confirm_password_visibility_button.setCursor(
             QCursor(Qt.CursorShape.PointingHandCursor),
@@ -322,6 +343,9 @@ class SetWalletPasswordWidget(QWidget):
         self.proceed_button_layout.setContentsMargins(-1, 22, -1, -1)
         self.proceed_button_layout.setSpacing(6)
         self.proceed_wallet_password = PrimaryButton()
+        self.proceed_wallet_password.setAccessibleName(
+            SET_WALLET_PASSWORD_PROCEED_BUTTON,
+        )
         self.proceed_wallet_password.setMinimumSize(QSize(414, 40))
         self.proceed_wallet_password.setMaximumSize(QSize(404, 40))
 

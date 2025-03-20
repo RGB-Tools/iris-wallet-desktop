@@ -4,6 +4,7 @@
 # pylint: disable=redefined-outer-name,unused-argument,protected-access
 from __future__ import annotations
 
+from unittest.mock import MagicMock
 from unittest.mock import Mock
 
 import pytest
@@ -66,6 +67,9 @@ def test_on_error(backup_view_model, mocker):
 
 def test_backup_when_keyring_unaccessible(backup_view_model, mocker):
     """Test backup_when_keyring_unaccessible method"""
+    SettingRepository.get_wallet_network = MagicMock(
+        return_value='test_network',
+    )
     mock_run_thread = mocker.patch.object(
         backup_view_model, 'run_backup_service_thread',
     )

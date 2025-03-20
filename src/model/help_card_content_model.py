@@ -27,20 +27,20 @@ class HelpCardContentModel(BaseModel):
         """Factory method to create a default instance of HelpCardContentModel"""
         card_content = [
             HelpCardModel(
-                title='Where can I learn more about RGB?',
-                detail='Visit <a href="https://rgb.info" style="color: #03CA9B; text-decoration: none;">rgb.info</a> for resources and documentation.',
+                title='where_can_i_learn_more_about_rgb',
+                detail='learn_about_rgb',
             ),
             HelpCardModel(
-                title="Why do I see outgoing Bitcoin transactions that I didn't authorize?",
-                detail='In the RGB protocol assets need to be assigned to a Bitcoin output, if you do not have available UTXOs to receive, issue, or send yourself change assets, the wallet will use the available bitcoin balance to generate new UTXOs. Such transactions are marked in the transaction list as "internal"',
+                title='why_do_i_see_outgoing_bitcoin_transactions_that_i_did_not_authorize',
+                detail='outgoing_transaction_without_authorize_detail',
             ),
             HelpCardModel(
-                title='What is the minimum bitcoin balance needed to issue and receive RGB assets?',
-                detail='To create a set of UTXOs needed to issue and receive assets the initial bitcoin balance needs to be at least 10,000 satoshis',
+                title='what_is_the_minimum_bitcoin_balance_needed_to_issue_and_receive_rgb_assets',
+                detail='minimum_bitcoin_balance_needed_to_issue_and_receive_rgb_asset',
             ),
             HelpCardModel(
-                title='Where can I send feedback or ask for support?',
-                detail='For support and feedback there is a dedicated Telegram group:',
+                title='where_can_i_send_feedback_or_ask_for_support',
+                detail='support_and_feedback',
                 links=[
                     'https://t.me/IrisWallet',
                 ],
@@ -50,16 +50,16 @@ class HelpCardContentModel(BaseModel):
         if network == NetworkEnumModel.REGTEST:
             card_content.append(
                 HelpCardModel(
-                    title='Where can I get REGTEST Bitcoins?',
-                    detail='You can receive Regtest Bitcoin by using our Telegram bot. Click the link below to request funds:',
+                    title='where_can_i_get_regtest_bitcoins',
+                    detail='get_regtest_bitcoin',
                     links=['https://t.me/rgb_lightning_bot'],
                 ),
             )
         else:  # Default to Testnet
             card_content.append(
                 HelpCardModel(
-                    title='Where can I get TESTNET Bitcoins?',
-                    detail='You can get Testnet Bitcoin by using one of the many available faucets. Below are a few linked examples, but you can always find more using a search engine:',
+                    title='where_can_i_get_testnet_bitcoins',
+                    detail='get_testnet_bitcoin',
                     links=[
                         'https://testnet-faucet.mempool.co/',
                         'https://bitcoinfaucet.uo1.net/',

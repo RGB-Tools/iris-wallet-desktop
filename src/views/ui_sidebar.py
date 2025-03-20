@@ -17,6 +17,16 @@ from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
 import src.resources_rc
+from accessible_constant import ABOUT_BUTTON
+from accessible_constant import BACKUP_BUTTON
+from accessible_constant import CHANNEL_MANAGEMENT_BUTTON
+from accessible_constant import COLLECTIBLE_BUTTON
+from accessible_constant import FAUCET_BUTTON
+from accessible_constant import FUNGIBLE_BUTTON
+from accessible_constant import HELP_BUTTON
+from accessible_constant import SETTINGS_BUTTON
+from accessible_constant import SIDEBAR_RECEIVE_ASSET_BUTTON
+from accessible_constant import VIEW_UNSPENT_LIST_BUTTON
 from src.data.repository.setting_repository import SettingRepository
 from src.model.enums.enums_model import NetworkEnumModel
 from src.model.selection_page_model import AssetDataModel
@@ -81,26 +91,27 @@ class Sidebar(QWidget):
         self.backup = SidebarButton(
             'Backup', ':/assets/backup.png', translation_key='backup',
         )
+        self.backup.setAccessibleName(BACKUP_BUTTON)
         self.backup.setCheckable(False)
         self.grid_layout_sidebar.addWidget(self.backup, 6, 0, 1, 1)
 
         self.help = SidebarButton(
             'Help', ':/assets/question_circle', translation_key='help',
         )
-
+        self.help.setAccessibleName(HELP_BUTTON)
         self.grid_layout_sidebar.addWidget(self.help, 8, 0, 1, 1)
 
         self.view_unspent_list = SidebarButton(
             'View unspent list',
             ':/assets/view_unspent_list.png', translation_key='view_unspent_list',
         )
-
+        self.view_unspent_list.setAccessibleName(VIEW_UNSPENT_LIST_BUTTON)
         self.grid_layout_sidebar.addWidget(self.view_unspent_list, 3, 0, 1, 1)
 
         self.faucet = SidebarButton(
             'Faucet', ':/assets/faucets.png', translation_key='faucets',
         )
-
+        self.faucet.setAccessibleName(FAUCET_BUTTON)
         self.grid_layout_sidebar.addWidget(self.faucet, 5, 0, 1, 1)
 
         self.channel_management = SidebarButton(
@@ -108,12 +119,13 @@ class Sidebar(QWidget):
             ':/assets/channel_management.png',
             translation_key='channel_management',
         )
-
+        self.channel_management.setAccessibleName(CHANNEL_MANAGEMENT_BUTTON)
         self.grid_layout_sidebar.addWidget(self.channel_management, 2, 0, 1, 1)
 
         self.my_fungibles = SidebarButton(
             'My Fungibles', ':/assets/my_asset.png', translation_key='fungibles',
         )
+        self.my_fungibles.setAccessibleName(FUNGIBLE_BUTTON)
         self.my_fungibles.setChecked(True)
 
         self.grid_layout_sidebar.addWidget(self.my_fungibles, 0, 0, 1, 1)
@@ -121,16 +133,19 @@ class Sidebar(QWidget):
         self.my_collectibles = SidebarButton(
             'My Assets', ':/assets/my_asset.png', translation_key='collectibles',
         )
+        self.my_collectibles.setAccessibleName(COLLECTIBLE_BUTTON)
         self.grid_layout_sidebar.addWidget(self.my_collectibles, 1, 0, 1, 1)
 
         self.settings = SidebarButton(
             'Settings', ':/assets/settings.png', translation_key='settings',
         )
+        self.settings.setAccessibleName(SETTINGS_BUTTON)
         self.grid_layout_sidebar.addWidget(self.settings, 7, 0, 1, 1)
 
         self.about = SidebarButton(
             'About', ':/assets/about.png', translation_key='about',
         )
+        self.about.setAccessibleName(ABOUT_BUTTON)
         self.grid_layout_sidebar.addWidget(self.about, 9, 0, 1, 1)
 
         self.vertical_layout.addLayout(self.grid_layout_sidebar)
@@ -146,6 +161,9 @@ class Sidebar(QWidget):
 
         self.vertical_layout_1.addLayout(self.vertical_layout)
         self.receive_asset_button = PrimaryButton()
+        self.receive_asset_button.setAccessibleName(
+            SIDEBAR_RECEIVE_ASSET_BUTTON,
+        )
         self.receive_asset_button.setMinimumSize(QSize(335, 40))
         self.receive_asset_button.setMaximumSize(QSize(335, 40))
         self.vertical_layout.addWidget(

@@ -19,6 +19,10 @@ from PySide6.QtWidgets import QSizePolicy
 from PySide6.QtWidgets import QSpacerItem
 from PySide6.QtWidgets import QVBoxLayout
 
+from accessible_constant import RESTORE_CONTINUE_BUTTON
+from accessible_constant import RESTORE_DIALOG_BOX
+from accessible_constant import RESTORE_MNEMONIC_INPUT
+from accessible_constant import RESTORE_PASSWORD_INPUT
 from src.utils.constant import IRIS_WALLET_TRANSLATIONS_CONTEXT
 from src.utils.helpers import load_stylesheet
 from src.viewmodels.main_view_model import MainViewModel
@@ -32,6 +36,7 @@ class RestoreMnemonicWidget(QDialog):
     def __init__(self, parent=None, view_model: MainViewModel | None = None, origin_page: str = 'restore_page', mnemonic_visibility: bool = True):
         super().__init__(parent)
         self.setObjectName('self')
+        self.setAccessibleName(RESTORE_DIALOG_BOX)
         self._view_model = view_model
         self.origin_page: str = origin_page
         self.mnemonic_visibility = mnemonic_visibility
@@ -69,6 +74,7 @@ class RestoreMnemonicWidget(QDialog):
 
         self.mnemonic_input = QLineEdit(self.mnemonic_frame)
         self.mnemonic_input.setObjectName('mnemonic_input')
+        self.mnemonic_input.setAccessibleName(RESTORE_MNEMONIC_INPUT)
         self.mnemonic_input.setMinimumSize(QSize(295, 56))
 
         self.vertical_layout_frame.addWidget(self.mnemonic_input)
@@ -76,6 +82,7 @@ class RestoreMnemonicWidget(QDialog):
         self.password_input = QLineEdit(self.mnemonic_frame)
         self.password_input.setEchoMode(QLineEdit.Password)
         self.password_input.setObjectName('password_input')
+        self.password_input.setAccessibleName(RESTORE_PASSWORD_INPUT)
         self.password_input.setMinimumSize(QSize(295, 56))
 
         self.vertical_layout_frame.addWidget(self.password_input)
@@ -102,6 +109,7 @@ class RestoreMnemonicWidget(QDialog):
 
         self.continue_button = QPushButton(self.mnemonic_frame)
         self.continue_button.setObjectName('continue_button')
+        self.continue_button.setAccessibleName(RESTORE_CONTINUE_BUTTON)
         self.continue_button.setMinimumSize(QSize(74, 38))
         self.continue_button.setMaximumSize(QSize(74, 38))
 

@@ -31,3 +31,12 @@ settings.json
 /appimages/
 temp_build_constant.py
 .DS_Store
+datacore
+dataindex
+dataldk0
+dataldk1
+dataldk2
+allure-results
+.pytest_cache
+allure-results-embedded
+allure-results-remote

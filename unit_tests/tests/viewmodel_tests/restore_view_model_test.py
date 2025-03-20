@@ -3,11 +3,11 @@
 # pylint: disable=redefined-outer-name,unused-argument,protected-access
 from __future__ import annotations
 
+from enum import Enum
 from unittest.mock import MagicMock
 
 import pytest
 
-from src.model.enums.enums_model import NetworkEnumModel
 from src.model.enums.enums_model import ToastPreset
 from src.utils.custom_exception import CommonException
 from src.utils.error_message import ERROR_GOOGLE_CONFIGURE_FAILED
@@ -53,9 +53,12 @@ def test_on_success_restore_successful(restore_view_model, mocker):
         'src.data.repository.setting_repository.SettingRepository.set_keyring_status',
     )
     mocker.patch('src.utils.keyring_storage.set_value', return_value=True)
+    test_network_enum = Enum(
+        'TestNetworkEnum', {'TEST_NETWORK': 'test_network'},
+    )
     mocker.patch(
         'src.data.repository.setting_repository.SettingRepository.get_wallet_network',
-        return_value=NetworkEnumModel.REGTEST,
+        return_value=test_network_enum.TEST_NETWORK,
     )
 
     restore_view_model.mnemonic = 'test mnemonic'

@@ -23,6 +23,7 @@ from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
+from accessible_constant import BACKUP_WINDOW
 from config import client_config
 from src.utils.constant import G_SCOPES as SCOPES
 from src.utils.local_store import local_store
@@ -54,7 +55,7 @@ class OAuthHandlerWindow(QWidget):
         self.auth_url = auth_url
         self.auth_code = None
         self.loop = QEventLoop()
-
+        self.setAccessibleName(BACKUP_WINDOW)
         layout = QVBoxLayout()
         self.browser = QWebEngineView()
         layout.addWidget(self.browser)

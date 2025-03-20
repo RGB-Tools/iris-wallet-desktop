@@ -19,6 +19,7 @@ from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
 import src.resources_rc
+from accessible_constant import ISSUE_RGB25_ASSET
 from src.model.enums.enums_model import ToastPreset
 from src.model.rgb_model import RgbAssetPageLoadModel
 from src.utils.clickable_frame import ClickableFrame
@@ -78,6 +79,9 @@ class CollectiblesAssetWidget(QWidget):
 
         self.collectible_header_frame = HeaderFrame(
             title_name='collectibles', title_logo_path=':/assets/my_asset.png',
+        )
+        self.collectible_header_frame.action_button.setAccessibleName(
+            ISSUE_RGB25_ASSET,
         )
         self.vertical_layout_2.addWidget(self.collectible_header_frame)
 

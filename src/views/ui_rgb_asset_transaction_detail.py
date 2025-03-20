@@ -19,6 +19,9 @@ from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
 import src.resources_rc
+from accessible_constant import AMOUNT_VALUE
+from accessible_constant import ASSET_TRANSACTION_DETAIL_CLOSE_BUTTON
+from accessible_constant import ASSET_TX_ID
 from src.data.repository.setting_repository import SettingRepository
 from src.model.enums.enums_model import NetworkEnumModel
 from src.model.enums.enums_model import PaymentStatus
@@ -122,6 +125,7 @@ class RGBAssetTransactionDetail(QWidget):
         self.vertical_layout_tx_detail_frame.addWidget(self.tx_id_label)
 
         self.tx_id_value = QLabel(self.transaction_detail_frame)
+        self.tx_id_value.setAccessibleDescription(ASSET_TX_ID)
         self.tx_id_value.setWordWrap(True)
         self.tx_id_value.setTextInteractionFlags(
             Qt.TextBrowserInteraction,
@@ -246,6 +250,9 @@ class RGBAssetTransactionDetail(QWidget):
             self.rgb_asset_single_transaction_detail_widget,
         )
         self.close_btn_rgb_asset_tx_page.setObjectName('close_btn')
+        self.close_btn_rgb_asset_tx_page.setAccessibleName(
+            ASSET_TRANSACTION_DETAIL_CLOSE_BUTTON,
+        )
         self.close_btn_rgb_asset_tx_page.setMinimumSize(QSize(24, 24))
         self.close_btn_rgb_asset_tx_page.setMaximumSize(QSize(50, 65))
         self.close_btn_rgb_asset_tx_page.setAutoFillBackground(False)
@@ -277,6 +284,7 @@ class RGBAssetTransactionDetail(QWidget):
             self.rgb_asset_single_transaction_detail_widget,
         )
         self.amount_value.setObjectName('amount_value')
+        self.amount_value.setAccessibleDescription(AMOUNT_VALUE)
         self.amount_value.setMinimumSize(QSize(0, 60))
 
         self.amount_layout.addWidget(self.amount_value, 0, Qt.AlignHCenter)

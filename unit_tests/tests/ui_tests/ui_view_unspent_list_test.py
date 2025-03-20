@@ -7,6 +7,7 @@ from __future__ import annotations
 from unittest.mock import MagicMock
 
 import pytest
+from PySide6.QtCore import QCoreApplication
 from PySide6.QtCore import QSize
 from PySide6.QtGui import QResizeEvent
 from PySide6.QtWidgets import QHBoxLayout
@@ -308,7 +309,9 @@ def test_create_unspent_clickable_frame(view_unspent_list_widget: ViewUnspentLis
     asset_details = horizontal_layout.itemAt(1).layout()
     asset_name = asset_details.itemAt(0).widget()
     assert asset_name.text() == 'test_outpoint'
-    assert asset_name.toolTip() == 'Click here to copy'
+    assert asset_name.toolTip() == QCoreApplication.translate(
+        'iris_wallet', 'click_to_copy',
+    )
 
     # Verify amount label
     amount_label = horizontal_layout.itemAt(2).widget()

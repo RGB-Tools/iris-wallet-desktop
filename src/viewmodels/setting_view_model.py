@@ -49,6 +49,7 @@ from src.utils.error_message import ERROR_KEYRING
 from src.utils.error_message import ERROR_SOMETHING_WENT_WRONG
 from src.utils.error_message import ERROR_UNABLE_TO_SET_EXPIRY_TIME
 from src.utils.error_message import ERROR_UNABLE_TO_SET_FEE
+from src.utils.error_message import ERROR_UNABLE_TO_SET_INDEXER_URL
 from src.utils.error_message import ERROR_UNABLE_TO_SET_MIN_CONFIRMATION
 from src.utils.error_message import ERROR_UNABLE_TO_SET_PROXY_ENDPOINT
 from src.utils.helpers import get_bitcoin_config
@@ -371,12 +372,12 @@ class SettingViewModel(QObject, ThreadManager):
             if success.is_enabled:
                 self.indexer_url_set_event.emit(indexer_url)
 
-    def on_error_of_indexer_url_set(self, error: CommonException):
+    def on_error_of_indexer_url_set(self):
         """Callback on error during setting of the indexer URL."""
 
         # Notify the user of the error
         ToastManager.error(
-            description=error.message,
+            description=ERROR_UNABLE_TO_SET_INDEXER_URL,
         )
         self._page_navigation.settings_page()
         try:

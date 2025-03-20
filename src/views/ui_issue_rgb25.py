@@ -23,6 +23,12 @@ from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
 import src.resources_rc
+from accessible_constant import ISSUE_RGB25_ASSET_CLOSE_BUTTON
+from accessible_constant import ISSUE_RGB25_BUTTON
+from accessible_constant import RGB25_ASSET_AMOUNT
+from accessible_constant import RGB25_ASSET_DESCRIPTION
+from accessible_constant import RGB25_ASSET_NAME
+from accessible_constant import RGB25_UPLOAD_FILE_BUTTON
 from src.model.common_operation_model import NodeInfoResponseModel
 from src.model.node_info_model import NodeInfoModel
 from src.model.success_model import SuccessPageModel
@@ -72,6 +78,7 @@ class IssueRGB25Widget(QWidget):
         self.grid_layout_1.addItem(self.horizontal_spacer_1, 6, 0)
 
         self.issue_rgb25_button = PrimaryButton()
+        self.issue_rgb25_button.setAccessibleName(ISSUE_RGB25_BUTTON)
         self.issue_rgb25_button.setMinimumSize(QSize(402, 40))
         self.issue_rgb25_button.setMaximumSize(QSize(402, 40))
 
@@ -102,6 +109,7 @@ class IssueRGB25Widget(QWidget):
 
         self.name_of_the_asset_input = QLineEdit(self.issue_rgb_25_card)
         self.name_of_the_asset_input.setObjectName('name_of_the_asset_input')
+        self.name_of_the_asset_input.setAccessibleName(RGB25_ASSET_NAME)
         self.name_of_the_asset_input.setMinimumSize(QSize(403, 40))
         self.name_of_the_asset_input.setMaximumSize(QSize(403, 16777215))
         self.name_of_the_asset_input.setClearButtonEnabled(True)
@@ -112,6 +120,7 @@ class IssueRGB25Widget(QWidget):
 
         self.asset_description_input = QLineEdit(self.issue_rgb_25_card)
         self.asset_description_input.setObjectName('asset_description_input')
+        self.asset_description_input.setAccessibleName(RGB25_ASSET_DESCRIPTION)
         self.asset_description_input.setMinimumSize(QSize(403, 40))
         self.asset_description_input.setMaximumSize(QSize(403, 16777215))
         self.asset_description_input.setFrame(False)
@@ -127,6 +136,7 @@ class IssueRGB25Widget(QWidget):
 
         self.amount_input = QLineEdit(self.issue_rgb_25_card)
         self.amount_input.setObjectName('amount_input')
+        self.amount_input.setAccessibleName(RGB25_ASSET_AMOUNT)
         self.amount_input.setMinimumSize(QSize(403, 40))
         self.amount_input.setMaximumSize(QSize(403, 40))
         self.amount_input.setClearButtonEnabled(True)
@@ -167,6 +177,7 @@ class IssueRGB25Widget(QWidget):
 
         self.upload_file = QPushButton(self.issue_rgb_25_card)
         self.upload_file.setObjectName('upload_file')
+        self.upload_file.setAccessibleName(RGB25_UPLOAD_FILE_BUTTON)
         self.upload_file.setMinimumSize(QSize(403, 40))
         self.upload_file.setMaximumSize(QSize(403, 40))
         self.upload_file.setAcceptDrops(False)
@@ -213,6 +224,7 @@ class IssueRGB25Widget(QWidget):
 
         self.rgb_25_close_btn = QPushButton(self.issue_rgb_25_card)
         self.rgb_25_close_btn.setObjectName('rgb_25_close_btn')
+        self.rgb_25_close_btn.setAccessibleName(ISSUE_RGB25_ASSET_CLOSE_BUTTON)
         self.rgb_25_close_btn.setMinimumSize(QSize(24, 24))
         self.rgb_25_close_btn.setMaximumSize(QSize(50, 65))
         self.rgb_25_close_btn.setAutoFillBackground(False)

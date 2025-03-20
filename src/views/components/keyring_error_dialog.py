@@ -17,9 +17,18 @@ from PySide6.QtWidgets import QLabel
 from PySide6.QtWidgets import QPushButton
 from PySide6.QtWidgets import QVBoxLayout
 
+from accessible_constant import KEYRING_CANCEL_BUTTON
+from accessible_constant import KEYRING_CONTINUE_BUTTON
+from accessible_constant import KEYRING_DIALOG_BOX
+from accessible_constant import KEYRING_MNEMONIC_COPY_BUTTON
+from accessible_constant import KEYRING_MNEMONIC_VALUE_LABEL
+from accessible_constant import KEYRING_MNEMONICS_FRAME
+from accessible_constant import KEYRING_PASSWORD_COPY_BUTTON
+from accessible_constant import KEYRING_PASSWORD_FRAME
+from accessible_constant import KEYRING_PASSWORD_VALUE_LABEL
+from accessible_constant import SAVE_CREDENTIALS_CHECK_BOX
 from src.data.repository.setting_repository import SettingRepository
 from src.model.enums.enums_model import NetworkEnumModel
-from src.model.enums.enums_model import ToastPreset
 from src.utils.common_utils import copy_text
 from src.utils.constant import IRIS_WALLET_TRANSLATIONS_CONTEXT
 from src.utils.constant import IS_NATIVE_AUTHENTICATION_ENABLED
@@ -54,6 +63,7 @@ class KeyringErrorDialog(QDialog):
         self.navigate_to = navigate_to
         self.originating_page = originating_page
         self.setObjectName('keyring')
+        self.setAccessibleName(KEYRING_DIALOG_BOX)
         self.resize(570, 401)
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowType.Dialog)
         self.setStyleSheet(
@@ -75,6 +85,7 @@ class KeyringErrorDialog(QDialog):
 
         self.mnemonic_frame = QFrame(self)
         self.mnemonic_frame.setObjectName('mnemonic_frame')
+        self.mnemonic_frame.setAccessibleName(KEYRING_MNEMONICS_FRAME)
         self.mnemonic_frame.setFrameShape(QFrame.StyledPanel)
         self.mnemonic_frame.setFrameShadow(QFrame.Raised)
         self.vertical_layout = QVBoxLayout(self.mnemonic_frame)
@@ -93,6 +104,9 @@ class KeyringErrorDialog(QDialog):
 
         self.mnemonic_copy_button = QPushButton(self.mnemonic_frame)
         self.mnemonic_copy_button.setObjectName('mnemonic_copy_button')
+        self.mnemonic_copy_button.setAccessibleName(
+            KEYRING_MNEMONIC_COPY_BUTTON,
+        )
         self.mnemonic_copy_button.setMinimumSize(QSize(16, 16))
         self.mnemonic_copy_button.setMaximumSize(QSize(16, 16))
         self.mnemonic_copy_button.setCursor(QCursor(Qt.PointingHandCursor))
@@ -107,6 +121,9 @@ class KeyringErrorDialog(QDialog):
 
         self.mnemonic_value_label = QLabel(self.mnemonic_frame)
         self.mnemonic_value_label.setObjectName('mnemonic_value_label')
+        self.mnemonic_value_label.setAccessibleDescription(
+            KEYRING_MNEMONIC_VALUE_LABEL,
+        )
         self.mnemonic_value_label.setWordWrap(True)
 
         self.vertical_layout.addWidget(self.mnemonic_value_label)
@@ -119,6 +136,7 @@ class KeyringErrorDialog(QDialog):
         )
         self.password_frame = QFrame(self)
         self.password_frame.setObjectName('password_frame')
+        self.password_frame.setAccessibleName(KEYRING_PASSWORD_FRAME)
         self.password_frame.setFrameShape(QFrame.StyledPanel)
         self.password_frame.setFrameShadow(QFrame.Raised)
         self.password_frame_vertical_layout = QVBoxLayout(self.password_frame)
@@ -143,6 +161,9 @@ class KeyringErrorDialog(QDialog):
 
         self.password_copy_button = QPushButton(self.password_frame)
         self.password_copy_button.setObjectName('password_copy_button')
+        self.password_copy_button.setAccessibleName(
+            KEYRING_PASSWORD_COPY_BUTTON,
+        )
         self.password_copy_button.setMinimumSize(QSize(16, 16))
         self.password_copy_button.setMaximumSize(QSize(16, 16))
         self.password_copy_button.setCursor(QCursor(Qt.PointingHandCursor))
@@ -159,6 +180,9 @@ class KeyringErrorDialog(QDialog):
 
         self.wallet_password_value = QLabel(self.password_frame)
         self.wallet_password_value.setObjectName('wallet_password_value')
+        self.wallet_password_value.setAccessibleDescription(
+            KEYRING_PASSWORD_VALUE_LABEL,
+        )
         self.wallet_password_value.setMinimumSize(QSize(300, 0))
         self.wallet_password_value.setMaximumSize(QSize(16777215, 16777215))
         self.wallet_password_value.setStyleSheet('')
@@ -175,18 +199,21 @@ class KeyringErrorDialog(QDialog):
 
         self.check_box = QCheckBox(self)
         self.check_box.setObjectName('check_box')
+        self.check_box.setAccessibleName(SAVE_CREDENTIALS_CHECK_BOX)
         self.check_box.setCursor(QCursor(Qt.PointingHandCursor))
 
         self.dialog_box_vertical_layout.addWidget(self.check_box)
         self.button_layout = QHBoxLayout()
         self.button_layout.setObjectName('buttton_layout')
         self.cancel_button = SecondaryButton()
+        self.cancel_button.setAccessibleName(KEYRING_CANCEL_BUTTON)
         self.cancel_button.setMinimumSize(QSize(220, 35))
         self.cancel_button.setMaximumSize(QSize(300, 35))
         self.cancel_button.hide()
 
         self.button_layout.addWidget(self.cancel_button)
         self.continue_button = PrimaryButton()
+        self.continue_button.setAccessibleName(KEYRING_CONTINUE_BUTTON)
         self.continue_button.setMinimumSize(QSize(220, 35))
         self.continue_button.setMaximumSize(QSize(300, 35))
         self.continue_button.setEnabled(False)

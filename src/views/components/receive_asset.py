@@ -21,6 +21,9 @@ from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
 import src.resources_rc
+from accessible_constant import INVOICE_COPY_BUTTON
+from accessible_constant import RECEIVE_ASSET_CLOSE_BUTTON
+from accessible_constant import RECEIVER_ADDRESS
 from src.utils.common_utils import set_qr_code
 from src.utils.constant import IRIS_WALLET_TRANSLATIONS_CONTEXT
 from src.utils.helpers import load_stylesheet
@@ -92,6 +95,12 @@ class ReceiveAssetWidget(QWidget):
 
         self.receive_asset_close_button = QPushButton(self.receive_asset_page)
         self.receive_asset_close_button.setObjectName('close_btn_3')
+        self.receive_asset_close_button.setAccessibleName(
+            RECEIVE_ASSET_CLOSE_BUTTON,
+        )
+        self.receive_asset_close_button.setCursor(
+            QCursor(Qt.CursorShape.PointingHandCursor),
+        )
         self.receive_asset_close_button.setMinimumSize(QSize(24, 24))
         self.receive_asset_close_button.setMaximumSize(QSize(24, 24))
         self.receive_asset_close_button.setAutoFillBackground(False)
@@ -134,6 +143,7 @@ class ReceiveAssetWidget(QWidget):
 
         self.receiver_address = QLabel(self.receive_asset_page)
         self.receiver_address.setObjectName('label_2')
+        self.receiver_address.setAccessibleDescription(RECEIVER_ADDRESS)
         self.receiver_address.setMinimumSize(QSize(334, 40))
         self.receiver_address.setMaximumSize(QSize(334, 40))
 
@@ -179,6 +189,7 @@ class ReceiveAssetWidget(QWidget):
 
         self.copy_button = QPushButton(self.receive_asset_page)
         self.copy_button.setObjectName('copy_button')
+        self.copy_button.setAccessibleName(INVOICE_COPY_BUTTON)
         self.copy_button.setMinimumSize(QSize(402, 40))
         self.copy_button.setMaximumSize(QSize(402, 16777215))
         self.copy_button.setCursor(

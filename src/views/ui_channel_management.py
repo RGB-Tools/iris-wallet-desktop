@@ -24,6 +24,8 @@ from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
 import src.resources_rc
+from accessible_constant import CHANNEL_STATUS
+from accessible_constant import CREATE_CHANNEL_BUTTON
 from src.model.channels_model import ChannelDetailDialogModel
 from src.utils.clickable_frame import ClickableFrame
 from src.utils.common_utils import generate_identicon
@@ -97,7 +99,9 @@ class ChannelManagement(QWidget):
         self.header_frame = HeaderFrame(
             title_name='channel_management', title_logo_path=':/assets/channel_management.png',
         )
-
+        self.header_frame.action_button.setAccessibleName(
+            CREATE_CHANNEL_BUTTON,
+        )
         self.vertical_layout_2_channel.addWidget(self.header_frame)
 
         # Sorting drop down
@@ -331,6 +335,7 @@ class ChannelManagement(QWidget):
 
             self.status_pixmap = QLabel(self.list_frame)
             self.status_pixmap.setObjectName('status_pixmap')
+            self.status_pixmap.setAccessibleName(CHANNEL_STATUS)
             self.status_pixmap.setMinimumSize(QSize(60, 0))
             self.status_pixmap.setStyleSheet(
                 'padding-left:25px;',

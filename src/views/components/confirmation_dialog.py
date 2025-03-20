@@ -11,6 +11,9 @@ from PySide6.QtWidgets import QLabel
 from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
+from accessible_constant import CONFIRMAION_DIALOG
+from accessible_constant import CONFIRMATION_DIALOG_CANCEL_BUTTON
+from accessible_constant import CONFIRMATION_DIALOG_CONTINUE_BUTTON
 from src.utils.constant import IRIS_WALLET_TRANSLATIONS_CONTEXT
 from src.utils.helpers import load_stylesheet
 from src.views.components.buttons import PrimaryButton
@@ -32,6 +35,7 @@ class ConfirmationDialog(QDialog):
         self.blur_effect.setBlurRadius(10)
 
         self.setObjectName('confirmation_dialog')
+        self.setAccessibleName(CONFIRMAION_DIALOG)
         self.resize(300, 200)
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowType.Dialog)
         self.setModal(True)
@@ -55,11 +59,17 @@ class ConfirmationDialog(QDialog):
         self.button_layout.setContentsMargins(6, 6, 6, 12)
 
         self.confirmation_dialog_cancel_button = SecondaryButton()
+        self.confirmation_dialog_cancel_button.setAccessibleName(
+            CONFIRMATION_DIALOG_CANCEL_BUTTON,
+        )
         self.confirmation_dialog_cancel_button.setMinimumSize(QSize(220, 35))
         self.confirmation_dialog_cancel_button.setMaximumSize(QSize(300, 35))
         self.button_layout.addWidget(self.confirmation_dialog_cancel_button)
 
         self.confirmation_dialog_continue_button = PrimaryButton()
+        self.confirmation_dialog_continue_button.setAccessibleName(
+            CONFIRMATION_DIALOG_CONTINUE_BUTTON,
+        )
         self.confirmation_dialog_continue_button.setMinimumSize(QSize(220, 35))
         self.confirmation_dialog_continue_button.setMaximumSize(QSize(300, 35))
         self.button_layout.addWidget(self.confirmation_dialog_continue_button)

@@ -16,6 +16,8 @@ from PySide6.QtWidgets import QLabel
 from PySide6.QtWidgets import QLineEdit
 from PySide6.QtWidgets import QVBoxLayout
 
+from accessible_constant import EXPIRY_TIME_COMBO_BOX
+from accessible_constant import INPUT_BOX_NAME
 from src.model.common_operation_model import ConfigurableCardModel
 from src.utils.clickable_frame import ClickableFrame
 from src.utils.constant import IRIS_WALLET_TRANSLATIONS_CONTEXT
@@ -150,10 +152,12 @@ class ConfigurableCardFrame(ClickableFrame):
         self.input_value = QLineEdit(self)
         self.input_value.setFrame(False)
         self.input_value.setObjectName('input_value')
+        self.input_value.setAccessibleName(INPUT_BOX_NAME)
         self.input_value.setMinimumSize(QSize(300, 35))
         self.input_value.setMaximumSize(QSize(492, 16777215))
         self.time_unit_combobox = QComboBox()
         self.time_unit_combobox.setMinimumSize(QSize(90, 35))
+        self.time_unit_combobox.setAccessibleDescription(EXPIRY_TIME_COMBO_BOX)
 
         self.inner_horizontal_layout.addWidget(
             self.input_value, alignment=Qt.AlignLeft,

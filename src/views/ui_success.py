@@ -7,6 +7,7 @@ from __future__ import annotations
 from PySide6.QtCore import QCoreApplication
 from PySide6.QtCore import QSize
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QCursor
 from PySide6.QtGui import QIcon
 from PySide6.QtGui import QPixmap
 from PySide6.QtGui import QTextOption
@@ -22,6 +23,8 @@ from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
 import src.resources_rc
+from accessible_constant import SUCCESS_PAGE_CLOSE_BUTTON
+from accessible_constant import SUCCESS_PAGE_HOME_BUTTON
 from src.model.success_model import SuccessPageModel
 from src.utils.constant import IRIS_WALLET_TRANSLATIONS_CONTEXT
 from src.utils.helpers import load_stylesheet
@@ -81,9 +84,11 @@ class SuccessWidget(QWidget):
 
         self.close_button = QPushButton(self.issue_new_ticker)
         self.close_button.setObjectName('close_button')
+        self.close_button.setAccessibleName(SUCCESS_PAGE_CLOSE_BUTTON)
         self.close_button.setMinimumSize(QSize(24, 24))
         self.close_button.setMaximumSize(QSize(24, 24))
         self.close_button.setAutoFillBackground(False)
+        self.close_button.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         icon = QIcon()
         icon.addFile(':/assets/x_circle.png', QSize(), QIcon.Normal, QIcon.Off)
@@ -155,6 +160,7 @@ class SuccessWidget(QWidget):
         self.button_horizontal_layout.setObjectName('horizontalLayout_5')
         self.button_horizontal_layout.setContentsMargins(-1, 24, -1, 24)
         self.home_button = PrimaryButton()
+        self.home_button.setAccessibleName(SUCCESS_PAGE_HOME_BUTTON)
         self.home_button.setMinimumSize(QSize(402, 40))
         self.home_button.setMaximumSize(QSize(201, 16777215))
         self.home_button.setAutoRepeat(False)

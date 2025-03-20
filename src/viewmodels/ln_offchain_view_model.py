@@ -19,6 +19,7 @@ from src.model.payments_model import ListPaymentResponseModel
 from src.utils.custom_exception import CommonException
 from src.utils.error_message import ERROR_LN_OFF_CHAIN_UNABLE_TO_SEND_ASSET
 from src.utils.error_message import ERROR_SOMETHING_WENT_WRONG
+from src.utils.info_message import INFO_ASSET_SENT_SUCCESSFULLY
 from src.utils.worker import ThreadManager
 from src.views.components.toast import ToastManager
 
@@ -112,8 +113,7 @@ class LnOffChainViewModel(QObject, ThreadManager):
                 description=ERROR_LN_OFF_CHAIN_UNABLE_TO_SEND_ASSET,
             )
         else:
-            success_message = 'Asset sent successfully'
-            ToastManager.success(description=success_message)
+            ToastManager.success(description=INFO_ASSET_SENT_SUCCESSFULLY)
             self.is_sent.emit(True)
 
     def list_ln_payment(self) -> None:

@@ -18,6 +18,8 @@ from PySide6.QtWidgets import QSizePolicy
 from PySide6.QtWidgets import QSpacerItem
 from PySide6.QtWidgets import QVBoxLayout
 
+from accessible_constant import CLOSE_CHANNEL_CONTINUE_BUTTON
+from accessible_constant import CLOSE_CHANNEL_DIALOG
 from src.utils.constant import IRIS_WALLET_TRANSLATIONS_CONTEXT
 from src.utils.helpers import load_stylesheet
 from src.viewmodels.main_view_model import MainViewModel
@@ -29,6 +31,7 @@ class CloseChannelDialog(QDialog):
     def __init__(self, page_navigate, pub_key, channel_id, parent=None):
         super().__init__(parent)
         self.setObjectName('custom_dialog')
+        self.setAccessibleName(CLOSE_CHANNEL_DIALOG)
         self._page_navigate = page_navigate
         self._view_model = MainViewModel(page_navigate)
         self.pub_key = pub_key
@@ -104,6 +107,9 @@ class CloseChannelDialog(QDialog):
         )
         self.close_channel_continue_button.setObjectName(
             'close_channel_continue_button',
+        )
+        self.close_channel_continue_button.setAccessibleName(
+            CLOSE_CHANNEL_CONTINUE_BUTTON,
         )
         self.close_channel_continue_button.setCursor(
             QCursor(Qt.CursorShape.PointingHandCursor),

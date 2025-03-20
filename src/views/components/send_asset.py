@@ -23,6 +23,18 @@ from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
 import src.resources_rc
+from accessible_constant import ASSET_ADDRESS_VALIDATION_LABEL
+from accessible_constant import ASSET_AMOUNT_VALIDATION
+from accessible_constant import CUSTOM_CHECKBOX
+from accessible_constant import ENTER_RECEIVER_ADDRESS
+from accessible_constant import FAST_CHECKBOX
+from accessible_constant import FEE_RATE_INPUT
+from accessible_constant import MEDIUM_CHECKBOX
+from accessible_constant import PAY_AMOUNT
+from accessible_constant import SEND_ASSET_BUTTON
+from accessible_constant import SEND_ASSET_CLOSE_BUTTON
+from accessible_constant import SEND_ASSET_REFRESH_BUTTON
+from accessible_constant import SLOW_CHECKBOX
 from src.utils.common_utils import extract_amount
 from src.utils.common_utils import set_number_validator
 from src.utils.common_utils import set_placeholder_value
@@ -103,6 +115,7 @@ class SendAssetWidget(QWidget):
         self.scan_button.hide()
         self.refresh_button = QPushButton(self.send_asset_page)
         self.refresh_button.setObjectName('refresh_button')
+        self.refresh_button.setAccessibleName(SEND_ASSET_REFRESH_BUTTON)
         self.refresh_button.setCursor(
             QCursor(Qt.CursorShape.PointingHandCursor),
         )
@@ -120,6 +133,7 @@ class SendAssetWidget(QWidget):
 
         self.close_button = QPushButton(self.send_asset_page)
         self.close_button.setObjectName('asset_close_btn_3')
+        self.close_button.setAccessibleName(SEND_ASSET_CLOSE_BUTTON)
         self.close_button.setCursor(
             QCursor(Qt.CursorShape.PointingHandCursor),
         )
@@ -198,6 +212,7 @@ class SendAssetWidget(QWidget):
 
         self.asset_address_value = QLineEdit(self.send_asset_page)
         self.asset_address_value.setObjectName('name_of_the_asset_input_25')
+        self.asset_address_value.setAccessibleName(ENTER_RECEIVER_ADDRESS)
         self.asset_address_value.setMinimumSize(QSize(335, 40))
         self.asset_address_value.setMaximumSize(QSize(335, 16777215))
         self.asset_address_value.setClearButtonEnabled(True)
@@ -208,6 +223,9 @@ class SendAssetWidget(QWidget):
         self.asset_address_validation_label = QLabel(self)
         self.asset_address_validation_label.setObjectName(
             'address_validation_label',
+        )
+        self.asset_address_validation_label.setAccessibleDescription(
+            ASSET_ADDRESS_VALIDATION_LABEL,
         )
         self.asset_address_validation_label.setMinimumSize(QSize(335, 0))
         self.asset_address_validation_label.setMaximumSize(
@@ -234,6 +252,7 @@ class SendAssetWidget(QWidget):
 
         self.asset_amount_value = QLineEdit(self.send_asset_page)
         self.asset_amount_value.setObjectName('amount_input_25')
+        self.asset_amount_value.setAccessibleName(PAY_AMOUNT)
         set_number_validator(self.asset_amount_value)
 
         self.asset_amount_value.setMinimumSize(QSize(335, 40))
@@ -245,6 +264,9 @@ class SendAssetWidget(QWidget):
 
         self.asset_amount_validation = QLabel(self.send_asset_page)
         self.asset_amount_validation.setObjectName('asset_amount_validation')
+        self.asset_amount_validation.setAccessibleDescription(
+            ASSET_AMOUNT_VALIDATION,
+        )
         self.asset_amount_validation.setMinimumSize(QSize(335, 0))
         self.asset_amount_validation.setMaximumSize(QSize(335, 16777215))
         self.asset_amount_validation.setStyleSheet(
@@ -261,23 +283,27 @@ class SendAssetWidget(QWidget):
         self.txn_label.setObjectName('txn_label')
         self.slow_checkbox = QCheckBox(self.send_asset_page)
         self.slow_checkbox.setObjectName('slow_checkBox')
+        self.slow_checkbox.setAccessibleName(SLOW_CHECKBOX)
         self.slow_checkbox.setAutoExclusive(True)
 
         self.fee_rate_checkbox_layout.addWidget(self.slow_checkbox)
         self.medium_checkbox = QCheckBox(self.send_asset_page)
         self.medium_checkbox.setObjectName('medium_checkBox')
+        self.medium_checkbox.setAccessibleName(MEDIUM_CHECKBOX)
         self.medium_checkbox.setAutoExclusive(True)
 
         self.fee_rate_checkbox_layout.addWidget(self.medium_checkbox)
 
         self.fast_checkbox = QCheckBox(self.send_asset_page)
         self.fast_checkbox.setObjectName('fast_checkBox')
+        self.fast_checkbox.setAccessibleName(FAST_CHECKBOX)
         self.fast_checkbox.setAutoExclusive(True)
 
         self.fee_rate_checkbox_layout.addWidget(self.fast_checkbox)
 
         self.custom_checkbox = QCheckBox(self.send_asset_page)
         self.custom_checkbox.setObjectName('custom_checkBox')
+        self.custom_checkbox.setAccessibleName(CUSTOM_CHECKBOX)
         self.custom_checkbox.setCheckState(Qt.Checked)
         self.custom_checkbox.clicked.connect(
             self.enable_fee_rate_line_edit,
@@ -301,6 +327,7 @@ class SendAssetWidget(QWidget):
 
         self.fee_rate_value = QLineEdit(self.send_asset_page)
         self.fee_rate_value.setObjectName('amount_input_25')
+        self.fee_rate_value.setAccessibleName(FEE_RATE_INPUT)
         self.fee_rate_value.setValidator(QIntValidator())
         self.fee_rate_value.setMinimumSize(QSize(335, 40))
         self.fee_rate_value.setMaximumSize(QSize(335, 16777215))
@@ -355,6 +382,7 @@ class SendAssetWidget(QWidget):
         self.send_asset_widget_layout.addItem(self.vertical_spacer_4)
 
         self.send_btn = PrimaryButton()
+        self.send_btn.setAccessibleName(SEND_ASSET_BUTTON)
         self.send_btn.setMinimumSize(QSize(402, 40))
         self.send_btn.setMaximumSize(QSize(402, 16777215))
 

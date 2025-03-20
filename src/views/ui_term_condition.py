@@ -18,6 +18,9 @@ from PySide6.QtWidgets import QTextBrowser
 from PySide6.QtWidgets import QWidget
 
 import src.resources_rc
+from accessible_constant import ACCEPT_BUTTON
+from accessible_constant import DECLINE_BUTTON
+from accessible_constant import TNC_TXT_DESCRIPTION
 from src.utils.constant import IRIS_WALLET_TRANSLATIONS_CONTEXT
 from src.utils.constant import PRIVACY_POLICY_URL
 from src.utils.helpers import load_stylesheet
@@ -90,6 +93,7 @@ class TermConditionWidget(QWidget):
 
         self.tnc_text_desc = QTextBrowser(self.tnc_widget)
         self.tnc_text_desc.setObjectName('TnC_Text_Desc')
+        self.tnc_text_desc.setAccessibleName(TNC_TXT_DESCRIPTION)
         self.tnc_text_desc.setMinimumSize(QSize(644, 348))
         self.tnc_text_desc.setMaximumSize(QSize(644, 348))
         self.tnc_text_desc.setStyleSheet(
@@ -135,12 +139,14 @@ class TermConditionWidget(QWidget):
         self.tnc_horizontal_layout.setContentsMargins(8, -1, 8, -1)
 
         self.decline_btn = SecondaryButton()
+        self.decline_btn.setAccessibleName(DECLINE_BUTTON)
         self.decline_btn.setMinimumSize(QSize(318, 40))
         self.decline_btn.setMaximumSize(QSize(318, 40))
 
         self.tnc_horizontal_layout.addWidget(self.decline_btn)
 
         self.accept_btn = PrimaryButton()
+        self.accept_btn.setAccessibleName(ACCEPT_BUTTON)
         self.accept_btn.setMinimumSize(QSize(318, 40))
         self.accept_btn.setMaximumSize(QSize(318, 40))
         self.accept_btn.setDisabled(True)

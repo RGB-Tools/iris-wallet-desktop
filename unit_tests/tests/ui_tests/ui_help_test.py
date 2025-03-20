@@ -48,8 +48,8 @@ def test_create_help_card(help_widget):
     title = 'Test Title'
     detail = 'Test Detail'
     links = ['http://example.com', 'http://example.org']
-
-    help_card_frame = help_widget.create_help_card(title, detail, links)
+    count = 1
+    help_card_frame = help_widget.create_help_card(title, detail, links, count)
 
     assert isinstance(help_card_frame, QFrame)
     assert help_card_frame.objectName() == 'help_card_frame'
@@ -81,7 +81,7 @@ def test_create_help_card(help_widget):
         assert link_label.openExternalLinks() is True
 
     # Test with no links
-    help_card_frame = help_widget.create_help_card(title, detail, None)
+    help_card_frame = help_widget.create_help_card(title, detail, None, count)
     assert help_card_frame.findChild(QLabel, 'http://example.com') is None
 
     # Test vertical layout properties

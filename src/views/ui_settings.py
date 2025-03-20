@@ -18,12 +18,27 @@ from PySide6.QtWidgets import QSpacerItem
 from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
+from accessible_constant import ASK_AUTH_FOR_APP_LOGIN
+from accessible_constant import ASK_AUTH_FOR_APP_LOGIN_TOGGLE
+from accessible_constant import ASK_AUTH_FOR_IMPORTANT_QUESTION
+from accessible_constant import ASK_AUTH_FOR_IMPORTANT_QUESTION_TOGGLE
+from accessible_constant import HIDE_EXHAUSTED_ASSETS
+from accessible_constant import HIDE_EXHAUSTED_ASSETS_TOGGLE
+from accessible_constant import KEYRING_STORAGE
+from accessible_constant import KEYRING_TOGGLE_BUTTON
+from accessible_constant import SET_DEFAULT_EXP_TIME
+from accessible_constant import SET_DEFAULT_FEE_RATE
+from accessible_constant import SET_DEFAULT_MIN_EXPIRATION
+from accessible_constant import SPECIFY_ANNOUNCE_ADD
+from accessible_constant import SPECIFY_ANNOUNCE_ALIAS
+from accessible_constant import SPECIFY_BITCOIND_HOST
+from accessible_constant import SPECIFY_BITCOIND_PORT
+from accessible_constant import SPECIFY_INDEXER_URL
+from accessible_constant import SPECIFY_RGB_PROXY_URL
 from src.data.repository.setting_repository import SettingRepository
 from src.model.common_operation_model import ConfigurableCardModel
 from src.model.enums.enums_model import NetworkEnumModel
-from src.model.enums.enums_model import WalletType
 from src.model.setting_model import SettingPageLoadModel
-from src.utils.common_utils import translate_value
 from src.utils.constant import ANNOUNCE_ADDRESS
 from src.utils.constant import ANNOUNCE_ALIAS
 from src.utils.constant import BITCOIND_RPC_HOST_MAINNET
@@ -109,6 +124,9 @@ class SettingsWidget(QWidget):
 
         self.imp_operation_frame = QFrame(self.settings_widget)
         self.imp_operation_frame.setObjectName('imp_operation_frame')
+        self.imp_operation_frame.setAccessibleName(
+            ASK_AUTH_FOR_IMPORTANT_QUESTION,
+        )
         self.imp_operation_frame.setMinimumSize(QSize(492, 92))
         self.imp_operation_frame.setMaximumWidth(492)
         self.imp_operation_frame.setFrameShape(QFrame.StyledPanel)
@@ -145,18 +163,20 @@ class SettingsWidget(QWidget):
         self.imp_operation_auth_toggle_button.setObjectName(
             'imp_operation_auth_toggle_button',
         )
+        self.imp_operation_auth_toggle_button.setAccessibleName(
+            ASK_AUTH_FOR_IMPORTANT_QUESTION_TOGGLE,
+        )
         self.imp_operation_auth_toggle_button.setMinimumSize(QSize(50, 35))
         self.imp_operation_auth_toggle_button.setMaximumSize(QSize(50, 35))
         self.imp_operation_auth_toggle_button.setStyleSheet(
             'border: 1px solid white',
         )
-
         self.grid_layout_6.addWidget(
             self.imp_operation_auth_toggle_button, 0, 1, 1, 1,
         )
-
         self.ask_auth_login_frame = QFrame(self.settings_widget)
         self.ask_auth_login_frame.setObjectName('ask_auth_login_frame')
+        self.ask_auth_login_frame.setAccessibleName(ASK_AUTH_FOR_APP_LOGIN)
         self.ask_auth_login_frame.setMinimumSize(QSize(492, 92))
         self.ask_auth_login_frame.setMaximumWidth(492)
         self.ask_auth_login_frame.setStyleSheet('')
@@ -172,34 +192,36 @@ class SettingsWidget(QWidget):
         self.login_auth_label.setObjectName('login_auth_label')
         self.login_auth_label.setStyleSheet('')
         self.login_auth_label.setAlignment(Qt.AlignCenter)
-
         self.ask_auth_login_content_vertical_layout.addWidget(
             self.login_auth_label, 0, Qt.AlignLeft,
         )
-
         self.auth_login_desc = QLabel(self.ask_auth_login_frame)
         self.auth_login_desc.setObjectName('auth_login_desc')
         self.auth_login_desc.setWordWrap(True)
         self.auth_login_desc.setMinimumSize(QSize(385, 46))
-
         self.ask_auth_login_content_vertical_layout.addWidget(
             self.auth_login_desc, 0,
         )
-
         self.grid_layout_5.addLayout(
             self.ask_auth_login_content_vertical_layout, 0, 0, 1, 1,
         )
-
         self.login_auth_toggle_button = ToggleSwitch(self.ask_auth_login_frame)
         self.login_auth_toggle_button.setObjectName('login_auth_toggle_button')
+        self.login_auth_toggle_button.setAccessibleName(
+            ASK_AUTH_FOR_APP_LOGIN_TOGGLE,
+        )
         self.login_auth_toggle_button.setMinimumSize(QSize(50, 35))
         self.login_auth_toggle_button.setMaximumSize(QSize(50, 35))
         self.login_auth_toggle_button.setStyleSheet('border: 1px solid white')
 
         self.grid_layout_5.addWidget(self.login_auth_toggle_button, 0, 1, 1, 1)
+
         self.hide_exhausted_asset_frame = QFrame(self.settings_widget)
         self.hide_exhausted_asset_frame.setObjectName(
             'hide_exhausted_asset_frame',
+        )
+        self.hide_exhausted_asset_frame.setAccessibleName(
+            HIDE_EXHAUSTED_ASSETS,
         )
         self.hide_exhausted_asset_frame.setMinimumSize(QSize(492, 92))
         self.hide_exhausted_asset_frame.setMaximumWidth(492)
@@ -213,6 +235,9 @@ class SettingsWidget(QWidget):
         )
         self.hide_exhausted_asset_toggle_button.setObjectName(
             'hide_exhausted_asset_toggle_button',
+        )
+        self.hide_exhausted_asset_toggle_button.setAccessibleName(
+            HIDE_EXHAUSTED_ASSETS_TOGGLE,
         )
         self.hide_exhausted_asset_toggle_button.setMinimumSize(QSize(50, 35))
         self.hide_exhausted_asset_toggle_button.setMaximumSize(QSize(50, 35))
@@ -236,7 +261,6 @@ class SettingsWidget(QWidget):
         self.hide_exhausted_asset_layout.addWidget(
             self.hide_exhausted_label, 0, Qt.AlignLeft,
         )
-
         self.hide_asset_desc = QLabel(self.hide_exhausted_asset_frame)
         self.hide_asset_desc.setWordWrap(True)
         self.hide_asset_desc.setObjectName('hide_asset_desc')
@@ -251,6 +275,7 @@ class SettingsWidget(QWidget):
         self.keyring_storage_frame.setObjectName(
             'keyring_storage_frame',
         )
+        self.keyring_storage_frame.setAccessibleName(KEYRING_STORAGE)
         self.keyring_storage_frame.setMinimumSize(QSize(492, 79))
         self.keyring_storage_frame.setMaximumWidth(492)
         self.keyring_storage_frame.setFrameShape(QFrame.StyledPanel)
@@ -263,6 +288,7 @@ class SettingsWidget(QWidget):
         self.keyring_toggle_button.setObjectName(
             'keyring_toggle_button',
         )
+        self.keyring_toggle_button.setAccessibleName(KEYRING_TOGGLE_BUTTON)
         self.keyring_toggle_button.setMinimumSize(QSize(50, 35))
         self.keyring_toggle_button.setMaximumSize(QSize(50, 35))
         self.keyring_toggle_button.setStyleSheet(
@@ -284,7 +310,6 @@ class SettingsWidget(QWidget):
         self.keyring_frame_layout.addWidget(
             self.keyring_label, 0, Qt.AlignLeft,
         )
-
         self.keyring_desc = QLabel(self.keyring_storage_frame)
         self.keyring_desc.setWordWrap(True)
         self.keyring_desc.setObjectName('keyring_desc')
@@ -319,9 +344,8 @@ class SettingsWidget(QWidget):
                 ),
                 placeholder_value=str(self.fee_rate),
             ),
-
-
         )
+        self.set_fee_rate_frame.setAccessibleName(SET_DEFAULT_FEE_RATE)
         self.set_expiry_time_frame = ConfigurableCardFrame(
             self,
             ConfigurableCardModel(
@@ -342,6 +366,7 @@ class SettingsWidget(QWidget):
             ),
 
         )
+        self.set_expiry_time_frame.setAccessibleName(SET_DEFAULT_EXP_TIME)
         self.set_indexer_url_frame = ConfigurableCardFrame(
             self,
             ConfigurableCardModel(
@@ -356,6 +381,7 @@ class SettingsWidget(QWidget):
                 placeholder_value=self.indexer_url,
             ),
         )
+        self.set_indexer_url_frame.setAccessibleName(SPECIFY_INDEXER_URL)
         self.set_proxy_endpoint_frame = ConfigurableCardFrame(
             self,
             ConfigurableCardModel(
@@ -370,6 +396,7 @@ class SettingsWidget(QWidget):
                 placeholder_value=self.proxy_endpoint,
             ),
         )
+        self.set_proxy_endpoint_frame.setAccessibleName(SPECIFY_RGB_PROXY_URL)
         self.set_bitcoind_rpc_host_frame = ConfigurableCardFrame(
             self,
             ConfigurableCardModel(
@@ -383,6 +410,9 @@ class SettingsWidget(QWidget):
                 ),
                 placeholder_value=self.bitcoind_host,
             ),
+        )
+        self.set_bitcoind_rpc_host_frame.setAccessibleName(
+            SPECIFY_BITCOIND_HOST,
         )
         self.set_bitcoind_rpc_port_frame = ConfigurableCardFrame(
             self,
@@ -398,6 +428,9 @@ class SettingsWidget(QWidget):
                 placeholder_value=self.bitcoind_port,
             ),
         )
+        self.set_bitcoind_rpc_port_frame.setAccessibleName(
+            SPECIFY_BITCOIND_PORT,
+        )
         self.set_announce_address_frame = ConfigurableCardFrame(
             self,
             ConfigurableCardModel(
@@ -412,6 +445,7 @@ class SettingsWidget(QWidget):
                 placeholder_value=self.announce_address,
             ),
         )
+        self.set_announce_address_frame.setAccessibleName(SPECIFY_ANNOUNCE_ADD)
         self.set_announce_alias_frame = ConfigurableCardFrame(
             self,
             ConfigurableCardModel(
@@ -426,6 +460,7 @@ class SettingsWidget(QWidget):
                 placeholder_value=self.announce_alias,
             ),
         )
+        self.set_announce_alias_frame.setAccessibleName(SPECIFY_ANNOUNCE_ALIAS)
         self.set_minimum_confirmation_frame = ConfigurableCardFrame(
             self,
             ConfigurableCardModel(
@@ -439,6 +474,9 @@ class SettingsWidget(QWidget):
                 ),
                 placeholder_value=self.min_confirmation,
             ),
+        )
+        self.set_minimum_confirmation_frame.setAccessibleName(
+            SET_DEFAULT_MIN_EXPIRATION,
         )
 
         stack_1_widgets = [
@@ -534,7 +572,6 @@ class SettingsWidget(QWidget):
                 None,
             ),
         )
-
         self.keyring_label.setText(
             QCoreApplication.translate(
                 IRIS_WALLET_TRANSLATIONS_CONTEXT, 'keyring_label', 'Keyring storage',

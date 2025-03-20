@@ -12,6 +12,7 @@ from unittest.mock import MagicMock
 from unittest.mock import patch
 
 import pytest
+from PySide6.QtCore import QDir
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QLabel
 
@@ -208,12 +209,12 @@ def test_download_logs_with_save_path(about_widget, qtbot, mocker):
     # Mock download_file to ensure it's called
     def mock_download_file(save_path, output_dir):
         # Simulate the behavior of the actual download_file function
-        with zipfile.ZipFile(save_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
+        with zipfile.ZipFile(save_path, 'w', zipfile.ZIP_DEFLATED) as zip_file:
             for root, _, files in os.walk(output_dir):
                 for file in files:
                     file_path = os.path.join(root, file)
                     arcname = os.path.relpath(file_path, output_dir)
-                    zipf.write(file_path, arcname)
+                    zip_file.write(file_path, arcname)
         # Simulate the finally block
         shutil.rmtree(output_dir)
         # Simulate success toast
@@ -225,7 +226,7 @@ def test_download_logs_with_save_path(about_widget, qtbot, mocker):
     )
 
     # Mock zip_logger_folder at the module level
-    zip_filename = '/mock/logs.zip'
+    zip_filename = 'mock/logs.zip'
     output_dir = '/mock/output/dir'
     mock_zip_logger = mocker.patch(
         'src.views.ui_about.zip_logger_folder', autospec=True,
@@ -254,7 +255,8 @@ def test_download_logs_with_save_path(about_widget, qtbot, mocker):
     mock_get_path.assert_called_once()
     mock_zip_logger.assert_called_once_with(base_path)
     mock_file_dialog.assert_called_once_with(
-        about_widget, 'Save logs File', zip_filename, 'Zip Files (*.zip)',
+        about_widget, 'Save logs File', QDir.homePath(
+        )+'/'+zip_filename, 'Zip Files (*.zip)',
     )
     mock_rmtree.assert_called_once_with(output_dir)
     mock_toast_error.assert_not_called()
@@ -278,7 +280,7 @@ def test_download_logs_cancelled(about_widget, qtbot, mocker):
     mocker.patch('shutil.copy')
 
     # Mock zip_logger_folder at the module level
-    zip_filename = '/mock/logs.zip'
+    zip_filename = 'mock/logs.zip'
     output_dir = '/mock/output/dir'
     mock_zip_logger = mocker.patch(
         'src.views.ui_about.zip_logger_folder', autospec=True,
@@ -303,7 +305,8 @@ def test_download_logs_cancelled(about_widget, qtbot, mocker):
     mock_get_path.assert_called_once()
     mock_zip_logger.assert_called_once_with(base_path)
     mock_file_dialog.assert_called_once_with(
-        about_widget, 'Save logs File', zip_filename, 'Zip Files (*.zip)',
+        about_widget, 'Save logs File', QDir.homePath(
+        )+'/'+zip_filename, 'Zip Files (*.zip)',
     )
     # rmtree should not be called if download is cancelled
     mock_rmtree.assert_not_called()
@@ -351,7 +354,9 @@ def mock_node_info_widget(mocker):
     mock_instance = mock.return_value
     mock_instance.key_label = mocker.MagicMock()
     mocker.patch('src.views.ui_about.NodeInfoWidget', mock)
-
+    mock_instance = mock.return_value
+    mock_instance.node_pub_key_copy_button = mocker.Mock()
+    mock_instance.value_label = mocker.Mock()
     # Print mock details
     print(f"Created mock with id: {id(mock)}")
 

@@ -6,10 +6,6 @@ from unittest.mock import MagicMock
 from unittest.mock import patch
 
 import pytest
-from PySide6.QtCore import QCoreApplication
-from PySide6.QtCore import QDir
-from PySide6.QtCore import QSettings
-from PySide6.QtCore import QStandardPaths
 
 from src.utils.constant import APP_NAME
 from src.utils.constant import ORGANIZATION_DOMAIN

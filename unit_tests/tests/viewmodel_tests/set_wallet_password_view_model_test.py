@@ -11,10 +11,12 @@ from unittest.mock import patch
 import pytest
 from PySide6.QtWidgets import QLineEdit
 
+from src.data.repository.setting_repository import SettingRepository
 from src.model.common_operation_model import InitResponseModel
 from src.model.enums.enums_model import ToastPreset
 from src.model.enums.enums_model import WalletType
 from src.utils.custom_exception import CommonException
+from src.utils.local_store import local_store
 from src.viewmodels.set_wallet_password_view_model import SetWalletPasswordViewModel
 
 
@@ -22,6 +24,36 @@ from src.viewmodels.set_wallet_password_view_model import SetWalletPasswordViewM
 def mock_page_navigation(mocker):
     """Fixture to create a mock page navigation object."""
     return mocker.MagicMock()
+
+
+@pytest.fixture
+def mock_keyring_and_storage(monkeypatch):
+    """Ensure tests use dummy values for keyring and local storage."""
+
+    # Dummy test values
+    dummy_mnemonic = 'dummy_mnemonic'
+    dummy_password = 'dummy_password'
+    dummy_native_login = False
+    dummy_native_auth = False
+
+    # Mock methods that retrieve data from keyring/local storage
+    monkeypatch.setattr(
+        local_store, 'get_value', lambda key: {
+            'mnemonic': dummy_mnemonic,
+            'wallet_password': dummy_password,
+            'nativeLoginEnabled': dummy_native_login,
+            'isNativeAuthenticationEnabled': dummy_native_auth,
+        }.get(key, None),
+    )
+
+    # Mock methods that store data to keyring/local storage
+    monkeypatch.setattr(local_store, 'set_value', lambda key, value: None)
+
+    # Mock SettingRepository methods if needed
+    monkeypatch.setattr(
+        SettingRepository,
+        'get_wallet_network', lambda: 'test_network',
+    )
 
 
 @pytest.fixture
@@ -212,7 +244,7 @@ def test_set_wallet_password_passwords_do_not_match(set_wallet_password_view_mod
 @patch('src.utils.keyring_storage.set_value')
 @patch('src.views.components.toast.ToastManager')
 @patch('src.views.components.keyring_error_dialog.KeyringErrorDialog')
-def test_on_success(mock_keyring_error_dialog, mock_toast_manager, mock_set_value, mock_setting_repository, set_wallet_password_view_model):
+def test_on_success(mock_keyring_error_dialog, mock_toast_manager, mock_set_value, mock_setting_repository, set_wallet_password_view_model, mock_keyring_and_storage):
     """Test the on_success method."""
 
     # Create a mock InitResponseModel with mnemonic

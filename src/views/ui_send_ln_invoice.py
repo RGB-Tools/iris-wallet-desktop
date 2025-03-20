@@ -7,6 +7,7 @@ from __future__ import annotations
 from PySide6.QtCore import QCoreApplication
 from PySide6.QtCore import QSize
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QCursor
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QFrame
 from PySide6.QtWidgets import QGridLayout
@@ -20,6 +21,9 @@ from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
 import src.resources_rc
+from accessible_constant import LN_INVOICE_INPUT
+from accessible_constant import SEND_LN_INVOICE_BUTTON
+from accessible_constant import SEND_LN_INVOICE_CLOSE_BUTTON
 from src.model.enums.enums_model import AssetType
 from src.model.enums.enums_model import ChannelFetchingModel
 from src.model.invoices_model import DecodeInvoiceResponseModel
@@ -87,6 +91,9 @@ class SendLnInvoiceWidget(QWidget):
             self.enter_ln_invoice_widget,
         )
         self.close_btn_send_ln_invoice_page.setObjectName('close_btn')
+        self.close_btn_send_ln_invoice_page.setAccessibleName(
+            SEND_LN_INVOICE_CLOSE_BUTTON,
+        )
         self.close_btn_send_ln_invoice_page.setMinimumSize(QSize(24, 24))
         self.close_btn_send_ln_invoice_page.setMaximumSize(QSize(50, 65))
         self.close_btn_send_ln_invoice_page.setAutoFillBackground(False)
@@ -100,6 +107,9 @@ class SendLnInvoiceWidget(QWidget):
         self.close_btn_send_ln_invoice_page.setIconSize(QSize(24, 24))
         self.close_btn_send_ln_invoice_page.setCheckable(False)
         self.close_btn_send_ln_invoice_page.setChecked(False)
+        self.close_btn_send_ln_invoice_page.setCursor(
+            QCursor(Qt.CursorShape.PointingHandCursor),
+        )
 
         self.enter_ln_invoice_title_layout.addWidget(
             self.close_btn_send_ln_invoice_page,
@@ -129,6 +139,7 @@ class SendLnInvoiceWidget(QWidget):
 
         self.ln_invoice_input = QPlainTextEdit(self.enter_ln_invoice_widget)
         self.ln_invoice_input.setObjectName('ln_invoice_input')
+        self.ln_invoice_input.setAccessibleName(LN_INVOICE_INPUT)
         self.ln_invoice_input.setMinimumSize(QSize(550, 50))
         self.ln_invoice_input.setMaximumSize(QSize(550, 155))
 
@@ -383,6 +394,7 @@ class SendLnInvoiceWidget(QWidget):
         )
         self.send_button_horizontal_layout.setContentsMargins(-1, 15, -1, 15)
         self.send_button = PrimaryButton()
+        self.send_button.setAccessibleName(SEND_LN_INVOICE_BUTTON)
         self.send_button.setMinimumSize(QSize(0, 40))
         self.send_button.setMaximumSize(QSize(402, 16777215))
         self.send_button_horizontal_layout.addWidget(self.send_button)

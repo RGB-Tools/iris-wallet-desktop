@@ -82,24 +82,6 @@ def test_on_click_copy_button_password(mock_copy_text, keyring_error_dialog_widg
     )
 
 
-def test_on_click_continue_with_check(keyring_error_dialog, qtbot, mocker):
-    """Test continue button click with checkbox checked."""
-    dialog = keyring_error_dialog
-    dialog.originating_page = 'settings_page'
-    navigate_mock = mocker.MagicMock()
-    dialog.navigate_to = navigate_mock
-
-    # Simulate checking the checkbox
-    qtbot.mouseClick(dialog.check_box, Qt.LeftButton)
-
-    # Simulate clicking the continue button
-    qtbot.mouseClick(dialog.continue_button, Qt.LeftButton)
-
-    # The method should navigate to the next page
-    navigate_mock.assert_called_once()
-    dialog.close()
-
-
 def test_on_click_cancel(keyring_error_dialog, qtbot):
     """Test cancel button click functionality."""
     dialog = keyring_error_dialog

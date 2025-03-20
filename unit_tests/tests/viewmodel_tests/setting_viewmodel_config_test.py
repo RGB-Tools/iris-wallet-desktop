@@ -44,6 +44,7 @@ from src.utils.custom_exception import CommonException
 from src.utils.error_message import ERROR_SOMETHING_WENT_WRONG
 from src.utils.error_message import ERROR_UNABLE_TO_SET_EXPIRY_TIME
 from src.utils.error_message import ERROR_UNABLE_TO_SET_FEE
+from src.utils.error_message import ERROR_UNABLE_TO_SET_INDEXER_URL
 from src.utils.error_message import ERROR_UNABLE_TO_SET_MIN_CONFIRMATION
 from src.utils.error_message import ERROR_UNABLE_TO_SET_PROXY_ENDPOINT
 from src.utils.info_message import INFO_SET_EXPIRY_TIME_SUCCESSFULLY
@@ -222,12 +223,10 @@ def test_on_error_of_indexer_url_set(mock_toast_manager, setting_view_model):
     setting_view_model.unlock_the_wallet = Mock(
         side_effect=CommonException('Unlock error'),
     )
-    error = CommonException('Test error')
-
-    setting_view_model.on_error_of_indexer_url_set(error)
+    setting_view_model.on_error_of_indexer_url_set()
 
     mock_toast_manager.error.assert_has_calls([
-        call(description='Test error'),
+        call(description=ERROR_UNABLE_TO_SET_INDEXER_URL),
         call(description='Unlock failed: Unlock error'),
     ])
     setting_view_model._page_navigation.settings_page.assert_called_once()

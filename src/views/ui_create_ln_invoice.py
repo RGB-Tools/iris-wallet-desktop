@@ -21,6 +21,13 @@ from PySide6.QtWidgets import QSpacerItem
 from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
+from accessible_constant import ASSET_AMOUNT_LN
+from accessible_constant import CREATE_LN_INVOICE_AMOUNT_VALIDATION
+from accessible_constant import CREATE_LN_INVOICE_BUTTON
+from accessible_constant import CREATE_LN_INVOICE_CLOSE_BUTTON
+from accessible_constant import EXPIRY_TIME
+from accessible_constant import EXPIRY_TIME_COMBO_BOX
+from accessible_constant import MSAT_AMOUNT
 from src.data.repository.setting_card_repository import SettingCardRepository
 from src.model.common_operation_model import NodeInfoResponseModel
 from src.model.enums.enums_model import AssetType
@@ -112,6 +119,9 @@ class CreateLnInvoiceWidget(QWidget):
 
         self.close_btn_ln_invoice_page = QPushButton(self.ln_invoice_card)
         self.close_btn_ln_invoice_page.setObjectName('close_btn')
+        self.close_btn_ln_invoice_page.setAccessibleName(
+            CREATE_LN_INVOICE_CLOSE_BUTTON,
+        )
         self.close_btn_ln_invoice_page.setMinimumSize(QSize(24, 24))
         self.close_btn_ln_invoice_page.setMaximumSize(QSize(50, 65))
         self.close_btn_ln_invoice_page.setAutoFillBackground(False)
@@ -174,6 +184,7 @@ class CreateLnInvoiceWidget(QWidget):
         self.amount_input = QLineEdit(self.ln_invoice_card)
         self.amount_input.setObjectName('amount_input')
         self.amount_input.setMinimumSize(QSize(370, 40))
+        self.amount_input.setAccessibleName(ASSET_AMOUNT_LN)
 
         self.amount_input.setValidator(QIntValidator())
 
@@ -186,6 +197,9 @@ class CreateLnInvoiceWidget(QWidget):
         self.asset_balance_validation_label = QLabel(self.ln_invoice_card)
         self.asset_balance_validation_label.setObjectName(
             'asset_balance_validation_label',
+        )
+        self.asset_balance_validation_label.setAccessibleDescription(
+            CREATE_LN_INVOICE_AMOUNT_VALIDATION,
         )
         self.asset_balance_validation_label.setMinimumSize(QSize(370, 35))
         self.asset_balance_validation_label.setWordWrap(True)
@@ -208,6 +222,7 @@ class CreateLnInvoiceWidget(QWidget):
 
         self.msat_amount_value = QLineEdit(self.ln_invoice_card)
         self.msat_amount_value.setObjectName('msat_amount_value')
+        self.msat_amount_value.setAccessibleName(MSAT_AMOUNT)
         self.msat_amount_value.setMinimumSize(QSize(370, 40))
         self.msat_amount_value.setValidator(QIntValidator())
 
@@ -239,6 +254,8 @@ class CreateLnInvoiceWidget(QWidget):
         self.expiry_input.setObjectName('expiry_input')
         self.expiry_input.setMinimumSize(QSize(250, 40))
         self.expiry_input.setMaximumSize(QSize(370, 40))
+        self.expiry_input.setAccessibleName(EXPIRY_TIME)
+        self.expiry_input.setAccessibleDescription(self.expiry_input.text())
 
         self.expiry_input.setValidator(QIntValidator())
         self.expiry_time_grid_layout.addWidget(
@@ -250,6 +267,7 @@ class CreateLnInvoiceWidget(QWidget):
         self.time_unit_combobox = QComboBox()
         self.time_unit_combobox.setMinimumSize(QSize(100, 40))
         self.time_unit_combobox.setMaximumSize(QSize(160, 40))
+        self.time_unit_combobox.setAccessibleDescription(EXPIRY_TIME_COMBO_BOX)
 
         self.expiry_time_grid_layout.addWidget(
             self.time_unit_combobox, 0, 1, Qt.AlignHCenter,
@@ -286,6 +304,7 @@ class CreateLnInvoiceWidget(QWidget):
         self.button_layout.addItem(self.horizontal_spacer_3)
 
         self.create_button = PrimaryButton()
+        self.create_button.setAccessibleName(CREATE_LN_INVOICE_BUTTON)
         self.create_button.setMinimumSize(QSize(370, 40))
         self.create_button.setMaximumSize(QSize(370, 40))
         self.create_button.setEnabled(False)

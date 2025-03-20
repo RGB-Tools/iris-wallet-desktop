@@ -37,6 +37,9 @@ class SendBitcoinWidget(QWidget):
         self.send_bitcoin_page.fee_rate_value.setText(
             str(self.value_of_default_fee_rate.fee_rate),
         )
+        self.send_bitcoin_page.fee_rate_value.setAccessibleDescription(
+            self.send_bitcoin_page.fee_rate_value.text(),
+        )
         layout = QVBoxLayout()
         layout.addWidget(self.send_bitcoin_page)
         self.setLayout(layout)

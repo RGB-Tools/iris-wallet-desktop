@@ -49,7 +49,10 @@ a = Analysis(
     hiddenimports=['pyqttoast', 'PySide6', 'bip32utils', 'mnemonic', 'importlib_metadata', 'hashlib', 'rgb_lib'],
     hookspath=[],
     runtime_hooks=[],
-    excludes=[],
+    excludes=[
+        'unit_tests',
+        'e2e_tests'
+        ],
     win_no_prefer_redirects=False,
     win_private_assemblies=False,
     cipher=block_cipher

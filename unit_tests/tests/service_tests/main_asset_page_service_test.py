@@ -1,5 +1,5 @@
 """Unit tests for main asset page service"""
-# pylint: disable=redefined-outer-name,unused-argument,too-many-arguments
+# pylint: disable=redefined-outer-name,unused-argument,too-many-arguments,unused-import
 from __future__ import annotations
 
 from unittest import mock
@@ -32,10 +32,6 @@ from unit_tests.service_test_resources.service_fixture.main_asset_page_helper_mo
 from unit_tests.service_test_resources.service_fixture.main_asset_page_helper_mock import (
     mock_get_offline_asset_ticker,
 )
-
-# Disable the redefined-outer-name warning as
-# it's normal to pass mocked object in tests  function
-# pylint: disable=redefined-outer-name
 
 
 def test_get_assets(
