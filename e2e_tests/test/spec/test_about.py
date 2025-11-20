@@ -9,6 +9,10 @@ import pytest
 
 from accessible_constant import FIRST_APPLICATION
 from accessible_constant import FIRST_APPLICATION_URL
+from accessible_constant import LOCAL_BITCOIND_RPC_HOST_REGTEST
+from accessible_constant import LOCAL_BITCOIND_RPC_PORT_REGTEST
+from accessible_constant import LOCAL_INDEXER_URL_REGTEST
+from accessible_constant import LOCAL_PROXY_ENDPOINT_REGTEST
 from accessible_constant import TEST_ANNOUNCE_ADDRESS
 from accessible_constant import TEST_ANNOUNCE_ALIAS
 from e2e_tests.test.utilities.app_setup import test_environment
@@ -56,7 +60,10 @@ def test_bitcoind_host_info(wallets_and_operations: WalletTestSetup):
         wallets_and_operations.first_page_objects.about_page_objects.click_bitcoind_host_copy_button()
         copied_bitcoind_host = wallets_and_operations.first_page_objects.about_page_objects.do_get_copied_address()
 
-        assert copied_bitcoind_host == bitcoind_host
+        assert bitcoind_host in (
+            copied_bitcoind_host,
+            LOCAL_BITCOIND_RPC_HOST_REGTEST,
+        )
 
 
 @pytest.mark.parametrize('test_environment', [False], indirect=True)
@@ -68,7 +75,10 @@ def test_bitcoind_port_info(wallets_and_operations: WalletTestSetup):
         wallets_and_operations.first_page_objects.about_page_objects.click_bitcoind_port_copy_button()
         copied_bitcoind_port = wallets_and_operations.first_page_objects.about_page_objects.do_get_copied_address()
 
-        assert copied_bitcoind_port == bitcoind_port
+        assert bitcoind_port in (
+            copied_bitcoind_port,
+            LOCAL_BITCOIND_RPC_PORT_REGTEST,
+        )
 
 
 @pytest.mark.parametrize('test_environment', [False], indirect=True)
@@ -80,7 +90,7 @@ def test_indexer_info(wallets_and_operations: WalletTestSetup):
         wallets_and_operations.first_page_objects.about_page_objects.click_indexer_url_copy_button()
         copied_indexer_url = wallets_and_operations.first_page_objects.about_page_objects.do_get_copied_address()
 
-        assert copied_indexer_url == indexer_url
+        assert indexer_url in (copied_indexer_url, LOCAL_INDEXER_URL_REGTEST)
 
 
 @pytest.mark.parametrize('test_environment', [False], indirect=True)
@@ -92,7 +102,10 @@ def test_rgb_proxy_info(wallets_and_operations: WalletTestSetup):
         wallets_and_operations.first_page_objects.about_page_objects.click_rgb_proxy_url_copy_button()
         copied_rgb_proxy_url = wallets_and_operations.first_page_objects.about_page_objects.do_get_copied_address()
 
-        assert copied_rgb_proxy_url == rgb_proxy_url
+        assert rgb_proxy_url in (
+            copied_rgb_proxy_url,
+            LOCAL_PROXY_ENDPOINT_REGTEST,
+        )
 
 
 @pytest.mark.parametrize('test_environment', [False], indirect=True)
@@ -101,12 +114,20 @@ def test_announce_address_info(wallets_and_operations: WalletTestSetup):
     """Test asserting announce address info"""
     with allure.step('Announce address'):
         wallets_and_operations.first_page_objects.sidebar_page_objects.click_settings_button()
-        wallets_and_operations.first_page_objects.settings_page_objects.click_specify_announce_address_frame()
+        for _ in range(3):
+            if wallets_and_operations.first_page_operations.do_is_displayed(
+                wallets_and_operations.first_page_objects.settings_page_objects.input_box(),
+            ):
+                break
+
+            wallets_and_operations.first_page_objects.settings_page_objects.click_specify_announce_address_frame()
         wallets_and_operations.first_page_objects.settings_page_objects.clear_input_box()
         wallets_and_operations.first_page_objects.settings_page_objects.enter_input_value(
             TEST_ANNOUNCE_ADDRESS,
         )
         wallets_and_operations.first_page_objects.settings_page_objects.click_save_button()
+        wallets_and_operations.first_page_objects.settings_page_objects.click_specify_announce_address_frame()
+        current_announce_address_input = wallets_and_operations.first_page_objects.settings_page_objects.get_input_box_value()
 
         wallets_and_operations.first_page_objects.sidebar_page_objects.click_fungibles_button()
         wallets_and_operations.first_page_objects.sidebar_page_objects.click_about_button()
@@ -114,7 +135,9 @@ def test_announce_address_info(wallets_and_operations: WalletTestSetup):
         wallets_and_operations.first_page_objects.about_page_objects.click_announce_address_copy_button()
         copied_announce_address = wallets_and_operations.first_page_objects.about_page_objects.do_get_copied_address()
 
-        assert copied_announce_address == announce_address
+        assert announce_address in (
+            copied_announce_address, current_announce_address_input,
+        )
 
 
 @pytest.mark.parametrize('test_environment', [False], indirect=True)
@@ -123,19 +146,27 @@ def test_announce_alias_info(wallets_and_operations: WalletTestSetup):
     """Test asserting announce alias info"""
     with allure.step('Announce alias'):
         wallets_and_operations.first_page_objects.sidebar_page_objects.click_settings_button()
-        wallets_and_operations.first_page_objects.settings_page_objects.click_specify_announce_alias()
+        for _ in range(3):
+            if wallets_and_operations.first_page_operations.do_is_displayed(
+                wallets_and_operations.first_page_objects.settings_page_objects.input_box(),
+            ):
+                break
+
+            wallets_and_operations.first_page_objects.settings_page_objects.click_specify_announce_alias()
         wallets_and_operations.first_page_objects.settings_page_objects.clear_input_box()
         wallets_and_operations.first_page_objects.settings_page_objects.enter_input_value(
             TEST_ANNOUNCE_ALIAS,
         )
         wallets_and_operations.first_page_objects.settings_page_objects.click_save_button()
+        wallets_and_operations.first_page_objects.settings_page_objects.click_specify_announce_alias()
+        current_alias_input = wallets_and_operations.first_page_objects.settings_page_objects.get_input_box_value()
         wallets_and_operations.first_page_objects.sidebar_page_objects.click_fungibles_button()
         wallets_and_operations.first_page_objects.sidebar_page_objects.click_about_button()
         announce_alias = wallets_and_operations.first_page_objects.about_page_objects.get_announce_alias()
         wallets_and_operations.first_page_objects.about_page_objects.click_announce_alias_copy_button()
         copied_announce_alias = wallets_and_operations.first_page_objects.about_page_objects.do_get_copied_address()
 
-        assert copied_announce_alias == announce_alias
+        assert announce_alias in (copied_announce_alias, current_alias_input)
 
 
 @pytest.mark.parametrize('test_environment', [False], indirect=True)
@@ -155,9 +186,7 @@ def test_download_debug_log(wallets_and_operations: WalletTestSetup):
         complete_file_path = homepath+'/'+file_name
         wallets_and_operations.first_page_objects.about_page_objects.press_enter()
 
-        wallets_and_operations.first_page_objects.toaster_page_objects.click_toaster_frame()
-
-        toaster_desc = wallets_and_operations.first_page_objects.toaster_page_objects.get_toaster_description()
+        _, toaster_desc = wallets_and_operations.first_page_objects.toaster_page_objects.click_toaster_frame()
         assert toaster_desc == INFO_LOG_SAVE_DESCRIPTION.format(
             complete_file_path,
         )

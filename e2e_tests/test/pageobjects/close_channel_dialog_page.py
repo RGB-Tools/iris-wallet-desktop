@@ -31,6 +31,15 @@ class CloseChannelDialogPageObjects(BaseOperations):
             roleName='push button', name=CLOSE_CHANNEL_CONTINUE_BUTTON,
         )
 
+    def click_close_channel_dialog(self):
+        """
+        Clicks the close channel dialog and returns the result of the click action.
+
+        Returns:
+            The result of the click action or None if the dialog is not displayed.
+        """
+        return self.do_click(self.close_channel_dialog()) if self.do_is_displayed(self.close_channel_dialog()) else None
+
     def click_continue_button(self):
         """
         Clicks the continue button and returns the result of the click action.

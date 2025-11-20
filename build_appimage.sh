@@ -30,7 +30,7 @@ rm -rf *.AppImage  # Full path to the icon file
 # Ensure the AppImage tools are installed
 if ! command -v appimagetool &> /dev/null; then
     echo "appimagetool not found. Downloading..."
-    wget -q https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+    wget -q https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
     if [ ! -f appimagetool-x86_64.AppImage ]; then
         echo "Error: Failed to download appimagetool."
         exit 1

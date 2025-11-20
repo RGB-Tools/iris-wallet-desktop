@@ -1,0 +1,113 @@
+name: Setup E2E Test Environment
+description: Configure environment for Dogtail GUI automation testing
+
+inputs:
+  test-file:
+    description: 'Test file to run'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup E2E environment
+      run: |
+        cd src/utils
+        python generate_config.py
+        cd ../../
+      shell: bash
+
+    - name: Run E2E test in configured environment
+      run: |
+        dbus-run-session -- bash -lc '
+        mkdir -p "$XDG_RUNTIME_DIR/keyring"
+        export GNOME_KEYRING_CONTROL="$XDG_RUNTIME_DIR/keyring"
+        set -euo pipefail
+        export DISPLAY=:99
+        export LIBGL_DEBUG=verbose
+        export MESA_DEBUG=1
+        export GALLIUM_DRIVER=llvmpipe
+        export NO_AT_BRIDGE=0
+        export QT_LINUX_ACCESSIBILITY_ALWAYS_ON=1
+        export QT_ACCESSIBILITY=1
+        export GTK_MODULES=atk-bridge
+        export GDK_BACKEND=x11
+        export QT_QPA_PLATFORM=xcb
+        export QT_DISABLE_WINDOW_TRANSPARENCY=1
+        export XLIB_SKIP_ARGB_VISUALS=1
+        export XDG_CURRENT_DESKTOP=GNOME
+        export QT_QPA_PLATFORMTHEME=""
+        export QT_STYLE_OVERRIDE=Fusion
+        export QT_ENABLE_HIGHDPI_SCALING=0
+        export QT_OPENGL=software
+        export QT_XCB_GL_INTEGRATION=none
+        export QSG_RENDER_LOOP=basic
+        export QT_AUTO_SCREEN_SCALE_FACTOR=0
+        export LIBGL_ALWAYS_SOFTWARE=1
+        export LIBGL_DRI3_DISABLE=1
+        export QT_X11_NO_MITSHM=1
+        export QT_SCALE_FACTOR=1
+        export GVFS_DISABLE_FUSE=1
+        export GIO_USE_VFS=local
+        export GTK_CSD=0
+        export XAUTHORITY="${XAUTHORITY:-$RUNNER_TEMP/.Xauthority}"
+        export LANG=C.UTF-8
+        export LC_ALL=C.UTF-8
+        export APPIMAGE_EXTRACT_AND_RUN=1
+        export KEYRING_HOME="$RUNNER_TEMP/keyring"
+        mkdir -p "$KEYRING_HOME"
+        export PYTHON_KEYRING_BACKEND=keyrings.alt.file.PlaintextKeyring
+        export PYTHONPATH="$RUNNER_TEMP/pydeps:$PYTHONPATH"
+        export PYTHONNOUSERSITE=0
+        export XDG_RUNTIME_DIR="$RUNNER_TEMP/xdg"
+        mkdir -p "$XDG_RUNTIME_DIR" && chmod 700 "$XDG_RUNTIME_DIR"
+        export GSETTINGS_BACKEND=dconf
+        # Start gnome-keyring-daemon and unlock with empty password
+        eval $(echo -n "" | gnome-keyring-daemon --start --components=secrets,ssh,pkcs11)
+        export SSH_AUTH_SOCK
+
+        # Use direct sudo pass-through to prevent AT-SPI tree breakage
+        mkdir -p "$RUNNER_TEMP/bin"
+        cat <<'"'"'PKEXEC_WRAPPER'"'"' > "$RUNNER_TEMP/bin/pkexec"
+        #!/bin/bash
+        # Direct pass-through to sudo (GitHub Actions has passwordless sudo)
+        exec /usr/bin/sudo "$@"
+        PKEXEC_WRAPPER
+        chmod +x "$RUNNER_TEMP/bin/pkexec"
+        export PATH="$RUNNER_TEMP/bin:$PATH"
+
+        # Ensure dbus session is available
+        dbus-update-activation-environment --systemd DISPLAY XAUTHORITY SSH_AUTH_SOCK GNOME_KEYRING_CONTROL GNOME_KEYRING_PID 2>/dev/null || true
+        # Set accessibility and enable debugging for better AT-SPI stability
+        gsettings set org.gnome.desktop.interface toolkit-accessibility true 2>/dev/null || true
+        gsettings set org.gnome.desktop.a11y.applications screen-reader-enabled false 2>/dev/null || true
+        # Start AT-SPI services and wait for them to initialize (suppress logs)
+        /usr/libexec/at-spi-bus-launcher --launch-immediately 2>/dev/null &
+        /usr/libexec/at-spi2-registryd 2>/dev/null &
+        # Wait for AT-SPI to be fully ready (increased to 18s for reliability on slower runners)
+        sleep 18
+        # Verify AT-SPI services are running
+        pgrep -f "at-spi-bus-launcher" >/dev/null || echo "⚠️  AT-SPI bus launcher not running"
+        pgrep -f "at-spi2-registryd" >/dev/null || echo "⚠️  AT-SPI registryd not running"
+        export PATH="$GITHUB_WORKSPACE/ln_node_binary:$PATH"
+        # Ensure the test password is visible to the AppImage subprocesses
+        export NATIVE_AUTHENTICATION_PASSWORD="123456"
+        # Dogtail configuration for CI stability (exported for Python tests)
+        export DOGTAIL_SEARCH_TIMEOUT=120
+        export DOGTAIL_SEARCH_BACKOFF=1.5
+        # Update dbus activation environment with all necessary variables including dogtail config
+        dbus-update-activation-environment DISPLAY XAUTHORITY QT_ACCESSIBILITY QT_LINUX_ACCESSIBILITY_ALWAYS_ON NO_AT_BRIDGE GTK_MODULES GDK_BACKEND PYTHON_KEYRING_BACKEND KEYRING_HOME APPIMAGE_EXTRACT_AND_RUN PATH DOGTAIL_SEARCH_TIMEOUT DOGTAIL_SEARCH_BACKOFF
+        export QT_QUICK_BACKEND=software
+        export QTWEBENGINE_CHROMIUM_FLAGS="--disable-gpu --enable-software-rasterizer --in-process-gpu --use-gl=swiftshader --single-process"
+        export QT_OPENGL=software
+        export QT_XCB_GL_INTEGRATION=none
+        export LIBGL_ALWAYS_SOFTWARE=1
+        export MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
+        export QTWEBENGINE_DISABLE_SANDBOX=1
+        export QTWEBENGINE_NO_SANDBOX=1
+        export QT_DISABLE_WINDOW_TRANSPARENCY=1
+        export GDK_SYNCHRONIZE=1
+        export __GLX_VENDOR_LIBRARY_NAME=mesa
+        sleep 3  # Increased to 3s for better UI stability
+        poetry run single-test ${{ inputs.test-file }}.py
+        '
+      shell: bash

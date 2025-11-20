@@ -10,7 +10,7 @@ else
     echo "File not found: ./$PROJECT_NAME.deb"
 fi
 
-#remove aready exits file and dir
+#remove already exits file and dir
 rm -rf build
 rm -rf dist
 rm -rf package

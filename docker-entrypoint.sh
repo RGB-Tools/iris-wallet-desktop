@@ -27,7 +27,7 @@ poetry run build-iris-wallet \
     --distribution=appimage \
     --network="$NETWORK" \
     "${APP_NAME_SUFFIX_OPT[@]}" \
-    "${PORT_OPT[@]}" 
+    "${PORT_OPT[@]}"
 
 # copy appimage to /appimage (assumed to be mounted from the host)
 if ! [ -d "$OUT_DIR" ]; then

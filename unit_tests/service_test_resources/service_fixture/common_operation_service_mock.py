@@ -21,7 +21,7 @@ def mock_is_node_locked(mocker):
     """Mocked set value helper function of keyring"""
     def _mock_is_node_locked(value):
         return mocker.patch(
-            'src.data.service.common_operation_service.is_node_locked',
+            'src.data.service.common_operation_service.check_node',
             return_value=value,
         )
 

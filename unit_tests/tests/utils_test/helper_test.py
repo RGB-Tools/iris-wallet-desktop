@@ -12,12 +12,15 @@ from unittest.mock import patch
 import pytest
 
 from src.model.enums.enums_model import NetworkEnumModel
+from src.utils.custom_exception import CommonException
 from src.utils.helpers import check_google_auth_token_available
 from src.utils.helpers import create_circular_pixmap
 from src.utils.helpers import get_available_port
 from src.utils.helpers import get_build_info
 from src.utils.helpers import get_node_arg_config
 from src.utils.helpers import handle_asset_address
+from src.utils.helpers import handle_connection_error
+from src.utils.helpers import handle_generic_error
 from src.utils.helpers import hash_mnemonic
 from src.utils.helpers import is_port_available
 from src.utils.helpers import load_stylesheet
@@ -231,3 +234,24 @@ def test_create_circular_pixmap(mock_qcolor, mock_qpainter, mock_qpixmap, mock_q
     )
     mock_painter_instance.end.assert_called_once()
     assert result == mock_pixmap_instance
+
+
+def test_handle_connection_error_logs_and_raises(mocker):
+    """handle_connection_error should log and raise CommonException with a fixed message."""
+    mock_logger = mocker.patch('src.utils.helpers.logger')
+    context = 'unlock_required'
+    with pytest.raises(CommonException) as exc_info:
+        handle_connection_error(context, Exception('boom'))
+    assert str(exc_info.value) == 'Unable to connect to node'
+    mock_logger.error.assert_called()
+
+
+def test_handle_generic_error_logs_and_raises(mocker):
+    """handle_generic_error should log and raise CommonException with the provided message."""
+    mock_logger = mocker.patch('src.utils.helpers.logger')
+    context = 'lock_required'
+    message = 'Decorator(lock_required): Error while checking if node is locked'
+    with pytest.raises(CommonException) as exc_info:
+        handle_generic_error(context, Exception('boom'), message)
+    assert str(exc_info.value) == message
+    mock_logger.error.assert_called()

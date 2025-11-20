@@ -40,7 +40,7 @@ class AssetTransactionDetailPageObjects(BaseOperations):
         Returns:
             The transferred amount if displayed, otherwise None.
         """
-        return self.do_get_text(self.transferred_amount()) if self.do_is_displayed(self.transferred_amount()) else None
+        return self.do_get_text(self.transferred_amount()) if self.do_is_displayed(self.transferred_amount()) else str | None
 
     def click_close_button(self):
         """
@@ -55,4 +55,4 @@ class AssetTransactionDetailPageObjects(BaseOperations):
         """
         Retrieves the transaction ID.
         """
-        return self.do_get_text(self.tx_id()) if self.do_is_displayed(self.tx_id()) else None
+        return self.do_get_text(self.tx_id()) if self.do_is_displayed(self.tx_id()) else str | None

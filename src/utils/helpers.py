@@ -13,18 +13,22 @@ import json
 import os
 import socket
 import sys
+from typing import Any
 
 from mnemonic import Mnemonic
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor
 from PySide6.QtGui import QPainter
 from PySide6.QtGui import QPixmap
+from requests import HTTPError
+from requests.exceptions import ConnectionError as RequestsConnectionError
 
 from src.data.repository.setting_repository import SettingRepository
 from src.flavour import __ldk_port__
 from src.model.common_operation_model import UnlockRequestModel
 from src.model.enums.enums_model import NetworkEnumModel
 from src.utils.build_app_path import app_paths
+from src.utils.cache import Cache
 from src.utils.constant import ANNOUNCE_ADDRESS
 from src.utils.constant import ANNOUNCE_ALIAS
 from src.utils.constant import BITCOIND_RPC_HOST_MAINNET
@@ -57,9 +61,13 @@ from src.utils.constant import SAVED_BITCOIND_RPC_PORT
 from src.utils.constant import SAVED_BITCOIND_RPC_USER
 from src.utils.constant import SAVED_INDEXER_URL
 from src.utils.constant import SAVED_PROXY_ENDPOINT
+from src.utils.custom_exception import CommonException
+from src.utils.endpoints import NODE_INFO_ENDPOINT
+from src.utils.error_message import ERROR_NODE_IS_LOCKED_CALL_UNLOCK
 from src.utils.gauth import TOKEN_PICKLE_PATH
 from src.utils.local_store import local_store
 from src.utils.logging import logger
+from src.utils.request import Request
 
 
 def handle_asset_address(address: str, short_len: int = 12) -> str:
@@ -366,3 +374,77 @@ def get_bitcoin_config(network: NetworkEnumModel, password) -> UnlockRequestMode
         return bitcoin_config
     except Exception as exc:
         raise exc
+
+
+def process_response(response, invalidate_cache: bool = True, expect_json: bool = True) -> Any:
+    """
+    Processes the response from a request.
+    """
+    response.raise_for_status()
+    if invalidate_cache:
+        cache = Cache.get_cache_session()
+        if cache is not None:
+            cache.invalidate_cache()
+    if expect_json:
+        return response.json()
+    return None
+
+
+def handle_connection_error(context: str, exc: Exception) -> None:
+    """Handle connection error."""
+    logger.error(
+        'Exception occurred at Decorator(%s): %s, Message: %s',
+        context,
+        type(exc).__name__,
+        str(exc),
+    )
+
+    raise CommonException('Unable to connect to node') from exc
+
+
+def handle_generic_error(context: str, exc: Exception, message: str) -> None:
+    """Handle generic error."""
+    logger.error(
+        'Exception occurred at Decorator(%s): %s, Message: %s',
+        context,
+        type(exc).__name__,
+        str(exc),
+    )
+
+    raise CommonException(message) from exc
+
+
+def check_node(context: str) -> bool:
+    """Shared node-lock check used by lock_required/unlock_required decorators.
+
+    Returns False when node is not locked (2xx).
+    Returns True when server reports locked (specific 403 payload).
+    Raises CommonException for other HTTP errors.
+    Delegates connection and generic errors to shared handlers.
+    """
+    try:
+        response = Request.get(NODE_INFO_ENDPOINT)
+        response.raise_for_status()
+        return False
+    except HTTPError as error:
+        if error.response.status_code == 403:
+            try:
+                error_data = error.response.json()
+                if error_data.get('error') == ERROR_NODE_IS_LOCKED_CALL_UNLOCK and error_data.get('code') == 403:
+                    return True
+            except ValueError:
+                pass
+        else:
+            error_data = error.response.json()
+            error_message = error_data.get('error', 'Unhandled error')
+            logger.error(error_message)
+            raise CommonException(error_message) from error
+    except RequestsConnectionError as exc:
+        handle_connection_error(context, exc)
+    except Exception as exc:
+        handle_generic_error(
+            context, exc, f'Decorator({
+                context
+            }): Error while checking if node is locked',
+        )
+    return False

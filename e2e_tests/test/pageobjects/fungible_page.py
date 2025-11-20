@@ -92,5 +92,6 @@ class FungiblePageObjects(BaseOperations):
         """
         Retrieves the backup tooltip if it is displayed.
         """
-        self.backup_frame().point()
+        if self.backup_frame():
+            self.backup_frame().point()
         return self.backup_frame().description if self.do_is_displayed(self.backup_frame()) else None

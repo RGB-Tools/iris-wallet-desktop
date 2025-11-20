@@ -1,0 +1,95 @@
+name: Install E2E System Dependencies
+description: Install all system dependencies required for E2E GUI testing with Dogtail
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install required system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          xvfb \
+          x11-apps \
+          xauth \
+          openbox \
+          dbus-x11 \
+          policykit-1-gnome \
+          lxqt-policykit \
+          at-spi2-core \
+          gnome-keyring \
+          python3-secretstorage \
+          libatk-bridge2.0-0 \
+          libxcb-cursor0 \
+          libxkbcommon-x11-0 \
+          libxkbcommon0 \
+          libxcb1 \
+          libxcb-xinerama0 \
+          libxcb-xfixes0 \
+          libxcb-randr0 \
+          libxcb-icccm4 \
+          libxcb-image0 \
+          libxcb-keysyms1 \
+          libxcb-render-util0 \
+          libxcb-shape0 \
+          libxcb-shm0 \
+          libxcb-glx0 \
+          libxcb-render0 \
+          libxcb-present0 \
+          libxcb-dri3-0 \
+          libxcb-xinput0 \
+          libx11-xcb1 \
+          libxrender1 \
+          libxcomposite1 \
+          libxi6 \
+          libxtst6 \
+          libxrandr2 \
+          libxdamage1 \
+          libxext6 \
+          libfontconfig1 \
+          libdrm2 \
+          libegl1 \
+          libgl1 \
+          libopengl0 \
+          libglu1-mesa \
+          libglx-mesa0 \
+          libglvnd0 \
+          libgles2 \
+          libgtk-3-0 \
+          gir1.2-gtk-3.0 \
+          gir1.2-atspi-2.0 \
+          python3-gi \
+          xdg-desktop-portal \
+          xdg-desktop-portal-gtk \
+          qt6-gtk-platformtheme \
+          fonts-dejavu-core \
+          adwaita-icon-theme \
+          shared-mime-info \
+          libgl1-mesa-dri \
+          mesa-utils \
+          libgirepository1.0-dev \
+          meson \
+          gobject-introspection \
+          ninja-build \
+          gsettings-desktop-schemas \
+          dconf-cli \
+          dconf-service \
+          xclip \
+          wmctrl \
+          libdbus-1-3 \
+          libglib2.0-0 \
+          libnss3 \
+          libxss1 \
+          libatk1.0-0 \
+          libxcb-util1 \
+          ruby-dev \
+          build-essential \
+          libgbm1 \
+          libosmesa6 \
+          mesa-utils-extra \
+          libfuse2 \
+          scrot \
+          libcairo2-dev \
+          pkg-config \
+          python3-dev
+        sudo gem install fpm -f
+      shell: bash

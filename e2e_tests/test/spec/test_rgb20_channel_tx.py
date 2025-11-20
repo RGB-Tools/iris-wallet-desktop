@@ -108,6 +108,11 @@ def test_send_and_receive_with_correct_invoice_for_rgb20(wallets_and_operations:
         )
         wallets_and_operations.second_page_objects.asset_detail_page_objects.click_refresh_button()
         wallets_and_operations.second_page_objects.asset_detail_page_objects.click_rgb_transaction_lightning_frame()
+        if not wallets_and_operations.second_page_operations.do_is_displayed(
+            wallets_and_operations.second_page_objects.asset_transaction_detail_page_objects.transferred_amount(),
+        ):
+            wallets_and_operations.second_page_objects.asset_detail_page_objects.click_rgb_transaction_lightning_frame()
+
         transferred_amount = wallets_and_operations.second_page_objects.asset_transaction_detail_page_objects.get_transferred_amount()
         wallets_and_operations.second_page_objects.asset_transaction_detail_page_objects.click_close_button()
         wallets_and_operations.second_page_objects.asset_detail_page_objects.click_close_button()

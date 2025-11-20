@@ -99,7 +99,7 @@ class Wallet(MainPageObjects, BaseOperations):
         if self.do_is_displayed(self.term_and_condition_page_objects.accept_button()):
             self.term_and_condition_page_objects.click_accept_button()
 
-        if self.do_is_displayed(self.wallet_selection_page_objects.embedded_button()):
+        if self.do_is_displayed(self.wallet_selection_page_objects.remote_button()):
             self.wallet_selection_page_objects.click_remote_button()
 
         if self.do_is_displayed(self.wallet_selection_page_objects.continue_button()):

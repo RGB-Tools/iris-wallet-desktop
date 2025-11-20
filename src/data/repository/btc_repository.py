@@ -10,7 +10,6 @@ from src.model.btc_model import SendBtcResponseModel
 from src.model.btc_model import TransactionListResponse
 from src.model.btc_model import UnspentsListResponseModel
 from src.model.common_operation_model import SkipSyncModel
-from src.utils.cache import Cache
 from src.utils.custom_context import repository_custom_context
 from src.utils.decorators.unlock_required import unlock_required
 from src.utils.endpoints import ADDRESS_ENDPOINT
@@ -19,6 +18,7 @@ from src.utils.endpoints import ESTIMATE_FEE_ENDPOINT
 from src.utils.endpoints import LIST_TRANSACTIONS_ENDPOINT
 from src.utils.endpoints import LIST_UNSPENT_ENDPOINT
 from src.utils.endpoints import SEND_BTC_ENDPOINT
+from src.utils.helpers import process_response
 from src.utils.request import Request
 
 
@@ -31,8 +31,7 @@ class BtcRepository:
         """Get a Bitcoin address."""
         with repository_custom_context():
             response = Request.post(ADDRESS_ENDPOINT)
-            response.raise_for_status()  # Raises an exception for HTTP errors
-            data = response.json()
+            data = process_response(response)
             return AddressResponseModel(**data)
 
     @staticmethod
@@ -42,8 +41,7 @@ class BtcRepository:
         with repository_custom_context():
             payload = SkipSyncModel().dict()
             response = Request.post(BTC_BALANCE_ENDPOINT, payload)
-            response.raise_for_status()  # Raises an exception for HTTP errors
-            data = response.json()
+            data = process_response(response)
             return BalanceResponseModel(**data)
 
     @staticmethod
@@ -53,8 +51,7 @@ class BtcRepository:
         with repository_custom_context():
             payload = SkipSyncModel().dict()
             response = Request.post(LIST_TRANSACTIONS_ENDPOINT, payload)
-            response.raise_for_status()  # Raises an exception for HTTP errors
-            data = response.json()
+            data = process_response(response)
             return TransactionListResponse(**data)
 
     @staticmethod
@@ -64,7 +61,7 @@ class BtcRepository:
         with repository_custom_context():
             payload = SkipSyncModel().dict()
             response = Request.post(LIST_UNSPENT_ENDPOINT, payload)
-            data = response.json()
+            data = process_response(response)
             return UnspentsListResponseModel(**data)
 
     @staticmethod
@@ -74,11 +71,7 @@ class BtcRepository:
         payload = send_btc_value.dict()
         with repository_custom_context():
             response = Request.post(SEND_BTC_ENDPOINT, payload)
-            response.raise_for_status()  # Raises an exception for HTTP errors
-            data = response.json()
-            cache = Cache.get_cache_session()
-            if cache is not None:
-                cache.invalidate_cache()
+            data = process_response(response, invalidate_cache=True)
             return SendBtcResponseModel(**data)
 
     @staticmethod
@@ -88,6 +81,5 @@ class BtcRepository:
         payload = blocks.dict()
         with repository_custom_context():
             response = Request.post(ESTIMATE_FEE_ENDPOINT, payload)
-            response.raise_for_status()
-            data = response.json()
+            data = process_response(response)
             return EstimateFeeResponse(**data)

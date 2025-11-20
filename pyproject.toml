@@ -50,12 +50,13 @@ pyinstaller = ">=4.5.1"
 pylint = "3.1.0"
 
 # Extra package required only for Linux OS, used exclusively in Linux end-to-end tests.
-dogtail = { version = "^1.0.5", platform = "linux" }
+dogtail = { version = "^1.0.7", platform = "linux" }
 python3-xlib = { version = "^0.15", platform = "linux" }
 python3-pyatspi = { version = "^1.19.0", platform = "linux" }
 allure-pytest = { version = "^2.13.5", platform = "linux" }
 pyperclip = { version = "^1.9.0", platform = "linux" }
 pygobject = { version = "==3.50.0", platform = "linux" }
+keyrings-alt = { version = "^5.0.0", platform = "linux" } # Added for e2e tests to run in ci
 
 # Extra package required only for windows os
 winsdk = { version = "^1.0.0b10", platform = "win32" }

@@ -1,3 +1,4 @@
+"""This module provides mocked function return values for bitcoin page service."""
 from __future__ import annotations
 
 from unittest.mock import patch
@@ -6,11 +7,11 @@ from src.data.service.bitcoin_page_service import BitcoinPageService
 from src.model.btc_model import BalanceResponseModel
 from src.model.btc_model import BalanceStatus
 from src.model.btc_model import ConfirmationTime
-from src.model.btc_model import Transaction
 from src.model.btc_model import TransactionListResponse
 from src.model.btc_model import TransactionListWithBalanceResponse
 from src.model.enums.enums_model import TransactionStatusEnumModel
 from src.model.enums.enums_model import TransferStatusEnumModel
+from unit_tests.factories.transactions import make_transaction
 
 # Mock data for testing
 mocked_balance = BalanceResponseModel(
@@ -20,20 +21,15 @@ mocked_balance = BalanceResponseModel(
 
 mocked_transaction_list = TransactionListResponse(
     transactions=[
-        Transaction(
+        make_transaction(
             transaction_type='User',
             txid='tx124unconfirmed',
             received=200000,
             sent=0,
             fee=1500,
             amount='+200000',
-            transfer_status=TransferStatusEnumModel.ON_GOING_TRANSFER,
-            transaction_status=TransactionStatusEnumModel.WAITING_CONFIRMATIONS,
-            confirmation_normal_time=None,
-            confirmation_date=None,
-            confirmation_time=None,
         ),
-        Transaction(
+        make_transaction(
             transaction_type='User',
             txid='tx123confirmed',
             received=100000,
@@ -56,7 +52,7 @@ mocked_transaction_list = TransactionListResponse(
 # Mocked response you expect from the service
 mocked_expected_response = TransactionListWithBalanceResponse(
     transactions=[
-        Transaction(
+        make_transaction(
             transaction_type='User',
             txid='tx124unconfirmed',
             received=200000,
@@ -69,7 +65,7 @@ mocked_expected_response = TransactionListWithBalanceResponse(
             confirmation_date=None,
             confirmation_time=None,
         ),
-        Transaction(
+        make_transaction(
             transaction_type='User',
             txid='tx123confirmed',
             received=100000,
@@ -99,6 +95,7 @@ mocked_expected_response = TransactionListWithBalanceResponse(
 @patch('src.data.repository.btc_repository.BtcRepository.get_btc_balance')
 @patch('src.data.repository.btc_repository.BtcRepository.list_transactions')
 def test_get_btc_transaction(mock_list_transactions, mock_get_btc_balance):
+    """Test function to get BTC transaction."""
     # Mocking the repository responses
     mock_get_btc_balance.return_value = mocked_balance
     mock_list_transactions.return_value = mocked_transaction_list

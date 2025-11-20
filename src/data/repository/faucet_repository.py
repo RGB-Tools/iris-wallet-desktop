@@ -7,13 +7,13 @@ from src.model.rgb_faucet_model import ConfigWalletResponse
 from src.model.rgb_faucet_model import ListAssetResponseModel
 from src.model.rgb_faucet_model import RequestAssetResponseModel
 from src.model.rgb_faucet_model import RequestFaucetAssetModel
-from src.utils.cache import Cache
 from src.utils.constant import API_KEY
 from src.utils.constant import API_KEY_OPERATOR
 from src.utils.custom_context import repository_custom_context
 from src.utils.endpoints import LIST_FAUCET_ASSETS
 from src.utils.endpoints import REQUEST_FAUCET_ASSET
 from src.utils.endpoints import WALLET_CONFIG
+from src.utils.helpers import process_response
 
 
 class FaucetRepository:
@@ -30,8 +30,7 @@ class FaucetRepository:
             response = requests.get(
                 f'{faucet_url}{LIST_FAUCET_ASSETS}', headers=headers,
             )
-            response.raise_for_status()
-            data = response.json()
+            data = process_response(response, invalidate_cache=False)
             return ListAssetResponseModel(**data)
 
     @staticmethod
@@ -42,8 +41,7 @@ class FaucetRepository:
             response = requests.get(
                 f'{faucet_url}{WALLET_CONFIG}/{wallet_xpub}', headers=headers,
             )
-            response.raise_for_status()
-            data = response.json()
+            data = process_response(response, invalidate_cache=False)
             return ConfigWalletResponse(**data)
 
     @staticmethod
@@ -55,9 +53,5 @@ class FaucetRepository:
             response = requests.post(
                 f'{faucet_url}{REQUEST_FAUCET_ASSET}', headers=headers, json=payload,
             )
-            response.raise_for_status()
-            data = response.json()
-            cache = Cache.get_cache_session()
-            if cache is not None:
-                cache.invalidate_cache()
+            data = process_response(response, invalidate_cache=True)
             return RequestAssetResponseModel(**data)

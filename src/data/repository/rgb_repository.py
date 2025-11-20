@@ -1,8 +1,6 @@
 """Module containing RgbRepository."""
 from __future__ import annotations
 
-import requests
-
 from src.model.rgb_model import AssetBalanceResponseModel
 from src.model.rgb_model import AssetIdModel
 from src.model.rgb_model import CreateUtxosRequestModel
@@ -28,7 +26,6 @@ from src.model.rgb_model import RgbInvoiceDataResponseModel
 from src.model.rgb_model import RgbInvoiceRequestModel
 from src.model.rgb_model import SendAssetRequestModel
 from src.model.rgb_model import SendAssetResponseModel
-from src.utils.cache import Cache
 from src.utils.custom_context import repository_custom_context
 from src.utils.decorators.check_colorable_available import check_colorable_available
 from src.utils.decorators.unlock_required import unlock_required
@@ -46,6 +43,7 @@ from src.utils.endpoints import POST_ASSET_MEDIA
 from src.utils.endpoints import REFRESH_TRANSFERS_ENDPOINT
 from src.utils.endpoints import RGB_INVOICE_ENDPOINT
 from src.utils.endpoints import SEND_ASSET_ENDPOINT
+from src.utils.helpers import process_response
 from src.utils.request import Request
 
 
@@ -59,10 +57,10 @@ class RgbRepository:
         payload = create_utxos.dict()
         with repository_custom_context():
             response = Request.post(CREATE_UTXO_ENDPOINT, payload)
-            response.raise_for_status()  # Raises an exception for HTTP errors
-            cache = Cache.get_cache_session()
-            if cache is not None:
-                cache.invalidate_cache()
+            process_response(
+                response, invalidate_cache=True,
+                expect_json=False,
+            )
             return CreateUtxosResponseModel(status=True)
 
     @staticmethod
@@ -74,8 +72,7 @@ class RgbRepository:
         payload = asset_balance.dict()
         with repository_custom_context():
             response = Request.post(ASSET_BALANCE_ENDPOINT, payload)
-            response.raise_for_status()  # Raises an exception for HTTP errors
-            data = response.json()
+            data = process_response(response)
             return AssetBalanceResponseModel(**data)
 
     @staticmethod
@@ -85,8 +82,7 @@ class RgbRepository:
         payload = invoice.dict()
         with repository_custom_context():
             response = Request.post(DECODE_RGB_INVOICE_ENDPOINT, payload)
-            response.raise_for_status()  # Raises an exception for HTTP errors
-            data = response.json()
+            data = process_response(response)
             return DecodeRgbInvoiceResponseModel(**data)
 
     @staticmethod
@@ -96,8 +92,7 @@ class RgbRepository:
         payload = asset_id.dict()
         with repository_custom_context():
             response = Request.post(LIST_TRANSFERS_ENDPOINT, payload)
-            response.raise_for_status()  # Raises an exception for HTTP errors
-            data = response.json()
+            data = process_response(response)
             return ListTransferAssetResponseModel(**data)
 
     @staticmethod
@@ -107,7 +102,10 @@ class RgbRepository:
         with repository_custom_context():
             payload = RefreshRequestModel().dict()
             response = Request.post(REFRESH_TRANSFERS_ENDPOINT, payload)
-            response.raise_for_status()  # Raises an exception for HTTP errors
+            process_response(
+                response, invalidate_cache=False,
+                expect_json=False,
+            )
             return RefreshTransferResponseModel(status=True)
 
     @staticmethod
@@ -118,11 +116,7 @@ class RgbRepository:
         payload = invoice.dict()
         with repository_custom_context():
             response = Request.post(RGB_INVOICE_ENDPOINT, payload)
-            response.raise_for_status()  # Raises an exception for HTTP errors
-            data = response.json()
-            cache = Cache.get_cache_session()
-            if cache is not None:
-                cache.invalidate_cache()
+            data = process_response(response, invalidate_cache=True)
             return RgbInvoiceDataResponseModel(**data)
 
     @staticmethod
@@ -133,11 +127,7 @@ class RgbRepository:
         payload = asset_detail.dict()
         with repository_custom_context():
             response = Request.post(SEND_ASSET_ENDPOINT, payload)
-            response.raise_for_status()  # Raises an exception for HTTP errors
-            data = response.json()
-            cache = Cache.get_cache_session()
-            if cache is not None:
-                cache.invalidate_cache()
+            data = process_response(response, invalidate_cache=True)
             return SendAssetResponseModel(**data)
 
     @staticmethod
@@ -147,11 +137,7 @@ class RgbRepository:
         payload = filter_asset_request_model.dict()
         with repository_custom_context():
             response = Request.post(LIST_ASSETS_ENDPOINT, body=payload)
-            response.raise_for_status()  # Raises an exception for HTTP errors
-            data = response.json()
-            cache = Cache.get_cache_session()
-            if cache is not None:
-                cache.invalidate_cache()
+            data = process_response(response, invalidate_cache=True)
             return GetAssetResponseModel(**data)
 
     @staticmethod
@@ -162,12 +148,8 @@ class RgbRepository:
         payload = asset.dict()
         with repository_custom_context():
             response = Request.post(ISSUE_ASSET_ENDPOINT_NIA, payload)
-            response.raise_for_status()  # Raises an exception for HTTP errors
-            data = response.json()
+            data = process_response(response, invalidate_cache=True)
             asset_data = data['asset']
-            cache = Cache.get_cache_session()
-            if cache is not None:
-                cache.invalidate_cache()
             return IssueAssetResponseModel(**asset_data)
 
     @staticmethod
@@ -178,12 +160,8 @@ class RgbRepository:
         payload = asset.dict()
         with repository_custom_context():
             response = Request.post(ISSUE_ASSET_ENDPOINT_CFA, payload)
-            response.raise_for_status()  # Raises an exception for HTTP errors
-            data = response.json()
+            data = process_response(response, invalidate_cache=True)
             asset_data = data['asset']
-            cache = Cache.get_cache_session()
-            if cache is not None:
-                cache.invalidate_cache()
             return IssueAssetResponseModel(**asset_data)
 
     @staticmethod
@@ -194,12 +172,8 @@ class RgbRepository:
         payload = asset.dict()
         with repository_custom_context():
             response = Request.post(ISSUE_ASSET_ENDPOINT_UDA, payload)
-            response.raise_for_status()  # Raises an exception for HTTP errors
-            data = response.json()
+            data = process_response(response, invalidate_cache=True)
             asset_data = data['asset']
-            cache = Cache.get_cache_session()
-            if cache is not None:
-                cache.invalidate_cache()
             return IssueAssetResponseModel(**asset_data)
 
     @staticmethod
@@ -209,8 +183,7 @@ class RgbRepository:
         payload = digest.dict()
         with repository_custom_context():
             response = Request.post(GET_ASSET_MEDIA, payload)
-            response.raise_for_status()  # Raises an exception for HTTP errors
-            data = response.json()
+            data = process_response(response)
             return GetAssetMediaModelResponseModel(**data)
 
     @staticmethod
@@ -219,8 +192,7 @@ class RgbRepository:
         """return digest for given image"""
         with repository_custom_context():
             response = Request.post(POST_ASSET_MEDIA, files=files)
-            response.raise_for_status()  # Raises an exception for HTTP errors
-            data = response.json()
+            data = process_response(response)
             return PostAssetMediaModelResponseModel(**data)
 
     @staticmethod
@@ -230,9 +202,5 @@ class RgbRepository:
         payload = transfer.dict()
         with repository_custom_context():
             response = Request.post(FAIL_TRANSFER_ENDPOINT, payload)
-            response.raise_for_status()  # Raises an exception for HTTP errors
-            data = response.json()
-            cache = Cache.get_cache_session()
-            if cache is not None:
-                cache.invalidate_cache()
+            data = process_response(response, invalidate_cache=True)
             return FailTransferResponseModel(**data)

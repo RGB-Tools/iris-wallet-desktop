@@ -1,3 +1,6 @@
+# pylint:disable=too-few-public-methods
+# This class is intentionally designed as a data container (DTO / model).
+# It stores structured data only and does not require additional public methods.
 """
 Module containing models related to the success widget.
 """

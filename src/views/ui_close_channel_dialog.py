@@ -144,6 +144,12 @@ class CloseChannelDialog(QDialog):
         """Set up connections for UI elements."""
         self.close_channel_continue_button.clicked.connect(self.close_channel)
         self.close_channel_cancel_button.clicked.connect(self.cancel)
+        self._view_model.channel_view_model.loading_started.connect(
+            self.disable_button_state,
+        )
+        self._view_model.channel_view_model.loading_finished.connect(
+            self.enable_button_state,
+        )
 
     def retranslate_ui(self):
         """Retranslate ui"""
@@ -175,3 +181,11 @@ class CloseChannelDialog(QDialog):
     def cancel(self):
         """Close when user click on cancel"""
         self.close()
+
+    def disable_button_state(self):
+        """Disable button state when channel closing operation starts"""
+        self.close_channel_continue_button.setDisabled(True)
+
+    def enable_button_state(self):
+        """Enable button state when channel closing operation ends"""
+        self.close_channel_continue_button.setDisabled(False)

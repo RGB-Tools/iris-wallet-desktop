@@ -39,6 +39,12 @@ def test_login_app_toggle_button_on(test_environment, wallets_and_operations: Wa
     with allure.step('Toggle the login app auth button to on and restart the application'):
         wallets_and_operations.first_page_objects.sidebar_page_objects.click_settings_button()
         wallets_and_operations.first_page_objects.settings_page_objects.click_login_app_toggle_button()
+        if not wallets_and_operations.first_page_operations.wait_for_toggle_state(
+            wallets_and_operations.first_page_objects.settings_page_objects.login_auth_toggle_button,
+            expected_checked=True,
+            timeout=5,
+        ):
+            wallets_and_operations.first_page_objects.settings_page_objects.click_login_app_toggle_button()
 
         test_environment.restart(reset_data=False)
 
@@ -62,10 +68,36 @@ def test_login_app_with_authentication(wallets_and_operations: WalletTestSetup):
     """
     with allure.step('assert the state of toggle button and toggle it to off'):
         wallets_and_operations.first_page_operations.enter_native_password()
+
         wallets_and_operations.first_page_objects.sidebar_page_objects.click_settings_button()
-        assert True is wallets_and_operations.first_page_objects.settings_page_objects.login_auth_toggle_button().checked
-        wallets_and_operations.first_page_objects.settings_page_objects.click_login_app_toggle_button()
+
+        # Wait for toggle to be in checked=True state
+        assert wallets_and_operations.first_page_operations.wait_for_toggle_state(
+            wallets_and_operations.first_page_objects.settings_page_objects.login_auth_toggle_button,
+            expected_checked=True,
+            timeout=5,
+        )
+
+        if wallets_and_operations.first_page_operations.wait_for_toggle_state(
+            wallets_and_operations.first_page_objects.settings_page_objects.login_auth_toggle_button,
+            expected_checked=True,
+            timeout=5,
+        ):
+            wallets_and_operations.first_page_objects.settings_page_objects.click_login_app_toggle_button()
 
         wallets_and_operations.first_page_operations.enter_native_password()
 
-        assert False is wallets_and_operations.first_page_objects.settings_page_objects.login_auth_toggle_button().checked
+        if not wallets_and_operations.first_page_operations.wait_for_toggle_state(
+            wallets_and_operations.first_page_objects.settings_page_objects.login_auth_toggle_button,
+            expected_checked=False,
+            timeout=5,
+        ):
+            wallets_and_operations.first_page_objects.settings_page_objects.click_login_app_toggle_button()
+            wallets_and_operations.first_page_operations.enter_native_password()
+
+        # Wait for toggle to be in checked=False state
+        assert wallets_and_operations.first_page_operations.wait_for_toggle_state(
+            wallets_and_operations.first_page_objects.settings_page_objects.login_auth_toggle_button,
+            expected_checked=False,
+            timeout=5,
+        )

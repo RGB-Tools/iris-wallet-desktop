@@ -9,6 +9,7 @@ from src.model.btc_model import TransactionListResponse
 from src.model.btc_model import TransactionListWithBalanceResponse
 from src.model.enums.enums_model import TransactionStatusEnumModel
 from src.model.enums.enums_model import TransferStatusEnumModel
+from unit_tests.factories.transactions import make_transaction
 
 mock_data_transaction_type_user_send = Transaction(
     transaction_type='User',
@@ -88,46 +89,31 @@ mock_data_list_transaction_empty = TransactionListWithBalanceResponse(
 )
 mock_data_expected_list_transaction_all = TransactionListWithBalanceResponse(
     transactions=[
-        Transaction(
+        make_transaction(
             transaction_type='User',
             txid='e28d416c3345e3558516830b7adfbc147f3f7563c9268e24f36d233048e6f9f2',
             received=99998405,
             sent=100000000,
             fee=595,
             amount='-1595',
-            transfer_status=TransferStatusEnumModel.ON_GOING_TRANSFER,
-            transaction_status=TransactionStatusEnumModel.WAITING_CONFIRMATIONS,
-            confirmation_normal_time=None,
-            confirmation_date=None,
-            confirmation_time=None,
         ),
-        Transaction(
+        make_transaction(
             transaction_type='CreateUtxos',
             txid='673c88d7e435e6fe795bf30fd0363790a68c3a8dfd91f71b050170978c9413ea',
             received=199996291,
             sent=199998405,
             fee=2114,
             amount='-130114',
-            transfer_status=TransferStatusEnumModel.ON_GOING_TRANSFER,
-            transaction_status=TransactionStatusEnumModel.WAITING_CONFIRMATIONS,
-            confirmation_normal_time=None,
-            confirmation_date=None,
-            confirmation_time=None,
         ),
-        Transaction(
+        make_transaction(
             transaction_type='User',
             txid='fb90ee1b9495be737595919f766b939c130dbc2f359b4e8ec21ead6358462a67',
             received=100000000,
             sent=0,
             fee=2820,
             amount='+100000000',
-            transfer_status=TransferStatusEnumModel.ON_GOING_TRANSFER,
-            transaction_status=TransactionStatusEnumModel.WAITING_CONFIRMATIONS,
-            confirmation_normal_time=None,
-            confirmation_date=None,
-            confirmation_time=None,
         ),
-        Transaction(
+        make_transaction(
             transaction_type='CreateUtxos',
             txid='673c88d7e435e6fe795bf30fd0363790a68c3a8dfd91f71b050170978c9413ea',
             received=199996291,
@@ -143,7 +129,7 @@ mock_data_expected_list_transaction_all = TransactionListWithBalanceResponse(
                 timestamp=1717006902,
             ),
         ),
-        Transaction(
+        make_transaction(
             transaction_type='User',
             txid='e28d416c3345e3558516830b7adfbc147f3f7563c9268e24f36d233048e6f9f2',
             received=99998405,
@@ -159,7 +145,7 @@ mock_data_expected_list_transaction_all = TransactionListWithBalanceResponse(
                 timestamp=1717006775,
             ),
         ),
-        Transaction(
+        make_transaction(
             transaction_type='User',
             txid='354ab4d3afbac320ea492086ad7590570455d625acd59aea799c58f83afc9f8f',
             received=100000000,

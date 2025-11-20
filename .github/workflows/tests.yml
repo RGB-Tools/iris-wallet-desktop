@@ -1,0 +1,296 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: Lint & static checks
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12.3
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.3"
+
+      - name: Install system build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            gobject-introspection \
+            libgirepository1.0-dev \
+            libcairo2-dev \
+            libffi-dev \
+            build-essential \
+            python3-dev \
+            meson \
+            ninja-build \
+            pkg-config \
+            gir1.2-gtk-3.0
+
+      - name: Install Python dependencies (project)
+        uses: ./.github/actions/install-python-dependencies
+
+      - name: Generate config.py
+        run: |
+          cd src/utils
+          python generate_config.py
+
+      - name: Compile QT resources
+        run: |
+          poetry run pyside6-rcc src/resources.qrc -o src/resources_rc.py
+
+      - name: Code quality checks
+        run: |
+          pip install pre-commit
+          pre-commit run --all-files --show-diff-on-failure
+
+  unit-tests:
+    name: Unit tests
+    runs-on: ubuntu-24.04
+    env:
+      QT_QPA_PLATFORM: offscreen
+      TZ: Asia/Kolkata
+      PYTHON_KEYRING_BACKEND: keyrings.alt.file.PlaintextKeyring
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12.3 environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.3"
+
+      - name: Install required system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libxcb-cursor0 \
+            libegl1 \
+            libgl1 \
+            ruby-dev \
+            build-essential \
+            libgirepository1.0-dev \
+            python3-dev \
+            libfuse2 \
+            gobject-introspection \
+            meson \
+            ninja-build \
+            pkg-config \
+            libcairo2-dev \
+            libffi-dev
+          sudo gem install fpm -f
+
+      - name: Generate config.py
+        run: |
+          cd src/utils
+          python generate_config.py
+
+      - name: Preinstall keyring backends (system Python)
+        run: |
+          pip install keyring keyrings.alt
+
+      - name: Install Python dependencies
+        uses: ./.github/actions/install-python-dependencies
+
+      - name: Install keyring backends in Poetry venv
+        run: |
+          poetry run pip install keyring keyrings.alt
+
+      - name: Set KEYRING_HOME env
+        run: |
+          echo "KEYRING_HOME=$RUNNER_TEMP/keyring" >> "$GITHUB_ENV"
+
+      - name: Ensure keyring storage directory exists
+        run: |
+          mkdir -p "$KEYRING_HOME"
+
+      - name: Compile QT resources
+        run: |
+          poetry run pyside6-rcc src/resources.qrc -o src/resources_rc.py
+
+      - name: Run unit tests (fail if coverage < 90%)
+        run: |
+          poetry run pytest -v --maxfail=1 \
+            --cov=src \
+            --cov-fail-under=90 \
+            --cov-report=html:coverage-report \
+            unit_tests/tests
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage-report/
+          retention-days: 7
+          if-no-files-found: ignore
+
+  e2e-dogtail:
+    name: E2E Dogtail tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        test_file:
+          - test_keyring_dialog
+          - test_receive_and_send_bitcoin
+          - test_create_and_close_channel
+          - test_login_app_auth
+          - test_ask_auth_for_imp_operations
+          - test_settings
+          - test_btc_channel_tx
+          - test_rgb20_channel_tx
+          - test_help
+          - test_about
+          - test_backup_and_restore
+          - test_send_and_receive_rgb20_asset
+          - test_send_and_receive_rgb25_asset
+          - test_hide_exhausted_asset
+          - test_fail_transfer
+          - test_issue_rgb20_asset
+          - test_issue_rgb25_asset
+          - test_view_unspent
+          - test_refresh_transfer
+    env:
+      DISPLAY: :99
+      QT_IM_MODULE: virtualkeyboard
+      CI: "true"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12.3
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.3"
+
+      - name: Install E2E system dependencies
+        uses: ./.github/actions/install-e2e-dependencies
+
+      - name: Setup env for GUI testing
+        run: |
+          echo "LIBGL_ALWAYS_SOFTWARE=1" >> $GITHUB_ENV
+          echo "MESA_LOADER_DRIVER_OVERRIDE=llvmpipe" >> $GITHUB_ENV
+
+      - name: Preinstall keyring backends (system Python)
+        run: |
+          pip install keyring keyrings.alt
+
+      - name: Install Python dependencies
+        uses: ./.github/actions/install-python-dependencies
+
+      - name: Install keyring backends in Poetry venv
+        run: |
+          poetry run pip install keyring keyrings.alt
+
+      - name: Start Xvfb & openbox
+        run: |
+          XAUTH="$RUNNER_TEMP/.Xauthority"
+          touch "$XAUTH"; echo "XAUTHORITY=$XAUTH" >> $GITHUB_ENV
+          xauth -f "$XAUTH" add :99 . $(mcookie)
+
+          Xvfb :99 -screen 0 1920x1080x24 -ac & echo "XVFB_PID=$!" >> $GITHUB_ENV
+          sleep 4
+          openbox & sleep 3
+
+      - name: Build RGB Lightning Node binary
+        uses: ./.github/actions/build-rln-node
+
+      - name: Add rgb-lightning-node to PATH
+        run: |
+          chmod +x ln_node_binary/rgb-lightning-node
+          echo "$GITHUB_WORKSPACE/ln_node_binary" >> $GITHUB_PATH
+
+      - name: Compile QT resources
+        run: |
+          poetry run pyside6-rcc src/resources.qrc -o src/resources_rc.py
+
+      - name: Prepare runtime Python deps for AppImage
+        run: |
+          RUNTIME_PYDEPS="$RUNNER_TEMP/pydeps"
+          mkdir -p "$RUNTIME_PYDEPS"
+          python -m pip install --target "$RUNTIME_PYDEPS" keyring keyrings.alt
+          echo "PYTHONPATH=$RUNTIME_PYDEPS" >> $GITHUB_ENV
+
+      - name: Start regtest services
+        run: poetry run regtest-start
+
+      - name: Configure Qt for accurate Dogtail positioning
+        run: |
+          # Qt applications use window effects and platform themes that can cause click offsets
+          # Disable these for accurate Dogtail element positioning
+          echo "QT_STYLE_OVERRIDE=Fusion" >> $GITHUB_ENV
+          echo "QT_QPA_PLATFORMTHEME=" >> $GITHUB_ENV
+          echo "QT_ENABLE_HIGHDPI_SCALING=0" >> $GITHUB_ENV
+          echo "QT_AUTO_SCREEN_SCALE_FACTOR=0" >> $GITHUB_ENV
+          # Disable GTK client-side decorations to prevent window shadows from offsetting click coordinates
+          echo "GTK_CSD=0" >> $GITHUB_ENV
+
+      - name: Run E2E Dogtail Test
+        env:
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          BACKUP_EMAIL_ID: ${{ secrets.BACKUP_EMAIL_ID }}
+          BACKUP_EMAIL_PASSWORD: ${{ secrets.BACKUP_EMAIL_PASSWORD }}
+          GOOGLE_AUTHENTICATOR: ${{ secrets.GOOGLE_AUTHENTICATOR }}
+        uses: ./.github/actions/setup-e2e-environment
+        with:
+          test-file: ${{ matrix.test_file }}
+
+      - name: Upload Allure results (embedded)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-embedded-${{ matrix.test_file }}
+          path: allure-results-embedded/
+          retention-days: 7
+          if-no-files-found: ignore
+
+      - name: Upload Allure results (remote)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-remote-${{ matrix.test_file }}
+          path: allure-results-remote/
+          retention-days: 7
+          if-no-files-found: ignore
+
+  publish-test-report:
+    name: Publish Test Report
+    needs: e2e-dogtail
+    runs-on: ubuntu-latest
+    if: always()
+    permissions:
+      contents: write
+      actions: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate and publish reports
+        uses: ./.github/actions/publish-test-reports
+
+  cleanup-artifacts:
+    name: Cleanup Artifacts
+    if: always()
+    runs-on: ubuntu-latest
+    needs: [e2e-dogtail, publish-test-report]
+    steps:
+      - name: Delete Test Artifacts
+        uses: geekyeggo/delete-artifact@v5
+        with:
+          name: |
+            allure-results-embedded-*
+            allure-results-remote-*
+            coverage-report
+          failOnError: false

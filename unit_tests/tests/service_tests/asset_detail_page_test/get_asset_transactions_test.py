@@ -118,8 +118,8 @@ def test_no_transaction(mock_list_transfers, mock_get_asset_balance, request_moc
     asset_balance_mock_object.assert_called_once_with(
         AssetIdModel(asset_id=mocked_data_asset_id),
     )
-    assert result.onchain_transfers == []
-    assert result.off_chain_transfers == []
+    assert not result.onchain_transfers
+    assert not result.off_chain_transfers
     assert result.asset_balance == mocked_data_list_no_transaction.asset_balance
     mock_list_payment.assert_called_once()
     assert isinstance(result, ListOnAndOffChainTransfersWithBalance)
@@ -148,7 +148,7 @@ def test_transaction_type_send(mock_list_transfers, mock_get_asset_balance, requ
     assert isinstance(result, ListOnAndOffChainTransfersWithBalance)
     assert result.onchain_transfers == mocked_data_list_transaction_type_send.transfers
     assert result.asset_balance == mocked_data_list_transaction_type_send.asset_balance
-    assert result.off_chain_transfers == []
+    assert not result.off_chain_transfers
     mock_list_payment.assert_called_once()
 
 
@@ -175,7 +175,7 @@ def test_transaction_type_receive_blind(mock_list_transfers, mock_get_asset_bala
     assert isinstance(result, ListOnAndOffChainTransfersWithBalance)
     assert result.onchain_transfers == mocked_data_list_transaction_type_receive_blind.transfers
     assert result.asset_balance == mocked_data_list_transaction_type_receive_blind.asset_balance
-    assert result.off_chain_transfers == []
+    assert not result.off_chain_transfers
     mock_list_payment.assert_called_once()
 
 
@@ -202,7 +202,7 @@ def test_transaction_type_receive_witness(mock_list_transfers, mock_get_asset_ba
     assert isinstance(result, ListOnAndOffChainTransfersWithBalance)
     assert result.onchain_transfers == mocked_data_list_transaction_type_receive_witness.transfers
     assert result.asset_balance == mocked_data_list_transaction_type_receive_witness.asset_balance
-    assert result.off_chain_transfers == []
+    assert not result.off_chain_transfers
     mock_list_payment.assert_called_once()
 
 
@@ -229,7 +229,7 @@ def test_transaction_type_receive_issuence(mock_list_transfers, mock_get_asset_b
     assert isinstance(result, ListOnAndOffChainTransfersWithBalance)
     assert result.onchain_transfers == mocked_data_list_transaction_type_issuance.transfers
     assert result.asset_balance == mocked_data_list_transaction_type_issuance.asset_balance
-    assert result.off_chain_transfers == []
+    assert not result.off_chain_transfers
     mock_list_payment.assert_called_once()
 
 

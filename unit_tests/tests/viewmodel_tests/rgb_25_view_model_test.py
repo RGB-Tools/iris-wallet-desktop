@@ -17,7 +17,6 @@ from src.model.rgb_model import AssetBalanceResponseModel
 from src.model.rgb_model import FailTransferResponseModel
 from src.model.rgb_model import ListTransferAssetWithBalanceResponseModel
 from src.model.rgb_model import SendAssetResponseModel
-from src.model.rgb_model import TransferAsset
 from src.utils.custom_exception import CommonException
 from src.utils.error_message import ERROR_AUTHENTICATION_CANCELLED
 from src.utils.error_message import ERROR_FAIL_TRANSFER
@@ -27,6 +26,7 @@ from src.utils.info_message import INFO_FAIL_TRANSFER_SUCCESSFULLY
 from src.utils.info_message import INFO_REFRESH_SUCCESSFULLY
 from src.utils.page_navigation import PageNavigation
 from src.viewmodels.rgb_25_view_model import RGB25ViewModel
+from unit_tests.factories.transfer_assets import make_transfer_asset
 
 
 @pytest.fixture
@@ -48,7 +48,7 @@ def mock_asset_details_response():
     """Fixture to mock asset details response."""
     return ListTransferAssetWithBalanceResponseModel(
         transfers=[
-            TransferAsset(
+            make_transfer_asset(
                 idx=11,
                 created_at=1718280342,
                 updated_at=1718280342,
@@ -61,12 +61,6 @@ def mock_asset_details_response():
                 amount_status='+69',
                 kind='Issuance',
                 transfer_Status=TransferStatusEnumModel.INTERNAL,
-                txid=None,
-                recipient_id=None,
-                receive_utxo=None,
-                change_utxo=None,
-                expiration=None,
-                transport_endpoints=[],
             ),
         ],
         asset_balance=AssetBalanceResponseModel(

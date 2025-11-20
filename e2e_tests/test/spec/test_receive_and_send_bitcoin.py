@@ -141,7 +141,7 @@ def test_send_bitcoin_with_custom_fee_rate(wallets_and_operations: WalletTestSet
         wallets_and_operations.first_page_objects.fungible_page_objects.click_bitcoin_frame()
         wallets_and_operations.first_page_objects.bitcoin_detail_page_objects.click_send_bitcoin_button()
         description = wallets_and_operations.first_page_features.send_features.send_with_custom_fee_rate(
-            application=FIRST_APPLICATION, receiver_invoice=copied_address, amount=AMOUNT, fee_rate=FEE_RATE, transfer_type=TransferType.BITCOIN.value,
+            application=FIRST_APPLICATION, receiver_invoice=address, amount=AMOUNT, fee_rate=FEE_RATE, transfer_type=TransferType.BITCOIN.value,
         )
 
     with allure.step('Refresh bitcoin page'):

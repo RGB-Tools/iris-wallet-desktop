@@ -1,3 +1,6 @@
+# pylint:disable=too-few-public-methods
+# This class is intentionally designed as a data container (DTO / model).
+# It stores structured data only and does not require additional public methods.
 """
 This module provides the service for bitcoin page.
 """

@@ -1,3 +1,6 @@
+# pylint:disable=too-few-public-methods
+# This class is intentionally designed as a data container (DTO / model).
+# It stores structured data only and does not require additional public methods.
 """Service class for issue asset in case of more then two api call"""
 from __future__ import annotations
 

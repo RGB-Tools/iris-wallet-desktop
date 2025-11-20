@@ -14,12 +14,12 @@ from src.model.node_info_model import NodeInfoModel
 from src.utils.constant import MNEMONIC_KEY
 from src.utils.constant import WALLET_PASSWORD_KEY
 from src.utils.custom_exception import CommonException
-from src.utils.decorators.unlock_required import is_node_locked
 from src.utils.error_message import ERROR_KEYRING_STORE_NOT_ACCESSIBLE
 from src.utils.error_message import ERROR_NETWORK_MISMATCH
 from src.utils.error_message import ERROR_UNABLE_GET_MNEMONIC
 from src.utils.error_message import ERROR_UNABLE_TO_GET_HASHED_MNEMONIC
 from src.utils.handle_exception import handle_exceptions
+from src.utils.helpers import check_node
 from src.utils.helpers import get_bitcoin_config
 from src.utils.helpers import hash_mnemonic
 from src.utils.helpers import validate_mnemonic
@@ -66,7 +66,7 @@ class CommonOperationService:
 
             stored_network: NetworkEnumModel = SettingRepository.get_wallet_network()
             bitcoin_config = get_bitcoin_config(stored_network, password)
-            status: bool = is_node_locked()
+            status: bool = check_node('unlock_required')
             if not status:
                 CommonOperationRepository.lock()
             response: UnlockResponseModel = CommonOperationRepository.unlock(

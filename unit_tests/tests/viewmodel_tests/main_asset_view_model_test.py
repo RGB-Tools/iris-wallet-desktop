@@ -193,16 +193,24 @@ def test_get_assets_success(
 
 def test_get_assets_failure(
     main_asset_view_model,
+    mocker,
 ):
     """Test get asset with api failure"""
     list_loaded_mock = Mock()
     main_asset_view_model.asset_loaded.connect(list_loaded_mock)
+
+    # Mock the run_in_thread to simulate failure without creating actual worker
+    def mock_run_in_thread(func, kwargs):
+        # Simulate calling the error callback directly
+        error_callback = kwargs.get('error_callback')
+        if error_callback:
+            error_callback(CommonException('API Error'))
+
+    main_asset_view_model.run_in_thread = Mock(side_effect=mock_run_in_thread)
+
     main_asset_view_model.get_assets()
 
-    # Simulate API failure
-    main_asset_view_model.worker.error.emit(CommonException('API Error'))
-
-    # Since the worker result is emitting an exception, the assets should be None
+    # Since the error callback is called, the assets should be None
     assert main_asset_view_model.assets is None
     list_loaded_mock.assert_called_once_with(False)
 

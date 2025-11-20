@@ -15,13 +15,14 @@ from src.data.repository.setting_repository import SettingRepository
 from src.model.common_operation_model import UnlockRequestModel
 from src.model.enums.enums_model import NetworkEnumModel
 from src.utils.constant import WALLET_PASSWORD_KEY
-from src.utils.endpoints import NODE_INFO_ENDPOINT
+from src.utils.custom_exception import CommonException
 from src.utils.endpoints import UNLOCK_ENDPOINT
-from src.utils.error_message import ERROR_NODE_IS_LOCKED_CALL_UNLOCK
 from src.utils.error_message import ERROR_NODE_WALLET_NOT_INITIALIZED
 from src.utils.error_message import ERROR_PASSWORD_INCORRECT
-from src.utils.handle_exception import CommonException
+from src.utils.helpers import check_node
 from src.utils.helpers import get_bitcoin_config
+from src.utils.helpers import handle_connection_error
+from src.utils.helpers import handle_generic_error
 from src.utils.keyring_storage import get_value
 from src.utils.logging import logger
 from src.utils.page_navigation_events import PageNavigationEventManager
@@ -57,55 +58,11 @@ def unlock_node() -> Any:
         logger.error(error_message)
         raise CommonException(error_message) from error
     except RequestsConnectionError as exc:
-        logger.error(
-            'Exception occurred at Decorator(unlock_required): %s, Message: %s',
-            type(exc).__name__, str(exc),
-        )
-        raise CommonException('Unable to connect to node') from exc
+        handle_connection_error('unlock_required', exc)
     except Exception as exc:
-        logger.error(
-            'Exception occurred at Decorator(unlock_required): %s, Message: %s',
-            type(exc).__name__, str(exc),
+        handle_generic_error(
+            'unlock_required', exc, 'Decorator(unlock_required): Error while checking if node is locked',
         )
-        PageNavigationEventManager.get_instance().term_and_condition_page_signal.emit()
-        raise CommonException(
-            'Unable to unlock node',
-        ) from exc
-
-
-def is_node_locked() -> bool:
-    """Check if the node is locked by sending a request to the node info endpoint."""
-    try:
-        response = Request.get(NODE_INFO_ENDPOINT)
-        response.raise_for_status()
-        return False
-    except HTTPError as error:
-        if error.response.status_code == 403:
-            try:
-                error_data = error.response.json()
-                if error_data.get('error') == ERROR_NODE_IS_LOCKED_CALL_UNLOCK and error_data.get('code') == 403:
-                    return True
-            except ValueError:
-                pass
-        else:
-            error_data = error.response.json()
-            error_message = error_data.get('error', 'Unhandled error')
-            logger.error(error_message)
-            raise CommonException(error_message) from error
-    except RequestsConnectionError as exc:
-        logger.error(
-            'Exception occurred at Decorator(unlock_required): %s, Message: %s',
-            type(exc).__name__, str(exc),
-        )
-        raise CommonException('Unable to connect to node') from exc
-    except Exception as exc:
-        logger.error(
-            'Exception occurred at Decorator(unlock_required): %s, Message: %s',
-            type(exc).__name__, str(exc),
-        )
-        raise CommonException(
-            'Decorator(unlock_required): Error while checking if node is locked',
-        ) from exc
 
     return False
 
@@ -114,7 +71,7 @@ def unlock_required(method: Callable[..., Any]) -> Callable[..., Any]:
     """Decorator to ensure the node is unlocked before proceeding with the decorated method."""
     @wraps(method)
     def wrapper(*args: Any, **kwargs: Any) -> Any:
-        if is_node_locked():
+        if check_node('unlock_required'):
             unlock_node()
         return method(*args, **kwargs)
     return wrapper

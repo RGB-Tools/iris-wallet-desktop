@@ -1,5 +1,7 @@
 """Unit tests for issue asset service"""
-# pylint: disable=redefined-outer-name,unused-argument,too-many-arguments
+# pylint: disable=redefined-outer-name,unused-argument,too-many-arguments,unused-import
+# Some imports are used indirectly through fixtures, mocks, or decorators.
+# They are required for PyTest discovery and execution but not referenced directly in the code.
 from __future__ import annotations
 
 import pytest

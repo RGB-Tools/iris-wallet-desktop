@@ -68,7 +68,8 @@ def test_new_authentication_flow(mock_app, mock_flow, base_patches):
             patch('builtins.open', mock_open()), \
             patch('pickle.dump'), \
             patch('src.utils.gauth.OAuthHandlerWindow', return_value=mock_app.auth_window), \
-            patch('src.utils.gauth.find_free_port', return_value=MOCK_PORT):
+            patch('src.utils.gauth.find_free_port', return_value=MOCK_PORT), \
+            patch('src.utils.gauth.HTTPServer', MagicMock()):
 
         mock_service = MagicMock()
         mock_build.return_value = mock_service

@@ -47,10 +47,10 @@ class BitcoinTransactionDetailPageObjects(BaseOperations):
         Returns:
             str: The bitcoin transaction ID.
         """
-        return self.do_get_text(self.bitcoin_tx_id()) if self.do_is_displayed(self.bitcoin_tx_id()) else None
+        return self.do_get_text(self.bitcoin_tx_id()) if self.do_is_displayed(self.bitcoin_tx_id()) else str | None
 
     def get_bitcoin_amount_value(self):
         """
         Gets the value of the bitcoin transaction amount on the page.
         """
-        return self.do_get_text(self.bitcoin_amount_value()) if self.do_is_displayed(self.bitcoin_amount_value()) else None
+        return self.do_get_text(self.bitcoin_amount_value()) if self.do_is_displayed(self.bitcoin_amount_value()) else str | None

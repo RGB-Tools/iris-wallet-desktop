@@ -1,4 +1,7 @@
-# pylint: disable=redefined-outer-name,unused-argument,protected-access
+# pylint: disable=redefined-outer-name,unused-argument,protected-access,too-many-arguments
+# Unit tests often require multiple mock dependencies and parameters to simulate
+# realistic service calls and behaviors. Reducing arguments would compromise test coverage
+# and clarity, so this rule is intentionally disabled for test functions.
 """
 This module contains unit tests for the WalletTransfeSelectionViewModel
 """
@@ -20,6 +23,14 @@ def wallet_transfer_selection_view_model(mocker):
     """Fixture for WalletTransferSelectionViewModel"""
     mock_page_navigation = mocker.Mock()
     mock_splash_view_model = mocker.Mock()
+
+    # Mock LnNodeServerManager to prevent Qt signal connection
+    mock_ln_node_manager = mocker.Mock()
+    mocker.patch(
+        'src.viewmodels.wallet_and_transfer_selection_viewmodel.LnNodeServerManager.get_instance',
+        return_value=mock_ln_node_manager,
+    )
+
     return WalletTransferSelectionViewModel(mock_page_navigation, mock_splash_view_model)
 
 
@@ -95,10 +106,16 @@ def test_start_node_for_embedded_option_generic_exception(wallet_transfer_select
                 mock_start_server.assert_not_called()
 
 
+@patch('src.viewmodels.wallet_and_transfer_selection_viewmodel.ThreadManager.run_in_thread')
+@patch('src.data.repository.setting_repository.SettingRepository.is_wallet_initialized')
+@patch('src.data.repository.setting_repository.SettingRepository.get_keyring_status', return_value=True)
 @patch('src.utils.logging.logger.info')
 @patch('src.utils.local_store.LocalStore.get_value')
-@patch('src.utils.helpers.get_bitcoin_config')
-def test_on_ln_node_start_success_with_keyring_enabled(mock_bitcoin_config, mock_get_value, mock_logger, wallet_transfer_selection_view_model):
+@patch('src.viewmodels.wallet_and_transfer_selection_viewmodel.get_bitcoin_config')
+def test_on_ln_node_start_success_with_keyring_enabled(
+    mock_bitcoin_config, mock_get_value, mock_logger,
+    mock_get_keyring_status, mock_is_wallet_initialized, mock_run_in_thread, wallet_transfer_selection_view_model,
+):
     """Test on_ln_node_start success path with keyring enabled"""
     # Mock dependencies
     wallet_transfer_selection_view_model.ln_node_process_status = Mock()
@@ -111,8 +128,10 @@ def test_on_ln_node_start_success_with_keyring_enabled(mock_bitcoin_config, mock
         with patch('src.data.repository.setting_repository.SettingRepository') as mock_setting_repo:
             with patch('src.data.repository.setting_repository.SettingRepository.get_wallet_network') as mock_get_network:
                 # Configure mocks
-                mock_setting_repo.is_wallet_initialized.return_value.is_wallet_initialized = True
-                mock_setting_repo.get_keyring_status.return_value = True
+                mock_is_wallet_initialized.return_value = Mock(
+                    is_wallet_initialized=True,
+                )
+                mock_get_keyring_status.return_value = True
                 mock_get_network.return_value = 'regtest'
                 mock_setting_repo.get_config_value.return_value = 'test_value'
                 mock_bitcoin_config.return_value = {

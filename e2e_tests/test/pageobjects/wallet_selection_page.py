@@ -39,18 +39,60 @@ class WalletSelectionPageObjects(BaseOperations):
         Clicks the embedded button if it is displayed.
 
         Returns:
-            The result of the click action or None if the button is not displayed.
+            True if the button was clicked and continue button appeared, False otherwise.
         """
-        return self.do_click(self.embedded_button()) if self.do_is_displayed(self.embedded_button()) else None
+        if not self.do_is_displayed(self.embedded_button()):
+            return False
+
+        self.do_click(self.embedded_button())
+
+        # Retry logic: ensure the selection registered (max 2 attempts)
+        max_retries = 5
+        retry_count = 0
+        while retry_count < max_retries:
+            if self.do_is_displayed(self.continue_button()):
+                return True  # Success - continue button is visible
+
+            print(
+                f"[RETRY] Continue button not visible after embedded selection, retrying... (attempt {
+                    retry_count + 1
+                }/{max_retries})",
+            )
+            self.do_click(self.embedded_button())
+            retry_count += 1
+
+        # Final check after retries
+        return self.do_is_displayed(self.continue_button())
 
     def click_remote_button(self):
         """
         Clicks the remote button if it is displayed.
 
         Returns:
-            The result of the click action or None if the button is not displayed.
+            True if the button was clicked and continue button appeared, False otherwise.
         """
-        return self.do_click(self.remote_button()) if self.do_is_displayed(self.remote_button()) else None
+        if not self.do_is_displayed(self.remote_button()):
+            return False
+
+        self.do_click(self.remote_button())
+
+        # Retry logic: ensure the selection registered (max 2 attempts)
+        max_retries = 5
+        retry_count = 0
+        while retry_count < max_retries:
+            if self.do_is_displayed(self.continue_button()):
+                return True  # Success - continue button is visible
+
+            print(
+                f"[RETRY] Continue button not visible after remote selection, retrying... (attempt {
+                    retry_count + 1
+                }/{max_retries})",
+            )
+            self.do_click(self.remote_button())
+            retry_count += 1
+
+        # Final check after retries
+        return self.do_is_displayed(self.continue_button())
 
     def click_continue_button(self):
         """

@@ -67,10 +67,7 @@ class IssueRgb20(MainPageObjects, BaseOperations):
             self.issue_rgb20_page_objects.click_issue_rgb20_button()
 
         if self.do_is_displayed(self.toaster_page_objects.toaster_frame()):
-            self.toaster_page_objects.click_toaster_frame()
-
-        if self.do_is_displayed(self.toaster_page_objects.toaster_description()):
-            description = self.toaster_page_objects.get_toaster_description()
+            description = self.toaster_page_objects.click_and_get_description()
 
         if self.do_is_displayed(self.issue_rgb20_page_objects.close_button()):
             self.issue_rgb20_page_objects.click_close_button()

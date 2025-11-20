@@ -56,4 +56,6 @@ class ReceiveAssetPageObjects(BaseOperations):
         Returns:
             bool: True if clicked, None if not displayed.
         """
-        return self.do_click(self.invoice_copy_button()) if self.do_is_displayed(self.invoice_copy_button()) else None
+        if self.do_is_displayed(self.invoice_copy_button()):
+            return self.invoice_copy_button().click()
+        return None

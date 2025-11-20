@@ -1,4 +1,6 @@
-# pylint: disable=too-many-instance-attributes, too-many-statements, unused-import
+# pylint: disable=too-many-instance-attributes, too-many-statements, unused-import,too-few-public-methods
+# This is a UI model class that only defines UI components and holds structured data.
+# It does not require additional public method
 """This module contains the SwapWidget class,
 which represents the UI for Swap page.
 """

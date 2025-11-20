@@ -50,6 +50,8 @@ def test_fail_transfer(wallets_and_operations: WalletTestSetup):
         wallets_and_operations.first_page_objects.asset_detail_page_objects.click_fail_transfer_button()
         wallets_and_operations.first_page_objects.asset_detail_page_objects.click_confirmation_continue_button()
 
-    toaster_description = wallets_and_operations.first_page_objects.toaster_page_objects.get_toaster_description()
+    toaster_description = wallets_and_operations.first_page_objects.toaster_page_objects.get_toaster_description(
+        filter_pattern=INFO_FAIL_TRANSFER_SUCCESSFULLY,
+    )
 
     assert toaster_description == INFO_FAIL_TRANSFER_SUCCESSFULLY

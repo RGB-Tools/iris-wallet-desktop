@@ -6,9 +6,11 @@ from __future__ import annotations
 
 import os
 import re
+import subprocess
 import time
 
 import pyotp
+from dogtail.rawinput import keyCombo
 from dogtail.tree import root
 from dotenv import load_dotenv
 
@@ -19,6 +21,7 @@ from accessible_constant import CONFIGURE_BACKUP_BUTTON
 from accessible_constant import MNEMONIC_FRAME
 from accessible_constant import SHOW_MNEMONIC_BUTTON
 from e2e_tests.test.utilities.base_operation import BaseOperations
+from e2e_tests.test.utilities.dogtail_config import is_ci_environment
 
 load_dotenv()
 
@@ -108,7 +111,23 @@ class BackupPageObjects(BaseOperations):
         Returns:
             The result of the click action.
         """
-        return self.do_click(self.backup_window()) if self.do_is_displayed(self.backup_window()) else None
+        if self.do_is_displayed(self.backup_window()):
+            self.do_click(self.backup_window())
+            if not is_ci_environment():
+                keyCombo('<Alt>F10')
+            else:
+                try:
+                    subprocess.run(
+                        [
+                            'wmctrl', '-r', ':ACTIVE:', '-b',
+                            'add,maximized_vert,maximized_horz',
+                        ],
+                        check=False, capture_output=True, timeout=2,
+                    )
+                except Exception as e:
+                    print(f"[WARN] Failed to maximize window with wmctrl: {e}")
+            return True
+        return False
 
     def enter_email(self, email):
         """
@@ -150,9 +169,13 @@ class BackupPageObjects(BaseOperations):
         Returns:
             The result of the click action.
         """
-        self.try_another_way_button().grabFocus()
-        self.try_another_way_button().grabFocus()
-        return self.do_click(self.try_another_way_button()) if self.do_is_displayed(self.try_another_way_button()) else None
+        # Cache element to avoid stale references
+        button = self.try_another_way_button()
+        if self.do_is_displayed(button):
+            button.grabFocus()
+            button.grabFocus()
+            return self.do_click(button)
+        return None
 
     def click_google_authenticator_button(self):
         """
@@ -161,8 +184,12 @@ class BackupPageObjects(BaseOperations):
         Returns:
             The result of the click action.
         """
-        self.google_authenticator().grabFocus()
-        return self.do_click(self.google_authenticator()) if self.do_is_displayed(self.google_authenticator()) else None
+        # Cache element to avoid stale references
+        button = self.google_authenticator()
+        if self.do_is_displayed(button):
+            button.grabFocus()
+            return self.do_click(button)
+        return None
 
     def enter_security_code(self, code):
         """
@@ -206,9 +233,13 @@ class BackupPageObjects(BaseOperations):
         Returns:
             The result of the click action.
         """
-        self.continue_button().grabFocus()
-        self.continue_button().grabFocus()
-        return self.do_click(self.continue_button()) if self.do_is_displayed(self.continue_button()) else None
+        # Cache element to avoid stale references
+        button = self.continue_button()
+        if self.do_is_displayed(button):
+            button.grabFocus()
+            button.grabFocus()
+            return self.do_click(button)
+        return None
 
     def click_backup_node_data_button(self):
         """
@@ -220,14 +251,17 @@ class BackupPageObjects(BaseOperations):
         """
         Gets the mnemonic as a formatted string.
         """
-        children = self.mnemonic_frame().children
-        mnemonic_parts = [child.name for child in children if child.name]
+        mnemonic_frame = self.mnemonic_frame()
+        if mnemonic_frame:
+            children = mnemonic_frame.children
+            mnemonic_parts = [child.name for child in children if child.name]
 
-        # Remove numerical prefixes like '1.', '2.', etc.
-        cleaned_mnemonic = [
-            re.sub(r'^\d+\.\s*', '', word)
-            for word in mnemonic_parts
-        ]
+            # Remove numerical prefixes like '1.', '2.', etc.
+            cleaned_mnemonic = [
+                re.sub(r'^\d+\.\s*', '', word)
+                for word in mnemonic_parts
+            ]
 
-        # Join words into a single string
-        return ' '.join(cleaned_mnemonic)
+            # Join words into a single string
+            return ' '.join(cleaned_mnemonic)
+        return ''

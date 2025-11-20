@@ -1,3 +1,4 @@
+"""This module provides mock fixtures for setting repository."""
 from __future__ import annotations
 
 import pytest

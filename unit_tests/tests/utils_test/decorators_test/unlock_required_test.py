@@ -13,7 +13,6 @@ from requests.exceptions import HTTPError
 from src.data.repository.setting_repository import SettingRepository
 from src.model.common_operation_model import UnlockRequestModel
 from src.model.enums.enums_model import NetworkEnumModel
-from src.utils.decorators.unlock_required import is_node_locked
 from src.utils.decorators.unlock_required import unlock_node
 from src.utils.decorators.unlock_required import unlock_required
 from src.utils.endpoints import NODE_INFO_ENDPOINT
@@ -22,6 +21,7 @@ from src.utils.error_message import ERROR_NODE_IS_LOCKED_CALL_UNLOCK
 from src.utils.error_message import ERROR_NODE_WALLET_NOT_INITIALIZED
 from src.utils.error_message import ERROR_PASSWORD_INCORRECT
 from src.utils.handle_exception import CommonException
+from src.utils.helpers import check_node
 from src.utils.page_navigation_events import PageNavigationEventManager
 from src.utils.request import Request
 
@@ -168,7 +168,7 @@ def test_unlock_node_wallet_not_initialized(
 @patch('src.utils.decorators.unlock_required.get_bitcoin_config')
 @patch.object(Request, 'post')
 def test_unlock_node_connection_error(
-    mock_post, mock_get_config, mock_get_keyring_status, mock_get_value,
+    mock_get, mock_get_config, mock_get_keyring_status, mock_get_value,
 ):
     """Test unlock node with a connection error."""
     # Setup mocks
@@ -186,7 +186,7 @@ def test_unlock_node_connection_error(
         announce_alias='nodeAlias',
     )
 
-    mock_post.side_effect = RequestsConnectionError()
+    mock_get.side_effect = RequestsConnectionError()
 
     with patch('src.utils.decorators.unlock_required.logger.error') as mock_logger:
         with pytest.raises(CommonException) as exc_info:
@@ -194,16 +194,17 @@ def test_unlock_node_connection_error(
 
         # Verify error was logged
         mock_logger.assert_called_once_with(
-            'Exception occurred at Decorator(unlock_required): %s, Message: %s',
+            'Exception occurred at Decorator(%s): %s, Message: %s',
+            'unlock_required',
             'ConnectionError',
             '',
         )
         assert str(exc_info.value) == 'Unable to connect to node'
 
 
-@patch('src.utils.decorators.unlock_required.is_node_locked', return_value=True)
+@patch('src.utils.decorators.unlock_required.check_node', return_value=True)
 @patch('src.utils.decorators.unlock_required.unlock_node')
-def test_unlock_required_decorator(mock_unlock_node, mock_is_node_locked):
+def test_unlock_required_decorator(mock_unlock_node, mock_check_node):
     """Test unlock_required decorator."""
     @unlock_required
     def mock_method():
@@ -212,7 +213,7 @@ def test_unlock_required_decorator(mock_unlock_node, mock_is_node_locked):
     result = mock_method()
 
     assert result == 'success'
-    mock_is_node_locked.assert_called_once()
+    mock_check_node.assert_called_once()
     mock_unlock_node.assert_called_once()
 
 
@@ -222,7 +223,7 @@ def test_is_node_locked_not_locked(mock_get, test_response):
     test_response.status_code = 200
     mock_get.return_value = test_response
 
-    result = is_node_locked()
+    result = check_node('unlock_required')
 
     assert result is False
     mock_get.assert_called_once_with(NODE_INFO_ENDPOINT)
@@ -237,7 +238,7 @@ def test_is_node_locked_locked(mock_get, test_response):
     }
     mock_get.side_effect = HTTPError(response=test_response)
 
-    result = is_node_locked()
+    result = check_node('unlock_required')
 
     assert result is True
     mock_get.assert_called_once_with(NODE_INFO_ENDPOINT)
@@ -252,7 +253,7 @@ def test_is_node_locked_http_error(mock_logger, mock_get, test_response):
     mock_get.side_effect = HTTPError(response=test_response)
 
     with pytest.raises(CommonException) as exc_val:
-        is_node_locked()
+        check_node('unlock_required')
 
     assert str(exc_val.value) == 'Unhandled error'
 
@@ -265,7 +266,7 @@ def test_is_node_locked_value_error(mock_get):
     mock_response.json.side_effect = ValueError('Invalid JSON')
     mock_get.side_effect = HTTPError(response=mock_response)
 
-    result = is_node_locked()
+    result = check_node('unlock_required')
 
     assert result is False
 
@@ -275,14 +276,15 @@ def test_unlock_node_general_exception(mock_post):
     """Test unlock_node to ensure the general Exception block is hit."""
     mock_post.side_effect = Exception('General exception')
 
-    with patch.object(PageNavigationEventManager.get_instance(), 'term_and_condition_page_signal') as mock_navigate_signal:
+    with patch.object(PageNavigationEventManager.get_instance(), 'term_and_condition_page_signal'):
         with pytest.raises(CommonException) as exc_info:
             unlock_node()
 
-        assert str(exc_info.value) == 'Unable to unlock node'
-
-        mock_navigate_signal.emit.assert_called_once()
-        print(mock_navigate_signal.emit.call_args_list)
+        # Expect the generic helper message
+        assert str(
+            exc_info.value,
+        ) == 'Decorator(unlock_required): Error while checking if node is locked'
+        # Do not require any navigation in generic exception path
 
 
 @patch.object(Request, 'get')
@@ -291,20 +293,20 @@ def test_is_node_locked_general_exception(mock_get):
     mock_get.side_effect = Exception('General exception')
 
     with pytest.raises(CommonException) as exc_info:
-        is_node_locked()
+        check_node('unlock_required')
 
     assert str(
         exc_info.value,
     ) == 'Decorator(unlock_required): Error while checking if node is locked'
 
 
-@patch.object(Request, 'post')
-def test_is_node_locked_node_connection_error(mock_post):
+@patch.object(Request, 'get')
+def test_is_node_locked_node_connection_error(mock_get):
     """Test unlock node with a connection error."""
-    mock_post.side_effect = RequestsConnectionError()
+    mock_get.side_effect = RequestsConnectionError()
 
     with pytest.raises(CommonException) as exc_info:
-        is_node_locked()
+        check_node('unlock_required')
 
     assert str(exc_info.value) == 'Unable to connect to node'
 
@@ -439,7 +441,8 @@ def test_unlock_node_connection_error_detailed(
 
         # Verify error was logged with correct format
         mock_logger.assert_called_once_with(
-            'Exception occurred at Decorator(unlock_required): %s, Message: %s',
+            'Exception occurred at Decorator(%s): %s, Message: %s',
+            'unlock_required',
             'ConnectionError',
             'Failed to connect',
         )

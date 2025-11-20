@@ -177,7 +177,9 @@ class AssetDetailPageObjects(BaseOperations):
         """
         Clicks the copy button on the asset detail page.
         """
-        return self.do_click(self.copy_button()) if self.do_is_displayed(self.copy_button()) else None
+        if self.do_is_displayed(self.copy_button()):
+            return self.copy_button().click()
+        return None
 
     def click_confirmation_continue_button(self):
         """

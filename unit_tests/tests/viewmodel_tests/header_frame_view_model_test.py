@@ -2,50 +2,50 @@
 # pylint: disable=redefined-outer-name,unused-argument
 from __future__ import annotations
 
+from unittest.mock import MagicMock
+
 from src.utils.constant import PING_DNS_SERVER_CALL_INTERVAL
 from src.viewmodels.header_frame_view_model import HeaderFrameViewModel
 from src.viewmodels.header_frame_view_model import NetworkCheckerThread
 
 
 def test_network_checker_thread_success(mocker, qtbot):
-    """Test that NetworkCheckerThread emits True when network is available."""
+    """NetworkCheckerThread emits True when network is available."""
     network_checker = NetworkCheckerThread()
 
-    mocker.patch.object(
-        network_checker, 'check_internet_conn', return_value=True,
-    )
+    # Proper mock socket
+    mock_socket = MagicMock()
+    mocker.patch('socket.create_connection', return_value=mock_socket)
 
-    def signal_received(value):
-        assert value is True
+    # start() is mocked globally to call run() synchronously
+    with qtbot.waitSignal(
+        network_checker.network_status_signal, timeout=500,
+    ) as blocker:
+        network_checker.start()
 
-    network_checker.network_status_signal.connect(signal_received)
-
-    network_checker.start()
-    qtbot.waitSignal(network_checker.finished, timeout=1000)
+    assert blocker.args == [True]
 
 
 def test_network_checker_thread_failure(mocker, qtbot):
-    """Test that NetworkCheckerThread emits False when network is unavailable."""
+    """NetworkCheckerThread emits False when network is unavailable."""
     network_checker = NetworkCheckerThread()
 
-    mocker.patch.object(
-        network_checker, 'check_internet_conn', return_value=False,
-    )
+    mocker.patch('socket.create_connection', side_effect=OSError)
 
-    def signal_received(value):
-        assert value is False
+    with qtbot.waitSignal(
+        network_checker.network_status_signal, timeout=500,
+    ) as blocker:
+        network_checker.start()
 
-    network_checker.network_status_signal.connect(signal_received)
-
-    network_checker.start()
-    qtbot.waitSignal(network_checker.finished, timeout=1000)
+    assert blocker.args == [False]
 
 
 def test_check_internet_conn_success(mocker):
     """Test check_internet_conn returns True when socket connection succeeds."""
     network_checker = NetworkCheckerThread()
 
-    mocker.patch('socket.create_connection', return_value=True)
+    mock_socket = MagicMock()
+    mocker.patch('socket.create_connection', return_value=mock_socket)
 
     assert network_checker.check_internet_conn() is True
 

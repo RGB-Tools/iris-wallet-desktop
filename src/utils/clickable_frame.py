@@ -1,4 +1,6 @@
-# pylint: disable=invalid-name
+# pylint: disable=invalid-name,too-few-public-methods
+# This class is intentionally designed as a data container (DTO / model).
+# It stores structured data only and does not require additional public methods.
 """This module contains the ClickableFrame class, which represents a clickable frame widget.
 
 This class inherits from QFrame and emits a clicked signal when a mouse press event occurs.

@@ -1,0 +1,49 @@
+name: Generate and Publish Test Reports
+description: Generate Allure reports and publish to GitHub Pages with coverage
+
+runs:
+  using: "composite"
+  steps:
+    - name: Download embedded Allure results
+      uses: actions/download-artifact@v4
+      with:
+        pattern: allure-results-embedded-*
+        path: allure-results-embedded
+        merge-multiple: true
+
+    - name: Download remote Allure results
+      uses: actions/download-artifact@v4
+      with:
+        pattern: allure-results-remote-*
+        path: allure-results-remote
+        merge-multiple: true
+
+    - name: Download coverage report
+      uses: actions/download-artifact@v4
+      with:
+        name: coverage-report
+        path: coverage-report
+      continue-on-error: true
+
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Install Allure
+      run: |
+        curl -o allure-2.24.0.tgz -Ls https://github.com/allure-framework/allure2/releases/download/2.24.0/allure-2.24.0.tgz
+        tar -zxvf allure-2.24.0.tgz
+        echo "$PWD/allure-2.24.0/bin" >> $GITHUB_PATH
+      shell: bash
+
+    - name: Generate reports
+      run: ./.github/scripts/generate-reports.sh
+      shell: bash
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ github.token }}
+        publish_dir: gh-pages

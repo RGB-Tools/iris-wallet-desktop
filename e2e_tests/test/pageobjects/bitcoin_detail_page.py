@@ -47,13 +47,13 @@ class BitcoinDetailPageObjects(BaseOperations):
         """
         Get total balance.
         """
-        return self.do_get_text(self.bitcoin_balance()) if self.do_is_displayed(self.bitcoin_balance()) else None
+        return self.do_get_text(self.bitcoin_balance()) if self.do_is_displayed(self.bitcoin_balance()) else str | None
 
     def get_spendable_balance(self):
         """
         Get spendable balance.
         """
-        return self.do_get_text(self.spendable_balance()) if self.do_is_displayed(self.spendable_balance()) else None
+        return self.do_get_text(self.spendable_balance()) if self.do_is_displayed(self.spendable_balance()) else str | None
 
     def click_receive_bitcoin_button(self):
         """

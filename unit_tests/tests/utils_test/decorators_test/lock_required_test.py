@@ -11,11 +11,11 @@ from requests.exceptions import HTTPError
 
 from src.utils.custom_exception import CommonException
 from src.utils.decorators.lock_required import call_lock
-from src.utils.decorators.lock_required import is_node_locked
 from src.utils.decorators.lock_required import lock_required
 from src.utils.endpoints import LOCK_ENDPOINT
 from src.utils.endpoints import NODE_INFO_ENDPOINT
 from src.utils.error_message import ERROR_NODE_IS_LOCKED_CALL_UNLOCK
+from src.utils.helpers import check_node
 from src.utils.request import Request
 
 # Test is_node_locked function
@@ -29,7 +29,7 @@ def test_is_node_locked_not_locked(mock_logger, mock_get):
     mock_response.status_code = 200
     mock_get.return_value = mock_response
 
-    result = is_node_locked()
+    result = check_node('lock_required')
 
     assert result is False
 
@@ -47,7 +47,7 @@ def test_is_node_locked_locked(mock_logger, mock_get):
     }
     mock_get.side_effect = HTTPError(response=mock_response)
 
-    expected_result = is_node_locked()
+    expected_result = check_node('lock_required')
 
     assert expected_result is True
     mock_get.assert_called_once_with(NODE_INFO_ENDPOINT)
@@ -63,7 +63,7 @@ def test_is_node_locked_http_error(mock_logger, mock_get):
     mock_get.side_effect = HTTPError(response=test_response)
 
     with pytest.raises(CommonException) as exc_info:
-        is_node_locked()
+        check_node('lock_required')
 
     assert str(exc_info.value) == 'Unhandled error'
 
@@ -76,7 +76,7 @@ def test_is_node_locked_value_error(mock_get):
     test_response.json.side_effect = ValueError('Invalid JSON')
     mock_get.side_effect = HTTPError(response=test_response)
 
-    result = is_node_locked()
+    result = check_node('lock_required')
 
     assert result is False
 
@@ -103,8 +103,8 @@ def mock_method():
 
 
 @patch.object(Request, 'post')
-@patch('src.utils.decorators.lock_required.is_node_locked', return_value=False)
-def test_lock_required_decorator(mock_is_node_locked, mock_post):
+@patch('src.utils.decorators.lock_required.check_node', return_value=False)
+def test_lock_required_decorator(mock_check_node, mock_post):
     """Test lock_required decorator."""
     @lock_required
     def decorated_method():
@@ -115,13 +115,13 @@ def test_lock_required_decorator(mock_is_node_locked, mock_post):
         result = decorated_method()
 
     assert result == 'success'
-    mock_is_node_locked.assert_called_once()
+    mock_check_node.assert_called_once()
     mock_post.assert_called_once_with(LOCK_ENDPOINT)
 
 
 @patch.object(Request, 'post')
-@patch('src.utils.decorators.lock_required.is_node_locked', return_value=True)
-def test_lock_required_decorator_when_locked(mock_is_node_locked, mock_post):
+@patch('src.utils.decorators.lock_required.check_node', return_value=True)
+def test_lock_required_decorator_when_locked(mock_check_node, mock_post):
     """Test lock_required decorator when node is locked."""
     @lock_required
     def decorated_method():
@@ -132,7 +132,7 @@ def test_lock_required_decorator_when_locked(mock_is_node_locked, mock_post):
         result = decorated_method()
 
     assert result == 'should not be reached'
-    mock_is_node_locked.assert_called_once()
+    mock_check_node.assert_called_once()
 
 
 @patch.object(Request, 'get')
@@ -141,7 +141,7 @@ def test_is_node_locked_general_exception(mock_get):
     mock_get.side_effect = Exception('General exception')
 
     with pytest.raises(CommonException) as exc:
-        is_node_locked()
+        check_node('lock_required')
 
     assert str(
         exc.value,
@@ -154,7 +154,7 @@ def test_is_node_locked_node_connection_error(mock_post):
     mock_post.side_effect = RequestsConnectionError()
 
     with pytest.raises(CommonException) as exc_info:
-        is_node_locked()
+        check_node('lock_required')
 
     assert str(exc_info.value) == 'Unable to connect to node'
 

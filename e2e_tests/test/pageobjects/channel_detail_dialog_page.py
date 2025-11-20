@@ -47,6 +47,15 @@ class ChannelDetailDialogPageObjects(BaseOperations):
             roleName='label', description=BTC_REMOTE_VALUE_LABEL,
         )
 
+    def click_channel_detail_dialog(self):
+        """
+        Clicks the channel detail dialog.
+
+        Returns:
+            The result of the click action or None if the dialog is not displayed.
+        """
+        return self.do_click(self.channel_detail_dialog()) if self.do_is_displayed(self.channel_detail_dialog()) else None
+
     def click_copy_button(self):
         """
         Clicks the copy button.
@@ -54,7 +63,9 @@ class ChannelDetailDialogPageObjects(BaseOperations):
         Returns:
             The result of the click action or None if the button is not displayed.
         """
-        return self.do_click(self.copy_button()) if self.do_is_displayed(self.copy_button()) else None
+        if self.do_is_displayed(self.copy_button()):
+            return self.copy_button().click()
+        return None
 
     def click_close_channel_button(self):
         """

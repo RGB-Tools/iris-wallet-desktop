@@ -7,25 +7,19 @@ from src.model.enums.enums_model import TransferStatusEnumModel
 from src.model.rgb_model import AssetBalanceResponseModel
 from src.model.rgb_model import ListTransferAssetResponseModel
 from src.model.rgb_model import ListTransferAssetWithBalanceResponseModel
-from src.model.rgb_model import TransferAsset
 from src.model.rgb_model import TransportEndpoint
+from unit_tests.factories.transfer_assets import make_transfer_asset
 
-mocked_data_when_transaction_type_issuance = TransferAsset(
+mocked_data_when_transaction_type_issuance = make_transfer_asset(
     idx=1,
     created_at=1717565849,
     updated_at=1717565849,
     status='Settled',
     amount=1600,
     kind='Issuance',
-    txid=None,
-    recipient_id=None,
-    receive_utxo=None,
-    change_utxo=None,
-    expiration=None,
-    transport_endpoints=[],
 )
 
-mocked_data_when_transaction_type_send = TransferAsset(
+mocked_data_when_transaction_type_send = make_transfer_asset(
     idx=2,
     created_at=1717566312,
     updated_at=1717567082,
@@ -34,7 +28,6 @@ mocked_data_when_transaction_type_send = TransferAsset(
     kind='Send',
     txid='5872b8b5333054e1e3768d897d9d0ccceb0e5a9388f2f83649241e8d2125a6ae',
     recipient_id='utxob:2okFKi2-8Ex84DQNt-jzCHrU4HA-vozR9aDut-VEdc5yBUX-Ktfqhk8',
-    receive_utxo=None,
     change_utxo='23beece15fc30af37afae0b6499f8d5f91d3fe57168b5a5eeb97e9a65ecc818b:2',
     expiration=1717569912,
     transport_endpoints=[
@@ -45,7 +38,7 @@ mocked_data_when_transaction_type_send = TransferAsset(
         ),
     ],
 )
-mocked_data_when_transaction_receive_blind = TransferAsset(
+mocked_data_when_transaction_receive_blind = make_transfer_asset(
     idx=3,
     created_at=1717566191,
     updated_at=1717567096,
@@ -55,7 +48,6 @@ mocked_data_when_transaction_receive_blind = TransferAsset(
     txid='5872b8b5333054e1e3768d897d9d0ccceb0e5a9388f2f83649241e8d2125a6ae',
     recipient_id='utxob:2okFKi2-8Ex84DQNt-jzCHrU4HA-vozR9aDut-VEdc5yBUX-Ktfqhk8',
     receive_utxo='3a7b2dfaca7186c5d68c960eb69f2ab164bb0a6e391607f06fcff96bc303c3c4:0',
-    change_utxo=None,
     expiration=1717652591,
     transport_endpoints=[
         TransportEndpoint(
@@ -66,7 +58,7 @@ mocked_data_when_transaction_receive_blind = TransferAsset(
     ],
 )
 
-mocked_data_when_transaction_receive_witness = TransferAsset(
+mocked_data_when_transaction_receive_witness = make_transfer_asset(
     idx=4,
     created_at=1717566191,
     updated_at=1717567096,
@@ -76,7 +68,6 @@ mocked_data_when_transaction_receive_witness = TransferAsset(
     txid='5872b8b5333054e1e3768d897d9d0ccceb0e5a9388f2f83649241e8d2125a6ae',
     recipient_id='utxob:2okFKi2-8Ex84DQNt-jzCHrU4HA-vozR9aDut-VEdc5yBUX-Ktfqhk8',
     receive_utxo='3a7b2dfaca7186c5d68c960eb69f2ab164bb0a6e391607f06fcff96bc303c3c4:0',
-    change_utxo=None,
     expiration=1717652591,
     transport_endpoints=[
         TransportEndpoint(
@@ -87,7 +78,7 @@ mocked_data_when_transaction_receive_witness = TransferAsset(
     ],
 )
 
-mocked_data_when_transaction_invalid = TransferAsset(
+mocked_data_when_transaction_invalid = make_transfer_asset(
     idx=5,
     created_at=1717566191,
     updated_at=1717567096,
@@ -97,7 +88,6 @@ mocked_data_when_transaction_invalid = TransferAsset(
     txid='5872b8b5333054e1e3768d897d9d0ccceb0e5a9388f2f83649241e8d2125a6ae',
     recipient_id='utxob:2okFKi2-8Ex84DQNt-jzCHrU4HA-vozR9aDut-VEdc5yBUX-Ktfqhk8',
     receive_utxo='3a7b2dfaca7186c5d68c960eb69f2ab164bb0a6e391607f06fcff96bc303c3c4:0',
-    change_utxo=None,
     expiration=1717652591,
     transport_endpoints=[
         TransportEndpoint(

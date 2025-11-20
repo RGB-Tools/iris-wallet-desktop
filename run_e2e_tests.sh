@@ -128,6 +128,12 @@ build_applications() {
     echo "Build process completed."
 }
 
+# Populate TEST_FILES array with all test files
+TEST_FILES=()
+while IFS= read -r -d '' file; do
+    TEST_FILES+=("$file")
+done < <(find "$TESTS_DIR" -name "test_*.py" -print0 | sort -z)
+
 ensure_applications_exist() {
     if [[ "$FORCE_BUILD" == true ]]; then
         echo "--force-build flag detected. Rebuilding applications..."
@@ -143,9 +149,45 @@ ensure_applications_exist() {
     fi
 }
 
+# Helper function to print test suite header
+print_test_header() {
+    local test_name=$1
+    local test_path=$2
+    local wallet_mode=$3
+
+    echo "========================================"
+    echo "Test Suite: $test_name"
+    echo "Path      : $test_path"
+    echo "Mode      : $wallet_mode"
+    echo "========================================"
+}
+
+# Helper function to print failure message
+print_failure() {
+    local test_name=$1
+    local wallet_mode=$2
+
+    echo ""
+    echo "✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗"
+    echo "✗ FAILED: $test_name in ${wallet_mode^^} mode"
+    echo "✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗✗"
+    echo ""
+}
+
+# Helper function to print summary failure message
+print_summary_failure() {
+    local wallet_mode=$1
+
+    echo ""
+    echo "════════════════════════════════════════"
+    echo "One or more test suites FAILED in ${wallet_mode^^} mode"
+    echo "════════════════════════════════════════"
+}
+
 run_e2e_tests() {
     local wallet_mode=$1
     local results_dir="allure-results-${wallet_mode}"
+    local EXIT_CODE=0
 
     echo "Running E2E tests with wallet mode: $wallet_mode"
 
@@ -153,18 +195,27 @@ run_e2e_tests() {
     mkdir -p "$results_dir"
 
     if [[ "$RUN_ALL" == true ]]; then
-        echo "Running full test suite..."
-        pytest -s "$TESTS_DIR/" --alluredir="$results_dir" --wallet-mode "$wallet_mode"
+        echo "Running full test suite (per-file)..."
+        for test_file in "${TEST_FILES[@]}"; do
+            print_test_header "$(basename "$test_file")" "$test_file" "$wallet_mode"
+            if ! pytest -s "$test_file" --alluredir="$results_dir" --wallet-mode "$wallet_mode"; then
+                print_failure "$(basename "$test_file")" "$wallet_mode"
+                EXIT_CODE=1
+            fi
+        done
+
+        if [[ $EXIT_CODE -ne 0 ]]; then
+            print_summary_failure "$wallet_mode"
+            exit $EXIT_CODE
+        fi
     elif [[ -n "$TEST_FILE" ]]; then
-        echo "Running single test file: $TEST_FILE"
-        pytest -s "$TESTS_DIR/$TEST_FILE" --alluredir="$results_dir" --wallet-mode "$wallet_mode"
+        print_test_header "$TEST_FILE" "$TESTS_DIR/$TEST_FILE" "$wallet_mode"
+        if ! pytest -s "$TESTS_DIR/$TEST_FILE" --alluredir="$results_dir" --wallet-mode "$wallet_mode"; then
+            print_failure "$TEST_FILE" "$wallet_mode"
+            exit 1
+        fi
     else
         echo "No test file provided. Use --all to run all tests."
-        exit 1
-    fi
-
-    if [[ $? -ne 0 ]]; then
-        echo "E2E tests failed!"
         exit 1
     fi
 }

@@ -39,11 +39,30 @@ class TermAndConditionPageObjects(BaseOperations):
             role_name='label', name=TNC_TXT_DESCRIPTION,
         )
 
-        self.tnc_scrollbar_list = lambda: self.tnc_description(
-        ).findChildren(lambda node: node.roleName == 'scroll bar')
-        self.tnc_scrollbar = lambda: self.tnc_scrollbar_list()[1] if len(
-            self.tnc_scrollbar_list(),
-        ) > 1 else self.tnc_scrollbar_list()[0]
+        self.tnc_scrollbar_list = lambda: list(self._get_scrollbars())
+
+        self.tnc_scrollbar = lambda: (
+            self.tnc_scrollbar_list()[1]
+            if self.tnc_scrollbar_list() and len(self.tnc_scrollbar_list()) > 1
+            else self.tnc_scrollbar_list()[0]
+            if self.tnc_scrollbar_list()
+            else None
+        )
+
+    def _get_scrollbars(self):
+        """
+        Get the scrollbars from the terms and conditions description.
+
+        Returns:
+            list: List of scrollbars.
+        """
+        desc = self.tnc_description()
+        if not desc:
+            return []
+        children = desc.findChildren(
+            lambda node: node.roleName == 'scroll bar',
+        )
+        return children or []
 
     def click_accept_button(self):
         """
@@ -67,7 +86,7 @@ class TermAndConditionPageObjects(BaseOperations):
         """
         Smoothly scrolls to the end of the terms and conditions page.
         """
-        if self.do_is_displayed(self.tnc_scrollbar()):
+        if self.tnc_scrollbar() and self.do_is_displayed(self.tnc_scrollbar()):
             scrollbar = self.tnc_scrollbar()
             while scrollbar.value < scrollbar.maxValue:
                 scrollbar.value += 50  # Increment the value gradually

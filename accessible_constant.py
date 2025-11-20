@@ -17,6 +17,11 @@ FIRST_APPLICATION_URL = 'http://127.0.0.1:3001'
 SECOND_APPLICATION_URL = 'http://127.0.0.1:3002'
 LN_PORT = '9736'
 
+LOCAL_BITCOIND_RPC_HOST_REGTEST = 'localhost'
+LOCAL_BITCOIND_RPC_PORT_REGTEST = 18443
+LOCAL_INDEXER_URL_REGTEST = '127.0.0.1:50001'
+LOCAL_PROXY_ENDPOINT_REGTEST = 'rpc://127.0.0.1:3000/json-rpc'
+
 # Term and condition page
 ACCEPT_BUTTON = 'accept_button'
 DECLINE_BUTTON = 'decline_button'
@@ -241,7 +246,7 @@ MNEMONIC_FRAME = 'mnemonic_frame'
 # Keyring dialog box
 KEYRING_DIALOG_BOX = 'keyring_dialog_box'
 KEYRING_MNEMONICS_FRAME = 'keyring_mnemonics_frame'
-KEYRING_MNEMONIC_COPY_BUTTON = 'keyring_copy_button'
+KEYRING_MNEMONIC_COPY_BUTTON = 'keyring_mnemonic_copy_button'
 KEYRING_PASSWORD_FRAME = 'keyring_password_frame'
 KEYRING_PASSWORD_COPY_BUTTON = 'keyring_password_copy_button'
 KEYRING_PASSWORD_VALUE_LABEL = 'keyring_password_value_label'
@@ -266,16 +271,6 @@ KEYRING_TOGGLE_BUTTON = 'keyring_toggle_button'
 HIDE_EXHAUSTED_ASSETS_TOGGLE = 'hide_exhausted_assets_toggle'
 ASK_AUTH_FOR_IMPORTANT_QUESTION_TOGGLE = 'ask_auth_for_important_question_toggle'
 ASK_AUTH_FOR_APP_LOGIN_TOGGLE = 'ask_auth_for_app_login_toggle'
-
-# Keyring dialog box
-KEYRING_DIALOG_BOX = 'keyring_dialog_box'
-KEYRING_MNEMONICS_FRAME = 'keyring_mnemonics_frame'
-KEYRING_COPY_BUTTON = 'keyring_copy_button'
-KEYRING_PASSWORD_FRAME = 'keyring_password_frame'
-KEYRING_PASSWORD_COPY_BUTTON = 'keyring_password_copy_button'
-KEYRING_PASSWORD_VALUE_LABEL = 'keyring_password_value_label'
-KEYRING_MNEMONIC_VALUE_LABEL = 'keyring_mnemonic_value_label'
-
 
 # Fungibles page
 FUNGIBLES_SCROLL_WIDGETS = 'fungibles_scroll_widget'

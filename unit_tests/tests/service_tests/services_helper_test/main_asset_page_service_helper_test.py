@@ -12,7 +12,6 @@ from src.data.service.helpers.main_asset_page_helper import get_offline_asset_ti
 from src.model.enums.enums_model import NetworkEnumModel
 from src.model.rgb_model import AssetModel
 from src.model.rgb_model import GetAssetMediaModelResponseModel
-from src.utils.custom_exception import CommonException
 from src.utils.custom_exception import ServiceOperationException
 from unit_tests.service_test_resources.mocked_fun_return_values.main_asset_service import mock_cfa_asset
 from unit_tests.service_test_resources.mocked_fun_return_values.main_asset_service import mock_nia_asset

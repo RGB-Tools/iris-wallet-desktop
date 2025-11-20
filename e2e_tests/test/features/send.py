@@ -6,6 +6,7 @@ from __future__ import annotations
 
 from e2e_tests.test.pageobjects.main_page_objects import MainPageObjects
 from e2e_tests.test.utilities.base_operation import BaseOperations
+from src.utils.info_message import INFO_BITCOIN_SENT
 
 
 class SendOperation(MainPageObjects, BaseOperations):
@@ -90,10 +91,7 @@ class SendOperation(MainPageObjects, BaseOperations):
             self.send_asset_page_objects.click_send_button()
 
         if self.do_is_displayed(self.toaster_page_objects.toaster_frame()):
-            self.toaster_page_objects.click_toaster_frame()
-
-        if self.do_is_displayed(self.toaster_page_objects.toaster_description()):
-            description = self.toaster_page_objects.get_toaster_description()
+            description = self.toaster_page_objects.click_and_get_description()
 
         if self.do_is_displayed(self.send_asset_page_objects.send_asset_close_button()):
             self.send_asset_page_objects.click_send_asset_close_button()
@@ -123,10 +121,14 @@ class SendOperation(MainPageObjects, BaseOperations):
         if self.do_is_displayed(self.send_asset_page_objects.send_button()):
             self.send_asset_page_objects.click_send_button()
 
+        toaster_element = None
         if self.do_is_displayed(self.toaster_page_objects.toaster_frame()):
-            self.toaster_page_objects.click_toaster_frame()
+            toaster_element, description = self.toaster_page_objects.click_toaster_frame()
 
-        if self.do_is_displayed(self.toaster_page_objects.toaster_description()):
-            description = self.toaster_page_objects.get_toaster_description()
+        # Filter description if we got one
+        if toaster_element and description:
+            filter_text = INFO_BITCOIN_SENT.split('{}', maxsplit=1)[0]
+            if filter_text not in description:
+                description = None
 
         return description

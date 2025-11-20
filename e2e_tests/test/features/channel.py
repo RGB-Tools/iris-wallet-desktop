@@ -118,10 +118,7 @@ class Channel(MainPageObjects, BaseOperations):
             self.close_channel_detail_dialog_page_objects.click_continue_button()
 
         if self.do_is_displayed(self.toaster_page_objects.toaster_frame()):
-            self.toaster_page_objects.click_toaster_frame()
-
-        if self.do_is_displayed(self.toaster_page_objects.toaster_description()):
-            description = self.toaster_page_objects.get_toaster_description()
+            description = self.toaster_page_objects.click_and_get_description()
 
         if self.do_is_displayed(self.sidebar_page_objects.fungibles_button()):
             self.sidebar_page_objects.click_fungibles_button()

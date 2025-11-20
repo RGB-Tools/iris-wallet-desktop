@@ -17,6 +17,8 @@ from pathlib import Path
 import src.flavour as bitcoin_network
 from build_script import CONSTANT_PATH
 from build_script import TEMP_CONSTANT_PATH
+from src.utils.build_helpers import add_network_argument
+from src.utils.build_helpers import apply_app_name_suffix_to_constants
 
 
 def network_configure():
@@ -26,12 +28,7 @@ def network_configure():
     )
 
     # Define the --network argument with a help message
-    parser.add_argument(
-        '--network',
-        choices=['mainnet', 'testnet', 'regtest'],
-        required=True,
-        help="Specify the network to build for: 'mainnet', 'testnet', or 'regtest'.",
-    )
+    add_network_argument(parser)
 
     # Add the --app-name argument
     parser.add_argument(
@@ -80,18 +77,7 @@ def modify_constant_file(app_name: str | None):
         return
 
     # Modify the constants file by appending the app name suffix
-    new_lines = []
-    for line in original_lines:
-        if line.strip().startswith((
-            'ORGANIZATION_NAME', 'APP_NAME', 'ORGANIZATION_DOMAIN',
-            'MNEMONIC_KEY', 'WALLET_PASSWORD_KEY',
-            'NATIVE_LOGIN_ENABLED', 'IS_NATIVE_AUTHENTICATION_ENABLED',
-        )):
-            # Append suffix to relevant constants
-            key, value = line.split(' = ')
-            new_lines.append(f"{key} = {value.strip()[:-1]}{suffix}'\n")
-        else:
-            new_lines.append(line)
+    new_lines = apply_app_name_suffix_to_constants(original_lines, suffix)
 
     # Write the modified content back to the constants file
     with open(CONSTANT_PATH, 'w', encoding='utf-8') as file:
