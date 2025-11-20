@@ -1,0 +1,1 @@
+[{"uid":"f884a9304e21c9de","name":"test_send_rgb25_with_expired_invoice","time":{"start":1763649587773,"stop":1763650810553,"duration":1222780},"status":"broken","severity":"normal"},{"uid":"49d98bf77119958e","name":"test_send_and_receive_rgb25_asset_operation","time":{"start":1763650810795,"stop":1763651546041,"duration":735246},"status":"failed","severity":"normal"}]
