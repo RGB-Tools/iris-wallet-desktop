@@ -1,0 +1,3 @@
+"BROKEN","EPIC","FAILED","FEATURE","PASSED","SKIPPED","STORY","UNKNOWN"
+"1","","0","Automation of receive, send, and transaction status for RGB20 asset in iris wallet","0","0","End-to-End testing of receiving, sending, and verifying transaction status for RGB20 asset","0"
+"1","","0","Automation of send operation for RGB20 asset in iris wallet","0","0","Testing send RGB20 asset with expired invoice","0"
