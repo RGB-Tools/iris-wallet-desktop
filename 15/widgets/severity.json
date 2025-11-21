@@ -1,1 +1,0 @@
-[{"uid":"d23b19fe2a29ff86","name":"test_send_and_receive_rgb20_asset_operation","time":{"start":1763734752172,"stop":1763734790996,"duration":38824},"status":"broken","severity":"normal"},{"uid":"190a798d221f8433","name":"test_send_rgb20_with_expired_invoice","time":{"start":1763734689429,"stop":1763734751952,"duration":62523},"status":"broken","severity":"normal"}]
