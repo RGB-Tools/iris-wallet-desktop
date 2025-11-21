@@ -1,0 +1,1 @@
+[{"uid":"fae1531f9d7e02a8","name":"test_keyring_option[False]","time":{"start":1763731803064,"stop":1763731819492,"duration":16428},"status":"passed","severity":"normal"},{"uid":"31b119f4df5e96b8","name":"test_keyring_dialog[False]","time":{"start":1763731776602,"stop":1763731803061,"duration":26459},"status":"passed","severity":"normal"}]
