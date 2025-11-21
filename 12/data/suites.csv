@@ -1,0 +1,21 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"
+    This test case is used to restore the wallet from the backup.
+    ","30324","test_restore[False]","test.spec","Fri Nov 21 12:17:49 UTC 2025","broken","Fri Nov 21 12:18:19 UTC 2025","","test_backup_and_restore","",""
+"
+    Test the mnemonic and backup configuration functionality.
+    This test case covers the following scenarios:
+    - Create a embedded wallet
+    - Copy mnemonic from setting page
+    - Assert copied mnemonic with backup page mnemonic
+    - Verify the backup configuration functionality
+    :param wallets_and_operations: WalletTestSetup instance
+    :return: None
+    ","26780","test_mnemonic_and_backup_configure[False]","test.spec","Fri Nov 21 12:17:01 UTC 2025","passed","Fri Nov 21 12:17:27 UTC 2025","","test_backup_and_restore","",""
+"
+    Test the backup page functionality.
+    This test case covers the following scenarios:
+    - Create a embedded wallet
+    - Configure backup
+    - Take a backup of wallet
+    ","21413","test_backup[False]","test.spec","Fri Nov 21 12:17:27 UTC 2025","broken","Fri Nov 21 12:17:49 UTC 2025","","test_backup_and_restore","",""
