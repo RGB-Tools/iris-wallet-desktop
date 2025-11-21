@@ -1,3 +1,0 @@
-"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"Test send rgb25 asset with expired invoice","1222780","test_send_rgb25_with_expired_invoice","test.spec","Thu Nov 20 14:39:47 UTC 2025","broken","Thu Nov 20 15:00:10 UTC 2025","","test_send_and_receive_rgb25_asset","",""
-"Test send and receive operation for rgb25 asset","735246","test_send_and_receive_rgb25_asset_operation","test.spec","Thu Nov 20 15:00:10 UTC 2025","failed","Thu Nov 20 15:12:26 UTC 2025","","test_send_and_receive_rgb25_asset","",""
