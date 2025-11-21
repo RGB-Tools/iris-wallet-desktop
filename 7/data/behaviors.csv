@@ -1,0 +1,3 @@
+"BROKEN","EPIC","FAILED","FEATURE","PASSED","SKIPPED","STORY","UNKNOWN"
+"0","","1","Create wrong ln invoice","0","0","Create wrong ln invoice with insufficient amount","0"
+"1","","0","Channel send and receive for RGB20 asset","0","0","Send and receive with correct invoice for RGB20 asset","0"

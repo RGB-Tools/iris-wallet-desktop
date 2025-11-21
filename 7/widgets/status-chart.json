@@ -1,1 +1,1 @@
-[]
+[{"uid":"a1e3a50d14797a87","name":"test_create_wrong_amount_invoice","time":{"start":1763722180423,"stop":1763722364082,"duration":183659},"status":"failed","severity":"normal"},{"uid":"82aa443d46389b89","name":"test_send_and_receive_with_correct_invoice_for_rgb20","time":{"start":1763720622762,"stop":1763722180234,"duration":1557472},"status":"broken","severity":"normal"}]

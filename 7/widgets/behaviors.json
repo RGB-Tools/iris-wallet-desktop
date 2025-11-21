@@ -1,1 +1,1 @@
-{"total":0,"items":[]}
+{"total":2,"items":[{"uid":"1ac6ec2d499a35410dd3001816e489ed","name":"Create wrong ln invoice","statistic":{"failed":1,"broken":0,"skipped":0,"passed":0,"unknown":0,"total":1}},{"uid":"476599dc4ede8d87dec9d2f03e0eacb4","name":"Channel send and receive for RGB20 asset","statistic":{"failed":0,"broken":1,"skipped":0,"passed":0,"unknown":0,"total":1}}]}
