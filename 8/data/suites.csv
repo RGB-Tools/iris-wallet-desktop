@@ -1,0 +1,5 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"
+    Test case to create wrong ln invoice with insufficient amount
+    ","182456","test_create_wrong_amount_invoice","test.spec","Fri Nov 21 10:57:34 UTC 2025","failed","Fri Nov 21 11:00:36 UTC 2025","","test_rgb20_channel_tx","",""
+"Test sending and receiving with correct invoice for RGB20","1444939","test_send_and_receive_with_correct_invoice_for_rgb20","test.spec","Fri Nov 21 10:33:29 UTC 2025","broken","Fri Nov 21 10:57:33 UTC 2025","","test_rgb20_channel_tx","",""
