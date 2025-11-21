@@ -1,0 +1,83 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"Test setting a default fee rate
+
+    Tests that a user can:
+    1. Navigate to settings
+    2. Set a new default fee rate
+    3. Verify the fee rate is saved and applied
+    ","29810","test_set_default_fee_rate[False]","test.spec","Fri Nov 21 12:59:24 UTC 2025","passed","Fri Nov 21 12:59:54 UTC 2025","","test_settings","",""
+"
+    Test setting a default expiry time in days for lightning invoices.
+
+    Tests that a user can:
+    1. Navigate to settings
+    2. Set a new default expiry time in days
+    3. Verify the expiry time is saved and applied
+    ","30374","test_default_expiry_time_days[False]","test.spec","Fri Nov 21 13:01:16 UTC 2025","broken","Fri Nov 21 13:01:46 UTC 2025","","test_settings","",""
+"Test setting an invalid bitcoind port
+
+    Tests that when a user:
+    1. Navigates to settings
+    2. Attempts to set an invalid bitcoind port
+    3. The system shows appropriate error message
+    ","30302","test_set_invalid_bitcoind_port[False]","test.spec","Fri Nov 21 13:03:48 UTC 2025","broken","Fri Nov 21 13:04:19 UTC 2025","","test_settings","",""
+"Test setting an invalid electrum URL
+
+    Tests that when a user:
+    1. Navigates to settings
+    2. Attempts to set an invalid electrum URL
+    3. The system shows appropriate error message
+    ","30307","test_set_invalid_electrum_url[False]","test.spec","Fri Nov 21 13:04:19 UTC 2025","broken","Fri Nov 21 13:04:49 UTC 2025","","test_settings","",""
+"Test setting an invalid RGB proxy URL
+
+    Tests that when a user:
+    1. Navigates to settings
+    2. Attempts to set an invalid RGB proxy URL
+    3. The system shows appropriate error message
+    ","30314","test_set_invalid_rgb_proxy_url[False]","test.spec","Fri Nov 21 13:05:20 UTC 2025","broken","Fri Nov 21 13:05:50 UTC 2025","","test_settings","",""
+"Test setting a valid electrum URL
+
+    Tests that a user can:
+    1. Navigate to settings
+    2. Set a valid electrum URL
+    3. Verify the URL is saved correctly
+    ","30401","test_set_valid_electrum_url[False]","test.spec","Fri Nov 21 13:05:50 UTC 2025","broken","Fri Nov 21 13:06:21 UTC 2025","","test_settings","",""
+"Test for setting default minimum confirmation","30396","test_set_default_min_confirmation[False]","test.spec","Fri Nov 21 13:01:46 UTC 2025","broken","Fri Nov 21 13:02:17 UTC 2025","","test_settings","",""
+"Test setting an announce alias
+
+    Tests that a user can:
+    1. Navigate to settings
+    2. Set an announce alias
+    3. Verify the alias is saved correctly
+    ","30137","test_set_announce_alias[False]","test.spec","Fri Nov 21 13:02:47 UTC 2025","broken","Fri Nov 21 13:03:18 UTC 2025","","test_settings","",""
+"Test setting a valid RGB proxy URL
+
+    Tests that a user can:
+    1. Navigate to settings
+    2. Set a valid RGB proxy URL
+    3. Verify the URL is saved correctly
+    ","30284","test_set_rgb_proxy_url[False]","test.spec","Fri Nov 21 13:04:49 UTC 2025","broken","Fri Nov 21 13:05:20 UTC 2025","","test_settings","",""
+"
+    Test setting a default expiry time in hours for lightning invoices.
+
+    Tests that a user can:
+    1. Navigate to settings
+    2. Set a new default expiry time in hours
+    3. Verify the expiry time is saved and applied
+    ","30491","test_default_expiry_time_hour[False]","test.spec","Fri Nov 21 13:00:45 UTC 2025","broken","Fri Nov 21 13:01:16 UTC 2025","","test_settings","",""
+"Testing with an invalid announce address","30177","test_set_valid_announce_address[False]","test.spec","Fri Nov 21 13:02:17 UTC 2025","broken","Fri Nov 21 13:02:47 UTC 2025","","test_settings","",""
+"
+    Test setting a default expiry time in minutes for lightning invoices.
+
+    Tests that a user can:
+    1. Navigate to settings
+    2. Set a new default expiry time in minutes
+    3. Verify the expiry time is saved and applied
+    ","51292","test_default_expiry_time_minute[False]","test.spec","Fri Nov 21 12:59:54 UTC 2025","broken","Fri Nov 21 13:00:45 UTC 2025","","test_settings","",""
+"Test setting an invalid bitcoind host
+
+    Tests that when a user:
+    1. Navigates to settings
+    2. Attempts to set an invalid bitcoind host
+    3. The system shows appropriate error message
+    ","30423","test_set_invalid_bitcoind_host[False]","test.spec","Fri Nov 21 13:03:18 UTC 2025","broken","Fri Nov 21 13:03:48 UTC 2025","","test_settings","",""
