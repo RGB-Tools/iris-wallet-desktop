@@ -1,8 +1,0 @@
-"BROKEN","EPIC","FAILED","FEATURE","PASSED","SKIPPED","STORY","UNKNOWN"
-"1","","0","Ask authorization for important operations","0","0","Toggling off ask authorization for import operations","0"
-"2","","0","","0","0","Sending RGB25 asset","0"
-"2","","0","","0","0","Issuing RGB25 asset","0"
-"1","","0","","0","0","Issuing RGB20 asset","0"
-"2","","0","","0","0","Sending RGB20 asset","0"
-"1","","0","Ask authorization for important operations","0","0","Toggling on ask authorization for import operations","0"
-"1","","0","","0","0","Issuing and sending the RGB assets","0"
