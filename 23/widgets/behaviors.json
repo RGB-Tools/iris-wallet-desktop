@@ -1,1 +1,1 @@
-{"total":1,"items":[{"uid":"d0105ba1209ac4368fa114e1b1591e0d","name":"View unspent list","statistic":{"failed":0,"broken":0,"skipped":0,"passed":1,"unknown":0,"total":1}}]}
+{"total":1,"items":[{"uid":"e1b90dee68a1aa692612d06af9bc1a61","name":"Keyring","statistic":{"failed":0,"broken":1,"skipped":0,"passed":1,"unknown":0,"total":2}}]}

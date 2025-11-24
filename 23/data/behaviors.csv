@@ -1,2 +1,3 @@
 "BROKEN","EPIC","FAILED","FEATURE","PASSED","SKIPPED","STORY","UNKNOWN"
-"0","","0","View unspent list","1","0","Verify outpoint in unspent list","0"
+"1","","0","Keyring","0","0","Keyring option","0"
+"0","","0","Keyring","1","0","Keyring Dialog","0"

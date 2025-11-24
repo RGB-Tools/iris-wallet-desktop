@@ -1,1 +1,1 @@
-[{"uid":"19f880a5ffe8d02e","name":"test_view_unspent_list[False]","time":{"start":1763974942629,"stop":1763975002847,"duration":60218},"status":"passed","severity":"normal"}]
+[{"uid":"268b2567e9c36e7e","name":"test_keyring_option[False]","time":{"start":1763974977767,"stop":1763975008223,"duration":30456},"status":"broken","severity":"normal"},{"uid":"591b22b3f54c23e7","name":"test_keyring_dialog[False]","time":{"start":1763974951434,"stop":1763974977763,"duration":26329},"status":"passed","severity":"normal"}]
