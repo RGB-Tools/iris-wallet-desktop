@@ -1,2 +1,0 @@
-"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"Test for refresh transfer","593196","test_refresh_transfer","test.spec","Mon Nov 24 07:47:37 UTC 2025","broken","Mon Nov 24 07:57:30 UTC 2025","","test_refresh_transfer","",""
