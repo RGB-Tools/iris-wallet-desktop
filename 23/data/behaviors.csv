@@ -1,4 +1,4 @@
 "BROKEN","EPIC","FAILED","FEATURE","PASSED","SKIPPED","STORY","UNKNOWN"
-"0","","0","Restore page","0","1","Restore page functionality","0"
-"0","","0","Mnemonic and backup configuration","0","1","Mnemonic and backup configuration functionality","0"
-"0","","0","Backup page","0","1","Backup page functionality","0"
+"0","","0","Issue rgb20 asset with sufficient sats","1","0","Issue rgb20 asset with sufficient sats which will create asset","0"
+"0","","0","Issue rgb20 asset with sufficient sats and no utxo","1","0","Issue rgb20 asset with sufficient sats which will create utxo and create asset","0"
+"0","","0","Issue rgb20 asset without sufficient sats","1","0","Issue rgb20 asset without sufficient sats which will produce error toaster","0"
