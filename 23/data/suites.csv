@@ -1,12 +1,21 @@
 "DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
 "
-    Test the keyring option by restarting the app and verifying the keyring toggle button state.
-
-    :param wallets_and_operations: The wallets and operations fixture.
-    ","30456","test_keyring_option[False]","test.spec","Mon Nov 24 09:02:57 UTC 2025","broken","Mon Nov 24 09:03:28 UTC 2025","","test_keyring_dialog","",""
+    This test case is used to restore the wallet from the backup.
+    ","0","test_restore[False]","test.spec","Mon Nov 24 09:04:09 UTC 2025","skipped","Mon Nov 24 09:04:09 UTC 2025","","test_backup_and_restore","",""
 "
-    Test the keyring dialog functionality by restarting the application within the same test.
-
-    :param test_environment: The test environment fixture.
-    :param wallets_and_operations: The wallets and operations fixture.
-    ","26329","test_keyring_dialog[False]","test.spec","Mon Nov 24 09:02:31 UTC 2025","passed","Mon Nov 24 09:02:57 UTC 2025","","test_keyring_dialog","",""
+    Test the mnemonic and backup configuration functionality.
+    This test case covers the following scenarios:
+    - Create a embedded wallet
+    - Copy mnemonic from setting page
+    - Assert copied mnemonic with backup page mnemonic
+    - Verify the backup configuration functionality
+    :param wallets_and_operations: WalletTestSetup instance
+    :return: None
+    ","0","test_mnemonic_and_backup_configure[False]","test.spec","Mon Nov 24 09:04:09 UTC 2025","skipped","Mon Nov 24 09:04:09 UTC 2025","","test_backup_and_restore","",""
+"
+    Test the backup page functionality.
+    This test case covers the following scenarios:
+    - Create a embedded wallet
+    - Configure backup
+    - Take a backup of wallet
+    ","0","test_backup[False]","test.spec","Mon Nov 24 09:04:09 UTC 2025","skipped","Mon Nov 24 09:04:09 UTC 2025","","test_backup_and_restore","",""
