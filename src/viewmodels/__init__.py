@@ -9,7 +9,7 @@ connect view and model functionality.
 
 Submodules:
 -----------
-- IssueRGB20ViewModel: Connects RGB20 models to IssueRGB20Widget
+- IssueNIAViewModel: Connects NIA models to IssueNIAWidget
                        to enable communication between them.
 - MainAssetViewModel: Connects main assets models to MainAssetWidget
                       to enable communication between them.
@@ -24,8 +24,8 @@ Usage:
 ------
 Examples of how to use the utilities in this package:
 
-    >>> from viewmodels import IssueRGB20ViewModel
-    >>> model = IssueRGB20ViewModel()
+    >>> from viewmodels import IssueNIAViewModel
+    >>> model = IssueNIAViewModel()
     >>> print(model)
 """
 from __future__ import annotations

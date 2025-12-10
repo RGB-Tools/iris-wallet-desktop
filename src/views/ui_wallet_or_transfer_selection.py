@@ -346,13 +346,13 @@ class WalletOrTransferSelectionWidget(QWidget):
         elif _id == TransferType.ON_CHAIN.value:
             # Navigate to the appropriate page based on the transfer type
             if transfer_type == TransferStatusEnumModel.RECEIVE.value:
-                self._view_model.page_navigation.receive_rgb25_page(
+                self._view_model.page_navigation.receive_cfa_page(
                     params=AssetDataModel(
                         asset_type=self.asset_type, asset_id=self._params.asset_id,
                     ),
                 )
             elif transfer_type == TransferStatusEnumModel.SEND.value:
-                self._view_model.page_navigation.send_rgb25_page()
+                self._view_model.page_navigation.send_cfa_page()
             elif transfer_type == TransferStatusEnumModel.SEND_BTC.value:
                 self._view_model.page_navigation.send_bitcoin_page()
             elif transfer_type == TransferStatusEnumModel.RECEIVE_BTC.value:
@@ -415,7 +415,7 @@ class WalletOrTransferSelectionWidget(QWidget):
             self._params.back_page_navigation()
 
             if self._params.rgb_asset_page_load_model is not None:
-                self._view_model.rgb25_view_model.asset_info.emit(
+                self._view_model.cfa_view_model.asset_info.emit(
                     self._params.rgb_asset_page_load_model.asset_id,
                     self._params.rgb_asset_page_load_model.asset_name,
                     self._params.rgb_asset_page_load_model.image_path,

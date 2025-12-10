@@ -1,6 +1,5 @@
+"""This module contains the test fixtures for the setting card repository."""
 from __future__ import annotations
-
-from unittest.mock import patch
 
 import pytest
 

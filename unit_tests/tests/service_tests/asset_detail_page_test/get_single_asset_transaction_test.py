@@ -47,7 +47,7 @@ def test_get_single_asset_transaction_by_txid(mocked_get_asset_transaction_servi
     )
     assert result == mocked_data_when_transaction_type_send
     assert result.idx == mocked_data_when_transaction_type_send.idx
-    assert result.amount == mocked_data_when_transaction_type_send.amount
+    assert result.assignments[0].value == mocked_data_when_transaction_type_send.assignments[0].value
     assert result.txid == mocked_data_when_transaction_type_send.txid
     assert (
         result.created_at_date == mocked_data_when_transaction_type_send.created_at_date
@@ -104,7 +104,7 @@ def test_get_single_asset_transaction_by_idx(mocked_get_asset_transaction_servic
     )
     assert result == mocked_data_when_transaction_type_send
     assert result.idx == mocked_data_when_transaction_type_send.idx
-    assert result.amount == mocked_data_when_transaction_type_send.amount
+    assert result.assignments[0].value == mocked_data_when_transaction_type_send.assignments[0].value
     assert result.txid == mocked_data_when_transaction_type_send.txid
     assert (
         result.created_at_date == mocked_data_when_transaction_type_send.created_at_date

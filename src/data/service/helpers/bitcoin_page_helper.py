@@ -3,9 +3,6 @@ This module provides helper functions to bitcoin page.
 """
 from __future__ import annotations
 
-from typing import Optional
-from typing import Tuple
-
 from src.model.btc_model import Transaction
 from src.model.enums.enums_model import TransactionStatusEnumModel
 from src.model.enums.enums_model import TransferStatusEnumModel

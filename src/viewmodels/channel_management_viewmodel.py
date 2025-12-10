@@ -24,7 +24,10 @@ from src.model.rgb_model import GetAssetResponseModel
 from src.utils.custom_exception import CommonException
 from src.utils.error_message import ERROR_CREATE_UTXO
 from src.utils.error_message import ERROR_INSUFFICIENT_ALLOCATION_SLOT
-from src.utils.error_message import ERROR_NOT_ENOUGH_UNCOLORED
+from src.utils.error_message import ERROR_INSUFFICIENT_ASSET
+from src.utils.error_message import ERROR_INVALID_PEER_TYPE
+from src.utils.error_message import ERROR_INVALID_PUBKEY_TYPE
+from src.utils.error_message import ERROR_NO_UNCOLORED_UTXOS_AVAILABLE
 from src.utils.error_message import ERROR_SOMETHING_WENT_WRONG
 from src.utils.info_message import INFO_CHANNEL_DELETED
 from src.utils.worker import ThreadManager
@@ -124,15 +127,16 @@ class ChannelManagementViewModel(QObject, ThreadManager):
                 self.channel_created.emit()
 
         def on_error(error: CommonException):
-            if error.message == ERROR_INSUFFICIENT_ALLOCATION_SLOT or ERROR_NOT_ENOUGH_UNCOLORED:
+            if error.message in (ERROR_INVALID_PUBKEY_TYPE, ERROR_INVALID_PEER_TYPE, ERROR_INSUFFICIENT_ASSET):
+                ToastManager.error(description=error.message)
+                self.is_loading.emit(False)
+            elif error.message in (ERROR_INSUFFICIENT_ALLOCATION_SLOT, ERROR_NO_UNCOLORED_UTXOS_AVAILABLE):
                 params = HandleInsufficientAllocationSlotsModel(
                     capacity_sat=capacity_sat, pub_key=pub_key, push_msat=push_msat, asset_id=asset_id, amount=amount,
                 )
                 self.handle_insufficient_allocation(params)
             else:
-                ToastManager.error(
-                    description=error.message,
-                )
+                ToastManager.error(description=error.message)
                 self.is_loading.emit(False)
 
         self.run_in_thread(

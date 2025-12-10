@@ -12,7 +12,6 @@ from src.data.service.helpers.main_asset_page_helper import get_offline_asset_ti
 from src.model.enums.enums_model import NetworkEnumModel
 from src.model.rgb_model import AssetModel
 from src.model.rgb_model import GetAssetMediaModelResponseModel
-from src.utils.custom_exception import CommonException
 from src.utils.custom_exception import ServiceOperationException
 from unit_tests.service_test_resources.mocked_fun_return_values.main_asset_service import mock_cfa_asset
 from unit_tests.service_test_resources.mocked_fun_return_values.main_asset_service import mock_nia_asset
@@ -23,9 +22,11 @@ def test_get_offline_asset_ticker():
     """Case 1 : Test all network"""
     response_net_regtest = get_offline_asset_ticker(NetworkEnumModel.REGTEST)
     response_net_testnet = get_offline_asset_ticker(NetworkEnumModel.TESTNET)
+    response_net_testnet4 = get_offline_asset_ticker(NetworkEnumModel.TESTNET4)
     response_net_mainnet = get_offline_asset_ticker(NetworkEnumModel.MAINNET)
     assert response_net_mainnet == 'BTC'
     assert response_net_testnet == 'tBTC'
+    assert response_net_testnet4 == 'tBTC'
     assert response_net_regtest == 'rBTC'
 
 

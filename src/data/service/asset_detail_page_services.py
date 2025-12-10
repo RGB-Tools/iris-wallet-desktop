@@ -176,21 +176,35 @@ class AssetDetailPageService:
         # Assign transfer statuses based on the transaction kind
         if transaction.kind == AssetTransferStatusEnumModel.ISSUANCE.value:
             transaction.transfer_Status = TransferStatusEnumModel.INTERNAL
-            transaction.amount_status = f'+{
-                str(transaction.amount)
-            }'
+            transaction.amount_status = f"""+{
+                str(transaction.assignments[0].value)
+            }"""
         elif transaction.kind in (
             AssetTransferStatusEnumModel.RECEIVE_BLIND.value,
             AssetTransferStatusEnumModel.RECEIVE_WITNESS.value,
         ):
             transaction.transfer_Status = TransferStatusEnumModel.RECEIVED
-            transaction.amount_status = f'+{
-                str(transaction.amount)
-            }'
+            amount_val = None
+            if (
+                transaction.assignments
+                and len(transaction.assignments) > 0
+                and transaction.assignments[0].value is not None
+            ):
+                amount_val = transaction.assignments[0].value
+            elif (
+                transaction.requested_assignment
+                and transaction.requested_assignment.value is not None
+            ):
+                amount_val = transaction.requested_assignment.value
+
+            transaction.amount_status = f"+{
+                str(amount_val)
+                if amount_val is not None else '0'
+            }"
         elif transaction.kind == AssetTransferStatusEnumModel.SEND.value:
-            transaction.amount_status = f'-{
-                str(transaction.amount)
-            }'
+            transaction.amount_status = f"""-{
+                str(transaction.requested_assignment.value)
+            }"""
             transaction.transfer_Status = TransferStatusEnumModel.SENT
         else:
             raise ServiceOperationException(

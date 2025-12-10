@@ -23,7 +23,7 @@ from src.utils.info_message import INFO_LOG_SAVE_DESCRIPTION
 @allure.story('Tests for copy buttons for node info')
 def test_node_info(wallets_and_operations: WalletTestSetup):
     """Test asserting node info"""
-    with allure.step('Create and fund first wallet for issue rgb20'):
+    with allure.step('Create and fund first wallet for issue nia'):
         wallets_and_operations.first_page_features.wallet_features.create_and_fund_wallet(
             wallets_and_operations=wallets_and_operations, application=FIRST_APPLICATION, application_url=FIRST_APPLICATION_URL, fund=False,
         )

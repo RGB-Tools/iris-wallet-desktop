@@ -110,6 +110,7 @@ class TestEnvironment:
             str(peer_port),
             '--network',
             'regtest',
+            '--disable-authentication',
         ]
         process = subprocess.Popen(command)
         return process

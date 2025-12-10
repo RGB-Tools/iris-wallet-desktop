@@ -11,6 +11,8 @@ class NetworkEnumModel(str, Enum):
     REGTEST = 'regtest'
     MAINNET = 'mainnet'
     TESTNET = 'testnet'
+    TESTNET4 = 'testnet4'
+    SIGNET = 'signet'
 
 
 class FilterAssetEnumModel(str, Enum):
@@ -52,7 +54,7 @@ class AssetTransferStatusEnumModel(str, Enum):
 class NativeAuthType(str, Enum):
     """Enum for authentication type for native"""
     LOGGING_TO_APP = 'LOGGING_TO_APP'
-    # operation like issue rgb20 or rgb25  and transactions
+    # operation like issue nia or cfa  and transactions
     MAJOR_OPERATION = 'MAJOR_OPERATION'
 
 
@@ -71,8 +73,9 @@ class WalletType(str, Enum):
 
 class AssetType(str, Enum):
     """Enum for asset type"""
-    RGB20 = 'RGB20'
-    RGB25 = 'RGB25'
+    NIA = 'NIA'
+    CFA = 'CFA'
+    UDA = 'UDA'
     BITCOIN = 'BITCOIN'
 
 
@@ -89,6 +92,7 @@ class TokenSymbol(str, Enum):
     """Enum for token symbol"""
     BITCOIN = 'BTC'
     TESTNET_BITCOIN = 'tBTC'
+    TESTNET4_BITCOIN = 'tBTC'
     REGTEST_BITCOIN = 'rBTC'
     SAT = 'SAT'
 
@@ -125,3 +129,12 @@ class ChannelFetchingModel(str, Enum):
     FETCHING = 'fetching'
     FETCHED = 'fetched'
     FAILED = 'failed'
+
+
+class AssignmentEnumModel(str, Enum):
+    """Enum for assignment"""
+    FUNGIBLE = 'Fungible'
+    NON_FUNGIBLE = 'NonFungible'
+    INFLATION_RIGHT = 'InflationRight'
+    REPLACE_RIGHT = 'ReplaceRight'
+    ANY = 'Any'

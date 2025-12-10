@@ -1,4 +1,4 @@
-"""Unit test for issue RGB20 view model"""
+"""Unit test for issue NIA view model"""
 # Disable the redefined-outer-name warning as
 # it's normal to pass mocked object in tests function
 # pylint: disable=redefined-outer-name,unused-argument
@@ -14,7 +14,7 @@ from src.model.rgb_model import AssetBalanceResponseModel
 from src.model.rgb_model import IssueAssetResponseModel
 from src.utils.custom_exception import CommonException
 from src.utils.error_message import ERROR_SOMETHING_WENT_WRONG
-from src.viewmodels.issue_rgb20_view_model import IssueRGB20ViewModel
+from src.viewmodels.issue_nia_view_model import IssueNIAViewModel
 
 
 @pytest.fixture
@@ -24,9 +24,9 @@ def mock_page_navigation(mocker):
 
 
 @pytest.fixture
-def issue_rgb20_view_model(mock_page_navigation):
-    """Fixture to create an instance of the IssueRGB20ViewModel class."""
-    return IssueRGB20ViewModel(mock_page_navigation)
+def issue_nia_view_model(mock_page_navigation):
+    """Fixture to create an instance of the IssueNIAViewModel class."""
+    return IssueNIAViewModel(mock_page_navigation)
 
 
 @patch('src.views.components.toast.ToastManager.error')
@@ -34,13 +34,12 @@ def issue_rgb20_view_model(mock_page_navigation):
 @patch('src.utils.worker.ThreadManager.run_in_thread')
 def test_on_issue_click_success(
     mock_run_in_thread, mock_issue_asset_nia, mock_toast_error,
-    issue_rgb20_view_model, mock_page_navigation,
+    issue_nia_view_model, mock_page_navigation,
 ):
-    """Test for successful issuing of RGB20 asset."""
+    """Test for successful issuing of NIA asset."""
     # Mock the asset issuance response
     mock_issue_asset_nia.return_value = IssueAssetResponseModel(
         asset_id='asset_id',
-        asset_iface='interface',
         ticker='ticker',
         name='name',
         details='details',
@@ -55,17 +54,17 @@ def test_on_issue_click_success(
 
     # Mock signals
     mock_issue_button_clicked = Mock()
-    issue_rgb20_view_model.issue_button_clicked.connect(
+    issue_nia_view_model.issue_button_clicked.connect(
         mock_issue_button_clicked,
     )
 
     # Mock worker
     mock_worker = MagicMock()
-    issue_rgb20_view_model.worker = mock_worker
+    issue_nia_view_model.worker = mock_worker
     mock_worker.result.emit = Mock()
 
     # Perform the action
-    issue_rgb20_view_model.on_issue_click(
+    issue_nia_view_model.on_issue_click(
         'short_identifier', 'asset_name', '100',
     )
 
@@ -83,14 +82,13 @@ def test_on_issue_click_success(
 @patch('src.utils.worker.ThreadManager.run_in_thread')
 def test_on_success_native_auth(
     mock_run_in_thread, mock_native_authentication, mock_issue_asset_nia,
-    mock_toast_error, issue_rgb20_view_model, mock_page_navigation,
+    mock_toast_error, issue_nia_view_model, mock_page_navigation,
 ):
     """Test for successful native authentication and asset issuance."""
     # Mock native authentication and asset issuance
     mock_native_authentication.return_value = True
     mock_issue_asset_nia.return_value = IssueAssetResponseModel(
         asset_id='asset_id',
-        asset_iface='interface',
         ticker='ticker',
         name='name',
         details='details',
@@ -105,37 +103,37 @@ def test_on_success_native_auth(
 
     # Connect signals to mocks
     mock_issue_button_clicked = MagicMock()
-    issue_rgb20_view_model.issue_button_clicked.connect(
+    issue_nia_view_model.issue_button_clicked.connect(
         mock_issue_button_clicked,
     )
     mock_is_issued = MagicMock()
-    issue_rgb20_view_model.is_issued.connect(mock_is_issued)
+    issue_nia_view_model.is_issued.connect(mock_is_issued)
 
     # Set test data
-    issue_rgb20_view_model.token_amount = '100'
-    issue_rgb20_view_model.asset_name = 'asset_name'
-    issue_rgb20_view_model.short_identifier = 'short_identifier'
+    issue_nia_view_model.token_amount = '100'
+    issue_nia_view_model.asset_name = 'asset_name'
+    issue_nia_view_model.short_identifier = 'short_identifier'
 
     # Simulate success callback for native authentication
-    issue_rgb20_view_model.on_success_native_auth_rgb20(success=True)
+    issue_nia_view_model.on_success_native_auth_nia(success=True)
 
     # Simulate worker behavior
     mock_worker = MagicMock()
-    issue_rgb20_view_model.worker = mock_worker
+    issue_nia_view_model.worker = mock_worker
 
     mock_worker.result.emit(mock_issue_asset_nia.return_value)
     mock_toast_error.assert_not_called()
 
 
 def test_on_success_native_auth_generic_exception(
-    issue_rgb20_view_model,
+    issue_nia_view_model,
 ):
     """Test for handling generic Exception in on_success_native_auth."""
     # Setup
     with patch('src.views.components.toast.ToastManager.error') as mock_show_toast:
 
         # Trigger the exception
-        issue_rgb20_view_model.on_success_native_auth_rgb20(success=False)
+        issue_nia_view_model.on_success_native_auth_nia(success=False)
 
         # Verify the call to show_toast
         mock_show_toast.assert_called_once_with(
@@ -144,16 +142,16 @@ def test_on_success_native_auth_generic_exception(
 
 
 @patch('src.views.components.toast.ToastManager.error')
-def test_on_success_native_auth_rgb20_missing_value(mock_toast_manager, issue_rgb20_view_model):
-    """Test on_success_native_auth_rgb25 when an unexpected exception occurs"""
+def test_on_success_native_auth_nia_missing_value(mock_toast_manager, issue_nia_view_model):
+    """Test on_success_native_auth_cfa when an unexpected exception occurs"""
 
     # Set all required attributes
     # This will cause an exception when converting to int
-    issue_rgb20_view_model.amount = ''
-    issue_rgb20_view_model.asset_name = 'Test Asset'
-    issue_rgb20_view_model.asset_ticker = 'TEST'
+    issue_nia_view_model.amount = ''
+    issue_nia_view_model.asset_name = 'Test Asset'
+    issue_nia_view_model.asset_ticker = 'TEST'
 
-    issue_rgb20_view_model.on_success_native_auth_rgb20(True)
+    issue_nia_view_model.on_success_native_auth_nia(True)
 
     mock_toast_manager.assert_called_once_with(
         description='Few fields missing',
@@ -161,76 +159,76 @@ def test_on_success_native_auth_rgb20_missing_value(mock_toast_manager, issue_rg
 
 
 @patch('src.views.components.toast.ToastManager.error')
-def test_on_success_native_auth_rgb20_exception(mock_toast_manager, issue_rgb20_view_model):
-    """Test on_success_native_auth_rgb25 when an unexpected exception occurs"""
-    issue_rgb20_view_model.issue_button_clicked = MagicMock()
+def test_on_success_native_auth_nia_exception(mock_toast_manager, issue_nia_view_model):
+    """Test on_success_native_auth_cfa when an unexpected exception occurs"""
+    issue_nia_view_model.issue_button_clicked = MagicMock()
 
     # Set required attributes
-    issue_rgb20_view_model.token_amount = '100'
-    issue_rgb20_view_model.asset_name = 'Test Asset'
-    issue_rgb20_view_model.short_identifier = 'TEST'
+    issue_nia_view_model.token_amount = '100'
+    issue_nia_view_model.asset_name = 'Test Asset'
+    issue_nia_view_model.short_identifier = 'TEST'
 
     # Mock run_in_thread to raise an exception
     def mock_run_in_thread(*args, **kwargs):
         raise RuntimeError('Test exception')
 
     # Patch run_in_thread method
-    with patch.object(issue_rgb20_view_model, 'run_in_thread', side_effect=mock_run_in_thread):
-        issue_rgb20_view_model.on_success_native_auth_rgb20(True)
+    with patch.object(issue_nia_view_model, 'run_in_thread', side_effect=mock_run_in_thread):
+        issue_nia_view_model.on_success_native_auth_nia(True)
 
     mock_toast_manager.assert_called_once_with(
         description=ERROR_SOMETHING_WENT_WRONG,
     )
-    issue_rgb20_view_model.issue_button_clicked.emit.assert_called_once_with(
+    issue_nia_view_model.issue_button_clicked.emit.assert_called_once_with(
         False,
     )
 
 
 @patch('src.views.components.toast.ToastManager.error')
-def test_on_error_native_auth_rgb20_common_exception(mock_toast_manager, issue_rgb20_view_model):
-    """Test on_error_native_auth_rgb20 with CommonException"""
-    issue_rgb20_view_model.issue_button_clicked = MagicMock()
+def test_on_error_native_auth_nia_common_exception(mock_toast_manager, issue_nia_view_model):
+    """Test on_error_native_auth_nia with CommonException"""
+    issue_nia_view_model.issue_button_clicked = MagicMock()
     test_message = 'Test error message'
     test_error = CommonException(message=test_message)
 
-    issue_rgb20_view_model.on_error_native_auth_rgb20(test_error)
+    issue_nia_view_model.on_error_native_auth_nia(test_error)
 
     mock_toast_manager.assert_called_once_with(description=test_message)
-    issue_rgb20_view_model.issue_button_clicked.emit.assert_called_once_with(
+    issue_nia_view_model.issue_button_clicked.emit.assert_called_once_with(
         False,
     )
 
 
 @patch('src.views.components.toast.ToastManager.error')
-def test_on_error_native_auth_rgb20_generic_exception(mock_toast_manager, issue_rgb20_view_model):
-    """Test on_error_native_auth_rgb20 with generic Exception"""
-    issue_rgb20_view_model.issue_button_clicked = MagicMock()
+def test_on_error_native_auth_nia_generic_exception(mock_toast_manager, issue_nia_view_model):
+    """Test on_error_native_auth_nia with generic Exception"""
+    issue_nia_view_model.issue_button_clicked = MagicMock()
     test_error = Exception('Test error')
 
-    issue_rgb20_view_model.on_error_native_auth_rgb20(test_error)
+    issue_nia_view_model.on_error_native_auth_nia(test_error)
 
     mock_toast_manager.assert_called_once_with(
         description=ERROR_SOMETHING_WENT_WRONG,
     )
-    issue_rgb20_view_model.issue_button_clicked.emit.assert_called_once_with(
+    issue_nia_view_model.issue_button_clicked.emit.assert_called_once_with(
         False,
     )
 
 
 @patch('src.views.components.toast.ToastManager.error')
-def test_on_error(mock_toast_manager, issue_rgb20_view_model):
-    """Test on_error method for RGB20 issue page"""
+def test_on_error(mock_toast_manager, issue_nia_view_model):
+    """Test on_error method for NIA issue page"""
     # Setup
-    issue_rgb20_view_model.issue_button_clicked = MagicMock()
+    issue_nia_view_model.issue_button_clicked = MagicMock()
     test_message = 'Test error message'
     test_error = MagicMock()
     test_error.message = test_message
 
     # Execute
-    issue_rgb20_view_model.on_error(test_error)
+    issue_nia_view_model.on_error(test_error)
 
     # Assert
     mock_toast_manager.assert_called_once_with(description=test_message)
-    issue_rgb20_view_model.issue_button_clicked.emit.assert_called_once_with(
+    issue_nia_view_model.issue_button_clicked.emit.assert_called_once_with(
         False,
     )

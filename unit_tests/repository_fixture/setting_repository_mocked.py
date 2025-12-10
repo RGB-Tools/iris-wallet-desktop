@@ -1,3 +1,4 @@
+"""This module contains the test fixtures for the setting repository."""
 from __future__ import annotations
 
 import pytest

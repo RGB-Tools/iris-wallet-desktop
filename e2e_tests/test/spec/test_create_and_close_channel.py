@@ -43,14 +43,14 @@ def test_create_channel_with_actual_value(wallets_and_operations: WalletTestSetu
             wallets_and_operations=wallets_and_operations, application=SECOND_APPLICATION, application_url=SECOND_APPLICATION_URL,
         )
 
-    with allure.step('Issue RGB20 asset for rgb20 channel creation'):
+    with allure.step('Issue NIA asset for nia channel creation'):
         wallets_and_operations.first_page_operations.do_focus_on_application(
             FIRST_APPLICATION,
         )
-        wallets_and_operations.first_page_features.issue_rgb20_features.issue_rgb20_with_sufficient_sats_and_utxo(
+        wallets_and_operations.first_page_features.issue_nia_features.issue_nia_with_sufficient_sats_and_utxo(
             application=FIRST_APPLICATION, asset_ticker=ASSET_TICKER, asset_name=ASSET_NAME, asset_amount=ASSET_AMOUNT,
         )
-        wallets_and_operations.first_page_objects.fungible_page_objects.click_rgb20_frame(
+        wallets_and_operations.first_page_objects.fungible_page_objects.click_nia_frame(
             asset_name=ASSET_NAME,
         )
         wallets_and_operations.first_page_objects.asset_detail_page_objects.click_copy_button()

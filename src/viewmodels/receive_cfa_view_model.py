@@ -1,6 +1,6 @@
 """
-This module contains the ReceiveRGB25ViewModel class, which represents the view model
-for the Receive RGB25 Asset page activities.
+This module contains the ReceiveCFAViewModel class, which represents the view model
+for the Receive CFA Asset page activities.
 """
 from __future__ import annotations
 
@@ -16,8 +16,8 @@ from src.utils.worker import ThreadManager
 from src.views.components.toast import ToastManager
 
 
-class ReceiveRGB25ViewModel(QObject, ThreadManager):
-    """This class represents the activities of the Receive RGB25 Asset page."""
+class ReceiveCFAViewModel(QObject, ThreadManager):
+    """This class represents the activities of the Receive CFA Asset page."""
     address = Signal(str)
     message = Signal(ToastPreset, str)
     show_loading = Signal(bool)

@@ -1,6 +1,6 @@
 # pylint:disable=too-many-branches
 """
-This module contains the IssueRgb20 class, which provides methods for issuing RGB20 assets.
+This module contains the Channel class, which provides methods for channel operations.
 """
 from __future__ import annotations
 
@@ -147,7 +147,7 @@ class Channel(MainPageObjects, BaseOperations):
         if self.do_is_displayed(self.sidebar_page_objects.fungibles_button()):
             self.sidebar_page_objects.click_fungibles_button()
 
-        embedded_node_uri = f"{node_pubkey}@{ip_address}:{ln_port}"
+        embedded_node_uri = f'{node_pubkey}@{ip_address}:{ln_port}'
 
         return embedded_node_uri
 
@@ -166,6 +166,6 @@ class Channel(MainPageObjects, BaseOperations):
         if self.do_is_displayed(self.sidebar_page_objects.fungibles_button()):
             self.sidebar_page_objects.click_fungibles_button()
 
-        remote_node_uri = f"{node_pubkey}@{ip_address}:{ln_port}"
+        remote_node_uri = f'{node_pubkey}@{ip_address}:{ln_port}'
 
         return remote_node_uri

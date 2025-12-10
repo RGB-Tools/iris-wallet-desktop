@@ -124,6 +124,8 @@ class MainWindow:
             app_icon = QIcon(':/assets/icons/regtest-icon.ico')
         if network.value == NetworkEnumModel.TESTNET.value:
             app_icon = QIcon(':/assets/icons/testnet-icon.ico')
+        if network.value == NetworkEnumModel.TESTNET4.value:
+            app_icon = QIcon(':/assets/icons/testnet-icon.ico')
         if network.value == NetworkEnumModel.MAINNET.value:
             app_icon = QIcon(':/assets/icons/mainnet-icon.ico')
         self.main_window.setWindowIcon(app_icon)

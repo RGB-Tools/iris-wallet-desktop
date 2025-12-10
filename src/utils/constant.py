@@ -30,6 +30,7 @@ IS_REMOTE_KEY = 'remote'
 CACHE_FILE_NAME = {
     NetworkEnumModel.MAINNET: 'iris-wallet-cache-mainnet',
     NetworkEnumModel.TESTNET: 'iris-wallet-cache-testnet',
+    NetworkEnumModel.TESTNET4: 'iris-wallet-cache-testnet4',
     NetworkEnumModel.REGTEST: 'iris-wallet-cache-regtest',
 }
 DEFAULT_CACHE_FILENAME = 'iris-wallet-cache-default'
@@ -80,6 +81,22 @@ INDEXER_URL_TESTNET = 'ssl://electrum.iriswallet.com:50013'
 PROXY_ENDPOINT_TESTNET = 'rpcs://proxy.iriswallet.com/0.2/json-rpc'
 LDK_DATA_NAME_TESTNET = 'dataldktestnet'
 
+BITCOIND_RPC_USER_TESTNET4 = 'user'
+BITCOIND_RPC_PASSWORD_TESTNET4 = 'password'
+BITCOIND_RPC_HOST_TESTNET4 = 'electrum.iriswallet.com'
+BITCOIND_RPC_PORT_TESTNET4 = 48332
+INDEXER_URL_TESTNET4 = 'ssl://electrum.iriswallet.com:50053'
+PROXY_ENDPOINT_TESTNET4 = 'rpcs://proxy.iriswallet.com/0.2/json-rpc'
+LDK_DATA_NAME_TESTNET4 = 'dataldktestnet4'
+
+BITCOIND_RPC_USER_SIGNET = 'user'
+BITCOIND_RPC_PASSWORD_SIGNET = 'password'
+BITCOIND_RPC_HOST_SIGNET = 'electrum.iriswallet.com'
+BITCOIND_RPC_PORT_SIGNET = 18443
+INDEXER_URL_SIGNET = 'ssl://electrum.iriswallet.com:50033'
+PROXY_ENDPOINT_SIGNET = 'rpcs://proxy.iriswallet.com/0.2/json-rpc'
+LDK_DATA_NAME_SIGNET = 'dataldksignet'
+
 BITCOIND_RPC_USER_MAINNET = 'user'
 BITCOIND_RPC_PASSWORD_MAINNET = 'password'
 BITCOIND_RPC_HOST_MAINNET = 'localhost'
@@ -105,6 +122,10 @@ rgbTestnetFaucetURLs: list[str] = [
     'https://rgb-faucet.iriswallet.com/testnet-planb2023',
     'https://rgb-faucet.iriswallet.com/testnet-random2023',
 ]
+rgbTestnet4FaucetURLs: list[str] = [
+    'https://rgb-faucet.iriswallet.com/testnet4-planb2023',
+    'https://rgb-faucet.iriswallet.com/testnet4-random2023',
+]
 rgbMainnetFaucetURLs: list[str] = [
     'https://rgb-faucet.iriswallet.com/mainnet-random2023',
 ]
@@ -128,9 +149,9 @@ IRIS_WALLET_TRANSLATIONS_CONTEXT = 'iris_wallet_desktop'
 
 # RGB lightning node commit ID
 RGB_LN_COMMIT_ID_KEY = 'rgb_ln_commit_id'
-CURRENT_RLN_NODE_COMMIT = 'a623edbd7c49639dc41c72c5aef98d808d6c1d00'
+CURRENT_RLN_NODE_COMMIT = 'f37933079be958908ebc7b24c604bd5558d24865'
 COMPATIBLE_RLN_NODE_COMMITS = [
-    'a623edbd7c49639dc41c72c5aef98d808d6c1d00',
+    'f37933079be958908ebc7b24c604bd5558d24865',
 ]
 
 # Directory names used in paths

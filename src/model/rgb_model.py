@@ -8,6 +8,7 @@ from pydantic import BaseModel
 from pydantic import Field
 from pydantic import model_validator
 
+from src.model.enums.enums_model import AssignmentEnumModel
 from src.model.enums.enums_model import FilterAssetEnumModel
 from src.model.enums.enums_model import TransferStatusEnumModel
 from src.model.payments_model import BaseTimeStamps
@@ -24,6 +25,12 @@ class StatusModel(BaseModel):
     """Response status model."""
 
     status: bool
+
+
+class AssignmentModel(BaseModel):
+    """Assignment model"""
+    type: AssignmentEnumModel
+    value: int | None = None
 
 
 class TransactionTxModel(BaseModel):
@@ -79,7 +86,6 @@ class Token(BaseModel):
 class AssetModel(BaseModel):
     """Model for asset """
     asset_id: str
-    asset_iface: str
     ticker: str | None = None
     name: str
     details: str | None
@@ -105,7 +111,8 @@ class TransferAsset(BaseTimeStamps):
 
     idx: int
     status: str
-    amount: int
+    requested_assignment: AssignmentModel | None
+    assignments: list[AssignmentModel | None] | None = []
     amount_status: str | None = None  # this for ui purpose
     kind: str
     transfer_Status: TransferStatusEnumModel | None = None
@@ -176,13 +183,14 @@ class RgbInvoiceRequestModel(BaseModel):
     min_confirmations: int
     asset_id: str | None = None
     duration_seconds: int = RGB_INVOICE_DURATION_SECONDS
+    witness: bool = False
 
 
 class SendAssetRequestModel(BaseModel):
     """Request model for sending assets."""
 
     asset_id: str
-    amount: int
+    assignment: AssignmentModel
     recipient_id: str
     donation: bool | None = False
     fee_rate: int
@@ -230,9 +238,9 @@ class DecodeRgbInvoiceResponseModel(BaseModel):
     """Response model for decoding RGB invoices."""
 
     recipient_id: str
-    asset_iface: str | None = None
+    asset_schema: str | None = None
     asset_id: str | None = None
-    amount: str | None = None
+    assignment: AssignmentModel | None
     network: str
     expiration_timestamp: int
     transport_endpoints: list[str]

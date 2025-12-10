@@ -9,22 +9,10 @@ from unittest.mock import patch
 
 import pytest
 from PySide6.QtGui import QIntValidator
-from PySide6.QtWidgets import QDialog
 
 from src.model.enums.enums_model import NetworkEnumModel
-from src.utils.constant import BITCOIND_RPC_HOST_MAINNET
-from src.utils.constant import BITCOIND_RPC_HOST_REGTEST
-from src.utils.constant import BITCOIND_RPC_HOST_TESTNET
-from src.utils.constant import BITCOIND_RPC_PORT_MAINNET
-from src.utils.constant import BITCOIND_RPC_PORT_REGTEST
-from src.utils.constant import BITCOIND_RPC_PORT_TESTNET
-from src.utils.constant import INDEXER_URL_MAINNET
-from src.utils.constant import INDEXER_URL_REGTEST
-from src.utils.constant import INDEXER_URL_TESTNET
-from src.utils.constant import PROXY_ENDPOINT_MAINNET
-from src.utils.constant import PROXY_ENDPOINT_REGTEST
-from src.utils.constant import PROXY_ENDPOINT_TESTNET
 from src.viewmodels.main_view_model import MainViewModel
+from src.views.components.settings_helpers import check_keyring_state_for_password
 from src.views.ui_settings import SettingsWidget
 
 
@@ -214,12 +202,17 @@ def test_set_expiry_time(setting_widget):
     )
 
 
-def test_set_indexer_url(setting_widget):
+def test_set_indexer_url(setting_widget, mocker):
     """Test setting indexer URL."""
-    # Mock components and check_keyring_state
+    # Mock components
     setting_widget.set_indexer_url_frame = MagicMock()
     setting_widget.set_indexer_url_frame.input_value.text.return_value = 'http://example.com'
-    setting_widget._check_keyring_state = MagicMock(return_value='password123')
+
+    # Mock check_keyring_state_for_password
+    mocker.patch(
+        'src.views.ui_settings.check_keyring_state_for_password',
+        return_value='password123',
+    )
 
     # Mock setting view model
     setting_widget._view_model.setting_view_model = MagicMock()
@@ -233,12 +226,17 @@ def test_set_indexer_url(setting_widget):
     )
 
 
-def test_set_proxy_endpoint(setting_widget):
+def test_set_proxy_endpoint(setting_widget, mocker):
     """Test setting proxy endpoint."""
-    # Mock components and check_keyring_state
+    # Mock components
     setting_widget.set_proxy_endpoint_frame = MagicMock()
     setting_widget.set_proxy_endpoint_frame.input_value.text.return_value = 'http://proxy.com'
-    setting_widget._check_keyring_state = MagicMock(return_value='password123')
+
+    # Mock check_keyring_state_for_password
+    mocker.patch(
+        'src.views.ui_settings.check_keyring_state_for_password',
+        return_value='password123',
+    )
 
     # Mock setting view model
     setting_widget._view_model.setting_view_model = MagicMock()
@@ -252,12 +250,17 @@ def test_set_proxy_endpoint(setting_widget):
     )
 
 
-def test_set_bitcoind_host(setting_widget):
+def test_set_bitcoind_host(setting_widget, mocker):
     """Test setting bitcoind host."""
-    # Mock components and check_keyring_state
+    # Mock components
     setting_widget.set_bitcoind_rpc_host_frame = MagicMock()
     setting_widget.set_bitcoind_rpc_host_frame.input_value.text.return_value = 'localhost'
-    setting_widget._check_keyring_state = MagicMock(return_value='password123')
+
+    # Mock check_keyring_state_for_password
+    mocker.patch(
+        'src.views.ui_settings.check_keyring_state_for_password',
+        return_value='password123',
+    )
 
     # Mock setting view model
     setting_widget._view_model.setting_view_model = MagicMock()
@@ -271,12 +274,17 @@ def test_set_bitcoind_host(setting_widget):
     )
 
 
-def test_set_bitcoind_port(setting_widget):
+def test_set_bitcoind_port(setting_widget, mocker):
     """Test setting bitcoind port."""
-    # Mock components and check_keyring_state
+    # Mock components
     setting_widget.set_bitcoind_rpc_port_frame = MagicMock()
     setting_widget.set_bitcoind_rpc_port_frame.input_value.text.return_value = '8332'
-    setting_widget._check_keyring_state = MagicMock(return_value='password123')
+
+    # Mock check_keyring_state_for_password
+    mocker.patch(
+        'src.views.ui_settings.check_keyring_state_for_password',
+        return_value='password123',
+    )
 
     # Mock setting view model
     setting_widget._view_model.setting_view_model = MagicMock()
@@ -290,12 +298,17 @@ def test_set_bitcoind_port(setting_widget):
     )
 
 
-def test_set_announce_address(setting_widget):
+def test_set_announce_address(setting_widget, mocker):
     """Test setting announce address."""
-    # Mock components and check_keyring_state
+    # Mock components
     setting_widget.set_announce_address_frame = MagicMock()
     setting_widget.set_announce_address_frame.input_value.text.return_value = 'example.com'
-    setting_widget._check_keyring_state = MagicMock(return_value='password123')
+
+    # Mock check_keyring_state_for_password
+    mocker.patch(
+        'src.views.ui_settings.check_keyring_state_for_password',
+        return_value='password123',
+    )
 
     # Mock setting view model
     setting_widget._view_model.setting_view_model = MagicMock()
@@ -309,12 +322,17 @@ def test_set_announce_address(setting_widget):
     )
 
 
-def test_set_announce_alias(setting_widget):
+def test_set_announce_alias(setting_widget, mocker):
     """Test setting announce alias."""
-    # Mock components and check_keyring_state
+    # Mock components
     setting_widget.set_announce_alias_frame = MagicMock()
     setting_widget.set_announce_alias_frame.input_value.text.return_value = 'my-node'
-    setting_widget._check_keyring_state = MagicMock(return_value='password123')
+
+    # Mock check_keyring_state_for_password
+    mocker.patch(
+        'src.views.ui_settings.check_keyring_state_for_password',
+        return_value='password123',
+    )
 
     # Mock setting view model
     setting_widget._view_model.setting_view_model = MagicMock()
@@ -539,67 +557,6 @@ def test_handle_on_error_empty_message(setting_widget, mocker):
     mock_toast.error.assert_called_once_with('')
 
 
-def test_set_frame_content(setting_widget, mocker):
-    """Test setting frame content with various configurations."""
-    # Create mock frame and components
-    mock_frame = MagicMock()
-    mock_frame.input_value = MagicMock()
-    mock_frame.suggestion_desc = MagicMock()
-    mock_frame.time_unit_combobox = MagicMock()
-    mock_frame.save_button = MagicMock()
-
-    # Test with float input that's an integer
-    setting_widget._set_frame_content(mock_frame, 10.0)
-    mock_frame.input_value.setText.assert_called_with('10')
-    mock_frame.input_value.setPlaceholderText.assert_called_with('10')
-    mock_frame.suggestion_desc.hide.assert_called_once()
-    mock_frame.time_unit_combobox.hide.assert_called_once()
-
-    # Reset mocks
-    mock_frame.reset_mock()
-
-    # Test with validator
-    mock_validator = MagicMock()
-    setting_widget._set_frame_content(mock_frame, 10, validator=mock_validator)
-    mock_frame.input_value.setValidator.assert_called_with(mock_validator)
-
-    # Reset mocks
-    mock_frame.reset_mock()
-
-    # Test with time unit combobox
-    mock_combobox = MagicMock()
-    setting_widget.expiry_time_unit = 'hours'
-    mock_combobox.findText.return_value = 1
-    setting_widget._set_frame_content(
-        mock_frame, 10, time_unit_combobox=mock_combobox,
-    )
-    mock_combobox.setCurrentIndex.assert_called_with(1)
-
-
-def test_update_save_button(setting_widget):
-    """Test updating save button state."""
-    # Create mock frame
-    mock_frame = MagicMock()
-    mock_frame.input_value.text.return_value = '20'
-    mock_frame.time_unit_combobox.currentText.return_value = 'hours'
-
-    # Test when input value has changed
-    setting_widget._update_save_button(mock_frame, '10')
-    mock_frame.save_button.setDisabled.assert_called_with(False)
-
-    # Test when input value hasn't changed
-    mock_frame.input_value.text.return_value = '10'
-    setting_widget._update_save_button(mock_frame, '10')
-    mock_frame.save_button.setDisabled.assert_called_with(True)
-
-    # Test with time unit change
-    setting_widget.expiry_time_unit = 'minutes'
-    setting_widget._update_save_button(
-        mock_frame, '10', mock_frame.time_unit_combobox,
-    )
-    mock_frame.save_button.setDisabled.assert_called_with(False)
-
-
 def test_handle_fee_rate_frame(setting_widget):
     """Test handling fee rate frame."""
     # Mock frame and components
@@ -698,83 +655,6 @@ def test_handle_other_frames(setting_widget):
         frame.input_value.setPlaceholderText.assert_called_with(str(value))
 
 
-def test_check_keyring_state_disabled(setting_widget, mocker):
-    """Test checking keyring state when keyring is disabled."""
-    # Mock dependencies
-    mocker.patch(
-        'src.views.ui_settings.SettingRepository.get_keyring_status', return_value=False,
-    )
-    mocker.patch(
-        'src.views.ui_settings.SettingRepository.get_wallet_network',
-        return_value=NetworkEnumModel.MAINNET,
-    )
-    mock_get_value = mocker.patch(
-        'src.views.ui_settings.get_value', return_value='test_password',
-    )
-
-    # Call method
-    result = setting_widget._check_keyring_state()
-
-    # Verify password was retrieved from storage
-    mock_get_value.assert_called_once_with('wallet_password', 'mainnet')
-    assert result == 'test_password'
-
-
-def test_check_keyring_state_enabled_accepted(setting_widget, mocker):
-    """Test checking keyring state when keyring is enabled and dialog is accepted."""
-    # Mock dependencies
-    mocker.patch(
-        'src.views.ui_settings.SettingRepository.get_keyring_status', return_value=True,
-    )
-    mock_dialog = MagicMock()
-    mock_dialog.exec.return_value = QDialog.Accepted
-    mock_dialog.password_input.text.return_value = 'dialog_password'
-    mock_dialog_class = mocker.patch(
-        'src.views.ui_settings.RestoreMnemonicWidget',
-        return_value=mock_dialog,
-    )
-
-    # Call method
-    result = setting_widget._check_keyring_state()
-
-    # Verify dialog was created with correct parameters
-    mock_dialog_class.assert_called_once_with(
-        parent=setting_widget,
-        view_model=setting_widget._view_model,
-        origin_page='setting_card',
-        mnemonic_visibility=False,
-    )
-
-    # Verify dialog was configured correctly
-    mock_dialog.mnemonic_detail_text_label.setText.assert_called_once()
-    mock_dialog.mnemonic_detail_text_label.setFixedHeight.assert_called_once_with(
-        40,
-    )
-
-    # Verify password was retrieved from dialog
-    assert result == 'dialog_password'
-
-
-def test_check_keyring_state_enabled_rejected(setting_widget, mocker):
-    """Test checking keyring state when keyring is enabled and dialog is rejected."""
-    # Mock dependencies
-    mocker.patch(
-        'src.views.ui_settings.SettingRepository.get_keyring_status', return_value=True,
-    )
-    mock_dialog = MagicMock()
-    mock_dialog.exec.return_value = QDialog.Rejected
-    mocker.patch(
-        'src.views.ui_settings.RestoreMnemonicWidget',
-        return_value=mock_dialog,
-    )
-
-    # Call method
-    result = setting_widget._check_keyring_state()
-
-    # Verify None is returned when dialog is rejected
-    assert result is None
-
-
 def test_check_keyring_state_invalid(setting_widget, mocker):
     """Test checking keyring state with invalid keyring status."""
     # Mock dependencies
@@ -783,7 +663,9 @@ def test_check_keyring_state_invalid(setting_widget, mocker):
     )
 
     # Call method
-    result = setting_widget._check_keyring_state()
+    result = check_keyring_state_for_password(
+        setting_widget, setting_widget._view_model,
+    )
 
     # Verify None is returned for invalid keyring status
     assert result is None
@@ -839,71 +721,3 @@ def test_update_loading_state_not_loading(setting_widget):
         frame = getattr(setting_widget, frame_name)
         frame.save_button.stop_loading.assert_called_once()
         assert not frame.save_button.start_loading.called
-
-
-def test_set_endpoint_based_on_network_mainnet(setting_widget, mocker):
-    """Test setting endpoints for mainnet network."""
-    # Mock SettingRepository to return mainnet
-    mocker.patch(
-        'src.views.ui_settings.SettingRepository.get_wallet_network',
-        return_value=NetworkEnumModel.MAINNET,
-    )
-
-    # Call method
-    setting_widget._set_endpoint_based_on_network()
-
-    # Verify correct endpoints were set
-    assert setting_widget.indexer_url == INDEXER_URL_MAINNET
-    assert setting_widget.proxy_endpoint == PROXY_ENDPOINT_MAINNET
-    assert setting_widget.bitcoind_host == BITCOIND_RPC_HOST_MAINNET
-    assert setting_widget.bitcoind_port == BITCOIND_RPC_PORT_MAINNET
-
-
-def test_set_endpoint_based_on_network_testnet(setting_widget, mocker):
-    """Test setting endpoints for testnet network."""
-    # Mock SettingRepository to return testnet
-    mocker.patch(
-        'src.views.ui_settings.SettingRepository.get_wallet_network',
-        return_value=NetworkEnumModel.TESTNET,
-    )
-
-    # Call method
-    setting_widget._set_endpoint_based_on_network()
-
-    # Verify correct endpoints were set
-    assert setting_widget.indexer_url == INDEXER_URL_TESTNET
-    assert setting_widget.proxy_endpoint == PROXY_ENDPOINT_TESTNET
-    assert setting_widget.bitcoind_host == BITCOIND_RPC_HOST_TESTNET
-    assert setting_widget.bitcoind_port == BITCOIND_RPC_PORT_TESTNET
-
-
-def test_set_endpoint_based_on_network_regtest(setting_widget, mocker):
-    """Test setting endpoints for regtest network."""
-    # Mock SettingRepository to return regtest
-    mocker.patch(
-        'src.views.ui_settings.SettingRepository.get_wallet_network',
-        return_value=NetworkEnumModel.REGTEST,
-    )
-
-    # Call method
-    setting_widget._set_endpoint_based_on_network()
-
-    # Verify correct endpoints were set
-    assert setting_widget.indexer_url == INDEXER_URL_REGTEST
-    assert setting_widget.proxy_endpoint == PROXY_ENDPOINT_REGTEST
-    assert setting_widget.bitcoind_host == BITCOIND_RPC_HOST_REGTEST
-    assert setting_widget.bitcoind_port == BITCOIND_RPC_PORT_REGTEST
-
-
-def test_set_endpoint_based_on_network_invalid(setting_widget, mocker):
-    """Test setting endpoints with invalid network type."""
-    # Mock SettingRepository to return invalid network
-    mocker.patch(
-        'src.views.ui_settings.SettingRepository.get_wallet_network',
-        return_value='invalid_network',
-    )
-
-    # Verify ValueError is raised
-    with pytest.raises(ValueError) as exc_info:
-        setting_widget._set_endpoint_based_on_network()
-    assert 'Unsupported network type' in str(exc_info.value)
