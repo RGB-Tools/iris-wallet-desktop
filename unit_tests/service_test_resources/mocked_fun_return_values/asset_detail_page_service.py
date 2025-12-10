@@ -3,8 +3,10 @@ Mocked data for the asset detail page service service test
 """
 from __future__ import annotations
 
+from src.model.enums.enums_model import AssignmentEnumModel
 from src.model.enums.enums_model import TransferStatusEnumModel
 from src.model.rgb_model import AssetBalanceResponseModel
+from src.model.rgb_model import AssignmentModel
 from src.model.rgb_model import ListTransferAssetResponseModel
 from src.model.rgb_model import ListTransferAssetWithBalanceResponseModel
 from src.model.rgb_model import TransferAsset
@@ -15,7 +17,14 @@ mocked_data_when_transaction_type_issuance = TransferAsset(
     created_at=1717565849,
     updated_at=1717565849,
     status='Settled',
-    amount=1600,
+    assignments=[
+        AssignmentModel(
+            type=AssignmentEnumModel.FUNGIBLE, value=1600,
+        ),
+    ],
+    requested_assignment=AssignmentModel(
+        type=AssignmentEnumModel.FUNGIBLE, value=1600,
+    ),
     kind='Issuance',
     txid=None,
     recipient_id=None,
@@ -30,7 +39,14 @@ mocked_data_when_transaction_type_send = TransferAsset(
     created_at=1717566312,
     updated_at=1717567082,
     status='Settled',
-    amount=1000,
+    requested_assignment=AssignmentModel(
+        type=AssignmentEnumModel.FUNGIBLE, value=1000,
+    ),
+    assignments=[
+        AssignmentModel(
+            type=AssignmentEnumModel.FUNGIBLE, value=1000,
+        ),
+    ],
     kind='Send',
     txid='5872b8b5333054e1e3768d897d9d0ccceb0e5a9388f2f83649241e8d2125a6ae',
     recipient_id='utxob:2okFKi2-8Ex84DQNt-jzCHrU4HA-vozR9aDut-VEdc5yBUX-Ktfqhk8',
@@ -50,7 +66,10 @@ mocked_data_when_transaction_receive_blind = TransferAsset(
     created_at=1717566191,
     updated_at=1717567096,
     status='Settled',
-    amount=42,
+    requested_assignment=AssignmentModel(
+        type=AssignmentEnumModel.FUNGIBLE, value=42,
+    ),
+    assignments=[AssignmentModel(type=AssignmentEnumModel.FUNGIBLE, value=42)],
     kind='ReceiveBlind',
     txid='5872b8b5333054e1e3768d897d9d0ccceb0e5a9388f2f83649241e8d2125a6ae',
     recipient_id='utxob:2okFKi2-8Ex84DQNt-jzCHrU4HA-vozR9aDut-VEdc5yBUX-Ktfqhk8',
@@ -71,7 +90,10 @@ mocked_data_when_transaction_receive_witness = TransferAsset(
     created_at=1717566191,
     updated_at=1717567096,
     status='Settled',
-    amount=42,
+    requested_assignment=AssignmentModel(
+        type=AssignmentEnumModel.FUNGIBLE, value=42,
+    ),
+    assignments=[AssignmentModel(type=AssignmentEnumModel.FUNGIBLE, value=42)],
     kind='ReceiveWitness',
     txid='5872b8b5333054e1e3768d897d9d0ccceb0e5a9388f2f83649241e8d2125a6ae',
     recipient_id='utxob:2okFKi2-8Ex84DQNt-jzCHrU4HA-vozR9aDut-VEdc5yBUX-Ktfqhk8',
@@ -92,7 +114,10 @@ mocked_data_when_transaction_invalid = TransferAsset(
     created_at=1717566191,
     updated_at=1717567096,
     status='Settled',
-    amount=42,
+    requested_assignment=AssignmentModel(
+        type=AssignmentEnumModel.FUNGIBLE, value=42,
+    ),
+    assignments=[AssignmentModel(type=AssignmentEnumModel.FUNGIBLE, value=42)],
     kind='Invalid',
     txid='5872b8b5333054e1e3768d897d9d0ccceb0e5a9388f2f83649241e8d2125a6ae',
     recipient_id='utxob:2okFKi2-8Ex84DQNt-jzCHrU4HA-vozR9aDut-VEdc5yBUX-Ktfqhk8',

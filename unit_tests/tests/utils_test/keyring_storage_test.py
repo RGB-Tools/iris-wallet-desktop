@@ -2,9 +2,6 @@
 # pylint: disable=redefined-outer-name,unused-argument,too-many-arguments
 from __future__ import annotations
 
-from unittest.mock import MagicMock
-from unittest.mock import patch
-
 import keyring as kr
 import pytest
 

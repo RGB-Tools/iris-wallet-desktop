@@ -1,6 +1,6 @@
 """
-This module contains the IssueRGB25ViewModel class, which represents the view model
-for the Issue RGB25 Asset page activities.
+This module contains the IssueCFAViewModel class, which represents the view model
+for the Issue CFA Asset page activities.
 """
 from __future__ import annotations
 
@@ -26,12 +26,12 @@ from src.utils.worker import ThreadManager
 from src.views.components.toast import ToastManager
 
 
-class IssueRGB25ViewModel(QObject, ThreadManager):
-    """This class represents the activities of the Issue RGB25 Asset page."""
+class IssueCFAViewModel(QObject, ThreadManager):
+    """This class represents the activities of the Issue CFA Asset page."""
     is_loading = Signal(bool)
     file_upload_message = Signal(str)
     success_page_message = Signal(str)
-    rgb25_success_message = Signal(str)
+    cfa_success_message = Signal(str)
 
     def __init__(self, page_navigation) -> None:
         """
@@ -47,7 +47,7 @@ class IssueRGB25ViewModel(QObject, ThreadManager):
         self.amount = None
         self.asset_name = None
 
-    def on_success_native_auth_rgb25(self, success: bool):
+    def on_success_native_auth_cfa(self, success: bool):
         """Callback function after native authentication successful"""
         try:
             if self.amount is None or self.asset_name is None or self.asset_ticker is None:
@@ -87,7 +87,7 @@ class IssueRGB25ViewModel(QObject, ThreadManager):
                 description=ERROR_SOMETHING_WENT_WRONG,
             )
 
-    def on_error_native_auth_rgb25(self, error: Exception):
+    def on_error_native_auth_cfa(self, error: Exception):
         """Callback function on error"""
         self.is_loading.emit(False)
         err_message = error.message if isinstance(
@@ -115,7 +115,7 @@ class IssueRGB25ViewModel(QObject, ThreadManager):
             )
 
     def on_success(self, response: IssueAssetResponseModel):
-        """on success callback of issue rgb25 """
+        """on success callback of issue cfa """
         ToastManager.success(
             description=INFO_ASSET_ISSUED.format(response.asset_id),
         )
@@ -123,18 +123,18 @@ class IssueRGB25ViewModel(QObject, ThreadManager):
         self.is_loading.emit(False)
 
     def on_error(self, error: CommonException):
-        """on error callback of issue rgb25 """
+        """on error callback of issue cfa """
         ToastManager.error(
             description=error.message,
         )
         self.is_loading.emit(False)
 
-    def issue_rgb25_asset(
+    def issue_cfa_asset(
             self, asset_ticker,
             asset_name,
             amount,
     ):
-        """Issue an RGB25 asset with the provided details."""
+        """Issue an CFA asset with the provided details."""
         self.is_loading.emit(True)
         self.asset_name = asset_name
         self.asset_ticker = asset_ticker
@@ -143,7 +143,7 @@ class IssueRGB25ViewModel(QObject, ThreadManager):
             SettingRepository.native_authentication,
             {
                 'args': [NativeAuthType.MAJOR_OPERATION],
-                'callback': self.on_success_native_auth_rgb25,
-                'error_callback': self.on_error_native_auth_rgb25,
+                'callback': self.on_success_native_auth_cfa,
+                'error_callback': self.on_error_native_auth_cfa,
             },
         )

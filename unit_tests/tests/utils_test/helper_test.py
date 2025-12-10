@@ -21,7 +21,9 @@ from src.utils.helpers import handle_asset_address
 from src.utils.helpers import hash_mnemonic
 from src.utils.helpers import is_port_available
 from src.utils.helpers import load_stylesheet
+from src.utils.helpers import read_ln_node_commit_id_file
 from src.utils.helpers import validate_mnemonic
+from src.utils.helpers import write_ln_node_commit_id_file
 
 
 @pytest.fixture
@@ -231,3 +233,54 @@ def test_create_circular_pixmap(mock_qcolor, mock_qpainter, mock_qpixmap, mock_q
     )
     mock_painter_instance.end.assert_called_once()
     assert result == mock_pixmap_instance
+
+
+@patch('src.utils.helpers.SettingRepository.get_rln_node_commit_id')
+@patch('src.utils.helpers.app_paths')
+def test_write_ln_node_commit_id_file_writes_and_returns_path_and_name(
+    mock_app_paths, mock_get_commit_id,
+):
+    """Test the `write_ln_node_commit_id_file` function to ensure it writes the commit ID to a file and returns the path and name."""
+    mock_app_paths.backup_folder_path = '/fake/backup'
+    mock_get_commit_id.return_value = 'commit123'
+    m = mock_open()
+    with patch('builtins.open', m):
+        path, name = write_ln_node_commit_id_file('wallet')
+
+    expected_name = 'wallet.commit'
+    expected_path = os.path.join('/fake/backup', expected_name)
+
+    assert name == expected_name
+    assert path == expected_path
+    m.assert_called_once_with(expected_path, 'w', encoding='utf-8')
+    handle = m()
+    handle.write.assert_called_once_with('commit123')
+
+
+@patch('src.utils.helpers.app_paths')
+def test_read_ln_node_commit_id_file_returns_content(
+    mock_app_paths,
+):
+    """Test the `read_ln_node_commit_id_file` function to ensure it returns the content of the commit ID file."""
+    mock_app_paths.restore_folder_path = '/fake/restore'
+
+    file_name = 'wallet.commit'
+    full_path = os.path.join('/fake/restore', file_name)
+    m = mock_open(read_data='commitXYZ')
+    with patch('builtins.open', m):
+        result = read_ln_node_commit_id_file(file_name)
+    m.assert_called_once_with(full_path, encoding='utf-8')
+    assert result == 'commitXYZ'
+
+
+@patch('src.utils.helpers.app_paths')
+def test_read_ln_node_commit_id_file_returns_unknown_when_missing(
+    mock_app_paths,
+):
+    """Test the `read_ln_node_commit_id_file` function to ensure it returns 'unknown' when the commit ID file is missing."""
+    mock_app_paths.restore_folder_path = '/fake/restore'
+    m = mock_open()
+    m.side_effect = FileNotFoundError
+    with patch('builtins.open', m):
+        result = read_ln_node_commit_id_file('missing.commit')
+    assert result == 'unknown'

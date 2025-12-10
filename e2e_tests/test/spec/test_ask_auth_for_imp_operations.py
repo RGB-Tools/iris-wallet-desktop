@@ -23,7 +23,7 @@ from src.utils.info_message import INFO_BITCOIN_SENT
 ASSET_TICKER = 'TTK'
 ASSET_NAME_1 = 'Tether'
 ASSET_AMOUNT = '2000'
-ASSET_DESCRIPTION = 'RGB25 asset'
+ASSET_DESCRIPTION = 'CFA asset'
 ASSET_NAME_2 = 'Test asset'
 
 
@@ -94,38 +94,38 @@ def test_ask_auth_for_imp_question_send_bitcoin_on(wallets_and_operations: Walle
 
 
 @allure.story('Issuing and sending the RGB assets')
-def test_ask_auth_for_imp_question_issue_rgb_20_on(wallets_and_operations: WalletTestSetup):
-    """Issuing RGB 20 asset with ask auth for important operations on"""
-    with allure.step('Issuing RGB20 asset'):
+def test_ask_auth_for_imp_question_issue_nia_on(wallets_and_operations: WalletTestSetup):
+    """Issuing NIA asset with ask auth for important operations on"""
+    with allure.step('Issuing NIA asset'):
         wallets_and_operations.first_page_operations.do_focus_on_application(
             FIRST_APPLICATION,
         )
-        wallets_and_operations.first_page_features.issue_rgb20_features.issue_rgb20_with_sufficient_sats_and_utxo(
+        wallets_and_operations.first_page_features.issue_nia_features.issue_nia_with_sufficient_sats_and_utxo(
             FIRST_APPLICATION, ASSET_TICKER, ASSET_NAME_1, ASSET_AMOUNT, is_native_auth_enabled=True,
         )
 
 
-@allure.story('Sending RGB20 asset')
-def test_ask_auth_for_imp_question_send_rgb20_on(wallets_and_operations: WalletTestSetup):
-    """Sending RGB20 asset with ask auth for important operations on"""
+@allure.story('Sending NIA asset')
+def test_ask_auth_for_imp_question_send_nia_on(wallets_and_operations: WalletTestSetup):
+    """Sending NIA asset with ask auth for important operations on"""
     with allure.step('Getting an RGB invoice'):
         wallets_and_operations.second_page_operations.do_focus_on_application(
             SECOND_APPLICATION,
         )
-        rgb20_invoice = wallets_and_operations.second_page_features.receive_features.receive_asset_from_sidebar(
+        nia_invoice = wallets_and_operations.second_page_features.receive_features.receive_asset_from_sidebar(
             SECOND_APPLICATION,
         )
 
-    with allure.step('Sending the RGB20 asset'):
+    with allure.step('Sending the NIA asset'):
         wallets_and_operations.first_page_operations.do_focus_on_application(
             FIRST_APPLICATION,
         )
-        wallets_and_operations.first_page_objects.fungible_page_objects.click_rgb20_frame(
+        wallets_and_operations.first_page_objects.fungible_page_objects.click_nia_frame(
             ASSET_AMOUNT,
         )
         wallets_and_operations.first_page_objects.asset_detail_page_objects.click_send_button()
         wallets_and_operations.first_page_features.send_features.send(
-            FIRST_APPLICATION, rgb20_invoice, ASSET_AMOUNT, is_native_auth_enabled=True,
+            FIRST_APPLICATION, nia_invoice, ASSET_AMOUNT, is_native_auth_enabled=True,
         )
         wallets_and_operations.first_page_objects.toaster_page_objects.click_toaster_frame()
         toaster_description = wallets_and_operations.first_page_objects.toaster_page_objects.get_toaster_description()
@@ -134,7 +134,7 @@ def test_ask_auth_for_imp_question_send_rgb20_on(wallets_and_operations: WalletT
             SECOND_APPLICATION,
         )
         wallets_and_operations.second_page_objects.fungible_page_objects.click_refresh_button()
-        wallets_and_operations.second_page_objects.fungible_page_objects.click_rgb20_frame(
+        wallets_and_operations.second_page_objects.fungible_page_objects.click_nia_frame(
             ASSET_NAME_1,
         )
         wallets_and_operations.second_page_objects.asset_detail_page_objects.click_rgb_transaction_on_chain_frame()
@@ -145,40 +145,40 @@ def test_ask_auth_for_imp_question_send_rgb20_on(wallets_and_operations: WalletT
         assert toaster_description == INFO_ASSET_SENT.format(tx_id)
 
 
-@allure.story('Issuing RGB25 asset')
-def test_ask_auth_for_imp_question_issue_rgb_25_on(wallets_and_operations: WalletTestSetup):
-    """Issuing RGB25 asset with ask auth for important operations on"""
-    with allure.step('Issuing RGB25 asset'):
+@allure.story('Issuing CFA asset')
+def test_ask_auth_for_imp_question_issue_cfa_on(wallets_and_operations: WalletTestSetup):
+    """Issuing CFA asset with ask auth for important operations on"""
+    with allure.step('Issuing CFA asset'):
         wallets_and_operations.first_page_operations.do_focus_on_application(
             FIRST_APPLICATION,
         )
-        wallets_and_operations.first_page_features.issue_rgb25_features.issue_rgb25_with_sufficient_sats_and_utxo(
+        wallets_and_operations.first_page_features.issue_cfa_features.issue_cfa_with_sufficient_sats_and_utxo(
             FIRST_APPLICATION, ASSET_NAME_1, ASSET_DESCRIPTION, ASSET_AMOUNT, is_native_auth_enabled=True,
         )
 
 
-@allure.story('Sending RGB25 asset')
-def test_ask_auth_for_imp_question_send_rgb_25_on(wallets_and_operations: WalletTestSetup):
-    """Sending RGB25 asset with ask auth for important operations on"""
+@allure.story('Sending CFA asset')
+def test_ask_auth_for_imp_question_send_cfa_on(wallets_and_operations: WalletTestSetup):
+    """Sending CFA asset with ask auth for important operations on"""
     with allure.step('Getting an RGB invoice'):
         wallets_and_operations.second_page_operations.do_focus_on_application(
             SECOND_APPLICATION,
         )
-        rgb25_invoice = wallets_and_operations.second_page_features.receive_features.receive_asset_from_sidebar(
+        cfa_invoice = wallets_and_operations.second_page_features.receive_features.receive_asset_from_sidebar(
             SECOND_APPLICATION,
         )
 
-    with allure.step('Sending the RGB25 asset'):
+    with allure.step('Sending the CFA asset'):
         wallets_and_operations.first_page_operations.do_focus_on_application(
             FIRST_APPLICATION,
         )
         wallets_and_operations.first_page_objects.sidebar_page_objects.click_collectibles_button()
-        wallets_and_operations.first_page_objects.collectible_page_objects.click_rgb25_frame(
+        wallets_and_operations.first_page_objects.collectible_page_objects.click_cfa_frame(
             ASSET_NAME_1,
         )
         wallets_and_operations.first_page_objects.asset_detail_page_objects.click_send_button()
         wallets_and_operations.first_page_features.send_features.send(
-            FIRST_APPLICATION, rgb25_invoice, ASSET_AMOUNT, is_native_auth_enabled=True,
+            FIRST_APPLICATION, cfa_invoice, ASSET_AMOUNT, is_native_auth_enabled=True,
         )
         wallets_and_operations.first_page_objects.toaster_page_objects.click_toaster_frame()
         toaster_description = wallets_and_operations.first_page_objects.toaster_page_objects.get_toaster_description()
@@ -188,7 +188,7 @@ def test_ask_auth_for_imp_question_send_rgb_25_on(wallets_and_operations: Wallet
         )
         wallets_and_operations.second_page_objects.sidebar_page_objects.click_collectibles_button()
         wallets_and_operations.second_page_objects.collectible_page_objects.click_refresh_button()
-        wallets_and_operations.second_page_objects.collectible_page_objects.click_rgb25_frame(
+        wallets_and_operations.second_page_objects.collectible_page_objects.click_cfa_frame(
             ASSET_NAME_1,
         )
         wallets_and_operations.second_page_objects.asset_detail_page_objects.click_rgb_transaction_on_chain_frame()
@@ -247,39 +247,39 @@ def test_ask_auth_for_imp_question_send_bitcoin_off(wallets_and_operations: Wall
         assert toaster_title == 'Success'
 
 
-@allure.story('Issuing RGB20 asset')
-def test_ask_auth_for_imp_question_issue_rgb_20_off(wallets_and_operations: WalletTestSetup):
-    """Issuing RGB20 asset with ask auth for important operations off"""
-    with allure.step('Issuing RGB20 asset'):
+@allure.story('Issuing NIA asset')
+def test_ask_auth_for_imp_question_issue_nia_off(wallets_and_operations: WalletTestSetup):
+    """Issuing NIA asset with ask auth for important operations off"""
+    with allure.step('Issuing NIA asset'):
         wallets_and_operations.first_page_operations.do_focus_on_application(
             FIRST_APPLICATION,
         )
-        wallets_and_operations.first_page_features.issue_rgb20_features.issue_rgb20_with_sufficient_sats_and_utxo(
+        wallets_and_operations.first_page_features.issue_nia_features.issue_nia_with_sufficient_sats_and_utxo(
             FIRST_APPLICATION, ASSET_TICKER, ASSET_NAME_2, ASSET_AMOUNT,
         )
 
 
-@allure.story('Sending RGB20 asset')
-def test_ask_auth_for_imp_question_send_rgb_20_off(wallets_and_operations: WalletTestSetup):
-    """Sending RGB20 asset with ask auth for important operations off"""
+@allure.story('Sending NIA asset')
+def test_ask_auth_for_imp_question_send_nia_off(wallets_and_operations: WalletTestSetup):
+    """Sending NIA asset with ask auth for important operations off"""
     with allure.step('Getting an RGB invoice'):
         wallets_and_operations.second_page_operations.do_focus_on_application(
             SECOND_APPLICATION,
         )
-        rgb20_invoice = wallets_and_operations.second_page_features.receive_features.receive_asset_from_sidebar(
+        nia_invoice = wallets_and_operations.second_page_features.receive_features.receive_asset_from_sidebar(
             SECOND_APPLICATION,
         )
 
-    with allure.step('Sending the RGB20 asset'):
+    with allure.step('Sending the NIA asset'):
         wallets_and_operations.first_page_operations.do_focus_on_application(
             FIRST_APPLICATION,
         )
-        wallets_and_operations.first_page_objects.fungible_page_objects.click_rgb20_frame(
+        wallets_and_operations.first_page_objects.fungible_page_objects.click_nia_frame(
             ASSET_NAME_2,
         )
         wallets_and_operations.first_page_objects.asset_detail_page_objects.click_send_button()
         wallets_and_operations.first_page_features.send_features.send(
-            FIRST_APPLICATION, rgb20_invoice, ASSET_AMOUNT,
+            FIRST_APPLICATION, nia_invoice, ASSET_AMOUNT,
         )
         wallets_and_operations.first_page_objects.toaster_page_objects.click_toaster_frame()
         toaster_description = wallets_and_operations.first_page_objects.toaster_page_objects.get_toaster_description()
@@ -289,7 +289,7 @@ def test_ask_auth_for_imp_question_send_rgb_20_off(wallets_and_operations: Walle
             SECOND_APPLICATION,
         )
         wallets_and_operations.second_page_objects.fungible_page_objects.click_refresh_button()
-        wallets_and_operations.second_page_objects.fungible_page_objects.click_rgb20_frame(
+        wallets_and_operations.second_page_objects.fungible_page_objects.click_nia_frame(
             ASSET_NAME_2,
         )
         wallets_and_operations.second_page_objects.asset_detail_page_objects.click_rgb_transaction_on_chain_frame()
@@ -300,41 +300,41 @@ def test_ask_auth_for_imp_question_send_rgb_20_off(wallets_and_operations: Walle
         assert toaster_description == INFO_ASSET_SENT.format(tx_id)
 
 
-@allure.story('Issuing RGB25 asset')
-def test_ask_auth_for_imp_question_issue_rgb_25_off(wallets_and_operations: WalletTestSetup):
-    """Issuing RGB20 asset with ask auth for important operations off"""
-    with allure.step('Issuing RGB25 asset'):
+@allure.story('Issuing CFA asset')
+def test_ask_auth_for_imp_question_issue_cfa_off(wallets_and_operations: WalletTestSetup):
+    """Issuing NIA asset with ask auth for important operations off"""
+    with allure.step('Issuing CFA asset'):
         wallets_and_operations.first_page_operations.do_focus_on_application(
             FIRST_APPLICATION,
         )
         wallets_and_operations.first_page_objects.fungible_page_objects.click_refresh_button()
-        wallets_and_operations.first_page_features.issue_rgb25_features.issue_rgb25_with_sufficient_sats_and_utxo(
+        wallets_and_operations.first_page_features.issue_cfa_features.issue_cfa_with_sufficient_sats_and_utxo(
             FIRST_APPLICATION, ASSET_NAME_2, ASSET_DESCRIPTION, ASSET_AMOUNT,
         )
 
 
-@allure.story('Sending RGB25 asset')
-def test_ask_auth_for_imp_question_send_rgb_25_off(wallets_and_operations: WalletTestSetup):
-    """Sending RGB25 asset with ask auth for important operations off"""
+@allure.story('Sending CFA asset')
+def test_ask_auth_for_imp_question_send_cfa_off(wallets_and_operations: WalletTestSetup):
+    """Sending CFA asset with ask auth for important operations off"""
     with allure.step('Getting an RGB invoice'):
         wallets_and_operations.second_page_operations.do_focus_on_application(
             SECOND_APPLICATION,
         )
-        rgb25_invoice = wallets_and_operations.second_page_features.receive_features.receive_asset_from_sidebar(
+        cfa_invoice = wallets_and_operations.second_page_features.receive_features.receive_asset_from_sidebar(
             SECOND_APPLICATION,
         )
 
-    with allure.step('Sending the RGB25 asset'):
+    with allure.step('Sending the CFA asset'):
         wallets_and_operations.first_page_operations.do_focus_on_application(
             FIRST_APPLICATION,
         )
         wallets_and_operations.first_page_objects.collectible_page_objects.click_refresh_button()
-        wallets_and_operations.first_page_objects.collectible_page_objects.click_rgb25_frame(
+        wallets_and_operations.first_page_objects.collectible_page_objects.click_cfa_frame(
             ASSET_NAME_2,
         )
         wallets_and_operations.first_page_objects.asset_detail_page_objects.click_send_button()
         wallets_and_operations.first_page_features.send_features.send(
-            FIRST_APPLICATION, rgb25_invoice, ASSET_AMOUNT,
+            FIRST_APPLICATION, cfa_invoice, ASSET_AMOUNT,
         )
         wallets_and_operations.first_page_objects.toaster_page_objects.click_toaster_frame()
         toaster_description = wallets_and_operations.first_page_objects.toaster_page_objects.get_toaster_description()
@@ -344,7 +344,7 @@ def test_ask_auth_for_imp_question_send_rgb_25_off(wallets_and_operations: Walle
         )
         wallets_and_operations.second_page_objects.sidebar_page_objects.click_collectibles_button()
         wallets_and_operations.second_page_objects.collectible_page_objects.click_refresh_button()
-        wallets_and_operations.second_page_objects.collectible_page_objects.click_rgb25_frame(
+        wallets_and_operations.second_page_objects.collectible_page_objects.click_cfa_frame(
             ASSET_NAME_2,
         )
         wallets_and_operations.second_page_objects.asset_detail_page_objects.click_rgb_transaction_on_chain_frame()

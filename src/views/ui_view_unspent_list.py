@@ -33,7 +33,6 @@ from src.utils.render_timer import RenderTimer
 from src.viewmodels.main_view_model import MainViewModel
 from src.views.components.header_frame import HeaderFrame
 from src.views.components.loading_screen import LoadingTranslucentScreen
-from src.views.components.toast import ToastManager
 
 
 class ViewUnspentList(QWidget):
@@ -325,4 +324,5 @@ class ViewUnspentList(QWidget):
             NetworkEnumModel.MAINNET.value: ':/assets/bitcoin.png',
             NetworkEnumModel.REGTEST.value: ':/assets/regtest_bitcoin.png',
             NetworkEnumModel.TESTNET.value: ':/assets/testnet_bitcoin.png',
+            NetworkEnumModel.TESTNET4.value: ':/assets/testnet_bitcoin.png',
         }.get(self.network.value)

@@ -15,7 +15,7 @@ from e2e_tests.test.utilities.model import WalletTestSetup
 ASSET_TICKER = 'TTK'
 ASSET_NAME = 'Tether'
 ASSET_AMOUNT = '2000'
-ISSUE_RGB20_TOASTER_MESSAGE = 'You have insufficient funds'
+ISSUE_NIA_TOASTER_MESSAGE = 'You have insufficient funds'
 
 
 @allure.feature('Hide exhausted asset')
@@ -40,7 +40,7 @@ def test_hide_exhausted_asset_on(wallets_and_operations: WalletTestSetup):
 
     with allure.step('Issuing a asset'):
         wallets_and_operations.first_page_objects.sidebar_page_objects.click_fungibles_button()
-        wallets_and_operations.first_page_features.issue_rgb20_features.issue_rgb20_with_sufficient_sats_and_utxo(
+        wallets_and_operations.first_page_features.issue_nia_features.issue_nia_with_sufficient_sats_and_utxo(
             FIRST_APPLICATION, ASSET_TICKER, ASSET_NAME, ASSET_AMOUNT,
         )
 
@@ -57,7 +57,7 @@ def test_hide_exhausted_asset_on(wallets_and_operations: WalletTestSetup):
             FIRST_APPLICATION,
         )
         wallets_and_operations.first_page_objects.fungible_page_objects.click_refresh_button()
-        wallets_and_operations.first_page_objects.fungible_page_objects.click_rgb20_frame(
+        wallets_and_operations.first_page_objects.fungible_page_objects.click_nia_frame(
             ASSET_NAME,
         )
         wallets_and_operations.first_page_objects.asset_detail_page_objects.click_send_button()

@@ -8,15 +8,17 @@ import argparse
 import json
 import os
 import platform
+import shutil
 import subprocess
 import sys
 import threading
 import time
-import shutil 
 
+from src.utils.build_helpers import add_network_argument
+from src.utils.build_helpers import apply_app_name_suffix_to_constants
 from src.version import __version__
 
-CONSTANT_PATH = os.path.join('src','utils', 'constant.py')
+CONSTANT_PATH = os.path.join('src', 'utils', 'constant.py')
 TEMP_CONSTANT_PATH = os.path.join('src', 'temp_build_constant.py')
 
 
@@ -26,12 +28,7 @@ def parse_arguments():
         description='Build Iris Wallet for a specified network and distribution.',
     )
 
-    parser.add_argument(
-        '--network',
-        choices=['mainnet', 'testnet', 'regtest'],
-        required=True,
-        help="Specify the network to build for: 'mainnet', 'testnet', or 'regtest'.",
-    )
+    add_network_argument(parser)
 
     parser.add_argument(
         '--ldk-port',
@@ -64,23 +61,14 @@ def modify_constant_file(app_name: str | None):
     # Create a temporary copy of the constant file
     shutil.copy(CONSTANT_PATH, TEMP_CONSTANT_PATH)
 
-    with open(CONSTANT_PATH, 'r') as file:
+    with open(CONSTANT_PATH, encoding='utf-8') as file:
         lines = file.readlines()
 
-    new_lines = []
     suffix = f"_{app_name}"
-    for line in lines:
-        if line.strip().startswith(('ORGANIZATION_NAME', 'APP_NAME', 'ORGANIZATION_DOMAIN', 
-                                    'MNEMONIC_KEY', 'WALLET_PASSWORD_KEY', 
-                                    'NATIVE_LOGIN_ENABLED', 'IS_NATIVE_AUTHENTICATION_ENABLED')):
-            # Append suffix to relevant constants
-            key, value = line.split(' = ')
-            new_lines.append(f"{key} = {value.strip()[:-1]}{suffix}'\n")
-        else:
-            new_lines.append(line)
+    new_lines = apply_app_name_suffix_to_constants(lines, suffix)
 
     # Write modified content back to the file
-    with open(CONSTANT_PATH, 'w') as file:
+    with open(CONSTANT_PATH, 'w', encoding='utf-8') as file:
         file.writelines(new_lines)
 
 
@@ -89,12 +77,17 @@ def restore_constant_file():
     if os.path.exists(TEMP_CONSTANT_PATH):
         shutil.move(TEMP_CONSTANT_PATH, CONSTANT_PATH)
 
+
 def loading_animation(stop_event):
     """Simple loading spinner."""
     spinner = '|/-\\'
     idx = 0
     while not stop_event.is_set():
-        sys.stdout.write(f"\rBuild process started, please wait... {spinner[idx % len(spinner)]}")
+        sys.stdout.write(
+            f"\rBuild process started, please wait... {
+                spinner[idx % len(spinner)]
+            }",
+        )
         sys.stdout.flush()
         idx += 1
         time.sleep(0.1)
@@ -113,7 +106,7 @@ def save_build_info_to_json(args, machine_arch, os_type, arch_type):
     if os_type == 'Linux':
         build_info['distribution'] = args.distribution
 
-    with open('build_info.json', 'w') as json_file:
+    with open('build_info.json', 'w', encoding='utf-8') as json_file:
         json.dump(build_info, json_file, indent=4)
 
     print('\nBuild information saved to build_info.json')
@@ -121,21 +114,31 @@ def save_build_info_to_json(args, machine_arch, os_type, arch_type):
 
 def save_app_config(network: str, ldk_port: int | None = None, app_name: str | None = None):
     """Save the network, port, and app name suffix settings to a Python file."""
-    FLAVOUR_FILE = os.path.join(
+    flavour_file = os.path.join(
         os.path.dirname(os.path.abspath(__file__)), 'src', 'flavour.py',
     )
 
     # If the file doesn't exist, create it with initial values.
-    if not os.path.exists(FLAVOUR_FILE):
-        with open(FLAVOUR_FILE, 'w') as file:
+    if not os.path.exists(flavour_file):
+        with open(flavour_file, 'w', encoding='utf-8') as file:
             file.write(f"__network__ = '{network}'\n")
-            file.write(f"__ldk_port__ = '{ldk_port}'\n" if ldk_port else "__ldk_port__ = None\n")
-            file.write(f"__app_name_suffix__ = '{app_name}'\n" if app_name else "__app_name_suffix__ = None\n")
-            file.write("__port__ = None\n")
+            file.write(
+                f"__ldk_port__ = '{
+                    ldk_port
+                }'\n"
+                if ldk_port else '__ldk_port__ = None\n',
+            )
+            file.write(
+                f"__app_name_suffix__ = '{
+                    app_name
+                }'\n"
+                if app_name else '__app_name_suffix__ = None\n',
+            )
+            file.write('__port__ = None\n')
         return
 
     # If the file exists, read its contents and modify as needed.
-    with open(FLAVOUR_FILE) as file:
+    with open(flavour_file, encoding='utf-8') as file:
         lines = file.readlines()
 
     # Create a new list of lines with updated values.
@@ -144,14 +147,24 @@ def save_app_config(network: str, ldk_port: int | None = None, app_name: str | N
         if line.startswith('__network__'):
             new_lines.append(f"__network__ = '{network}'\n")
         elif line.startswith('__ldk_port__'):
-            new_lines.append(f"__ldk_port__ = '{ldk_port}'\n" if ldk_port else "__ldk_port__ = None\n")
+            new_lines.append(
+                f"__ldk_port__ = '{
+                    ldk_port
+                }'\n"
+                if ldk_port else '__ldk_port__ = None\n',
+            )
         elif line.startswith('__app_name_suffix__'):
-            new_lines.append(f"__app_name_suffix__ = '{app_name}'\n" if app_name else "__app_name_suffix__ = None\n")
+            new_lines.append(
+                f"__app_name_suffix__ = '{
+                    app_name
+                }'\n"
+                if app_name else '__app_name_suffix__ = None\n',
+            )
         else:
             new_lines.append(line)
 
     # Write the modified lines back to the file.
-    with open(FLAVOUR_FILE, 'w') as file:
+    with open(flavour_file, 'w', encoding='utf-8') as file:
         file.writelines(new_lines)
 
 
@@ -179,31 +192,34 @@ def main():
     if os_type == 'Linux':
         print(f"Distribution: {args.distribution}")
 
+    result = None
     try:
         modify_constant_file(args.app_name)
         save_build_info_to_json(args, machine_arch, os_type, arch_type)
-        save_app_config(args.network, args.ldk_port,args.app_name)
+        save_app_config(args.network, args.ldk_port, args.app_name)
 
         stop_event = threading.Event()
-        loading_thread = threading.Thread(target=loading_animation, args=(stop_event,))
+        loading_thread = threading.Thread(
+            target=loading_animation, args=(stop_event,),
+        )
         loading_thread.start()
 
         if os_type == 'Linux':
             if args.distribution == 'appimage':
                 result = subprocess.run(
-                    ['bash', 'build_appimage.sh'], capture_output=True, text=True,
+                    ['bash', 'build_appimage.sh'], capture_output=True, text=True, check=True,
                 )
             else:
                 result = subprocess.run(
-                    ['bash', 'build_linux.sh'], capture_output=True, text=True,
+                    ['bash', 'build_linux.sh'], capture_output=True, text=True, check=True,
                 )
         elif os_type == 'Windows':
             result = subprocess.run(
-                ['pyinstaller', 'iris_wallet_desktop.spec'], capture_output=True, text=True,
+                ['pyinstaller', 'iris_wallet_desktop.spec'], capture_output=True, text=True, check=True,
             )
         elif os_type == 'Darwin':
             result = subprocess.run(
-                ['bash', 'build_macos.sh'], capture_output=True, text=True,
+                ['bash', 'build_macos.sh'], capture_output=True, text=True, check=True,
             )
     finally:
         stop_event.set()
@@ -211,12 +227,13 @@ def main():
         restore_constant_file()
         reset_app_config_on_exit()
 
-    print('\nOutput:', result.stdout)
-    print('Error:', result.stderr)
-    print('Return Code:', result.returncode)
+    if result is not None:
+        print('\nOutput:', result.stdout)
+        print('Error:', result.stderr)
+        print('Return Code:', result.returncode)
 
-    if result.stderr and result.returncode != 0:
-        os.remove('build_info.json')
+        if result.stderr and result.returncode != 0:
+            os.remove('build_info.json')
 
 
 if __name__ == '__main__':

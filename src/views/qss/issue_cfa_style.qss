@@ -1,5 +1,5 @@
-/* Styles for the issue RGB25 card */
-QWidget#issue_rgb_25_card {
+/* Styles for the issue CFA card */
+QWidget#issue_cfa_card {
     background: transparent;
     background-color: rgb(3, 11, 37);
     border: 1px solid rgb(102, 108, 129);
@@ -10,7 +10,7 @@ QWidget#issue_rgb_25_card {
     max-height: 608px;
 }
 
-/* Styles for line edit elements within the issue RGB25 card */
+/* Styles for line edit elements within the issue CFA card */
 QLineEdit#asset_description_input, QLineEdit#name_of_the_asset_input, QLineEdit#amount_input {
     padding-left: 10px;
     font: 15px "Inter";
@@ -21,14 +21,14 @@ QLineEdit#asset_description_input, QLineEdit#name_of_the_asset_input, QLineEdit#
     border-radius: 4px;
 }
 
-/* Styles for line elements within the issue RGB25 card */
+/* Styles for line elements within the issue CFA card */
 QFrame#line_top, QFrame#line_bottom, QFrame#line_6 {
     border: none;
     border-bottom: 1px solid rgb(27, 35, 59);
 }
 
-/* Styles for label elements within the issue RGB25 card */
-QLabel#asset_name_label, QLabel#asset_description_label, QLabel#total_supply_label, QLabel#asset_file, QLabel#issue_rgb_25_asset_title_label {
+/* Styles for label elements within the issue CFA card */
+QLabel#asset_name_label, QLabel#asset_description_label, QLabel#total_supply_label, QLabel#asset_file, QLabel#issue_cfa_asset_title_label {
     font: 14px "Inter";
     color: rgb(121, 128, 148);
     background: transparent;
@@ -36,7 +36,7 @@ QLabel#asset_name_label, QLabel#asset_description_label, QLabel#total_supply_lab
     font-weight: 600;
 }
 
-QLabel#issue_rgb_25_asset_title_label {
+QLabel#issue_cfa_asset_title_label {
     font: 24px "Inter";
     color: #D0D3DD;
     padding-bottom: 15px;
@@ -72,8 +72,8 @@ QPushButton#upload_file:hover {
     border-radius: 4px;
 }
 
-/* Styles for the RGB25 close button */
-QPushButton#rgb_25_close_btn {
+/* Styles for the CFA close button */
+QPushButton#cfa_close_btn {
     background: transparent;
     border: none;
     min-width: 24px;

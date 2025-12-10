@@ -29,26 +29,38 @@ from src.utils.constant import ANNOUNCE_ADDRESS
 from src.utils.constant import ANNOUNCE_ALIAS
 from src.utils.constant import BITCOIND_RPC_HOST_MAINNET
 from src.utils.constant import BITCOIND_RPC_HOST_REGTEST
+from src.utils.constant import BITCOIND_RPC_HOST_SIGNET
 from src.utils.constant import BITCOIND_RPC_HOST_TESTNET
+from src.utils.constant import BITCOIND_RPC_HOST_TESTNET4
 from src.utils.constant import BITCOIND_RPC_PASSWORD_MAINNET
 from src.utils.constant import BITCOIND_RPC_PASSWORD_REGTEST
+from src.utils.constant import BITCOIND_RPC_PASSWORD_SIGNET
 from src.utils.constant import BITCOIND_RPC_PASSWORD_TESTNET
+from src.utils.constant import BITCOIND_RPC_PASSWORD_TESTNET4
 from src.utils.constant import BITCOIND_RPC_PORT_MAINNET
 from src.utils.constant import BITCOIND_RPC_PORT_REGTEST
+from src.utils.constant import BITCOIND_RPC_PORT_SIGNET
 from src.utils.constant import BITCOIND_RPC_PORT_TESTNET
+from src.utils.constant import BITCOIND_RPC_PORT_TESTNET4
 from src.utils.constant import BITCOIND_RPC_USER_MAINNET
 from src.utils.constant import BITCOIND_RPC_USER_REGTEST
+from src.utils.constant import BITCOIND_RPC_USER_SIGNET
 from src.utils.constant import BITCOIND_RPC_USER_TESTNET
+from src.utils.constant import BITCOIND_RPC_USER_TESTNET4
 from src.utils.constant import DAEMON_PORT
 from src.utils.constant import INDEXER_URL_MAINNET
 from src.utils.constant import INDEXER_URL_REGTEST
+from src.utils.constant import INDEXER_URL_SIGNET
 from src.utils.constant import INDEXER_URL_TESTNET
+from src.utils.constant import INDEXER_URL_TESTNET4
 from src.utils.constant import LDK_PORT
 from src.utils.constant import LDK_PORT_KEY
 from src.utils.constant import LIGHTNING_URL_KEY
 from src.utils.constant import PROXY_ENDPOINT_MAINNET
 from src.utils.constant import PROXY_ENDPOINT_REGTEST
+from src.utils.constant import PROXY_ENDPOINT_SIGNET
 from src.utils.constant import PROXY_ENDPOINT_TESTNET
+from src.utils.constant import PROXY_ENDPOINT_TESTNET4
 from src.utils.constant import SAVED_ANNOUNCE_ADDRESS
 from src.utils.constant import SAVED_ANNOUNCE_ALIAS
 from src.utils.constant import SAVED_BITCOIND_RPC_HOST
@@ -251,6 +263,7 @@ def get_node_arg_config(network: NetworkEnumModel) -> list:
             '--daemon-listening-port', str(daemon_port),
             '--ldk-peer-listening-port', str(ldk_port),
             '--network', network.value,
+            '--disable-authentication',
         ]
     except Exception as exc:
         raise exc
@@ -337,6 +350,22 @@ def get_bitcoin_config(network: NetworkEnumModel, password) -> UnlockRequestMode
                 SAVED_INDEXER_URL: INDEXER_URL_REGTEST,
                 SAVED_PROXY_ENDPOINT: PROXY_ENDPOINT_REGTEST,
             },
+            NetworkEnumModel.TESTNET4: {
+                SAVED_BITCOIND_RPC_USER: BITCOIND_RPC_USER_TESTNET4,
+                SAVED_BITCOIND_RPC_PASSWORD: BITCOIND_RPC_PASSWORD_TESTNET4,
+                SAVED_BITCOIND_RPC_HOST: BITCOIND_RPC_HOST_TESTNET4,
+                SAVED_BITCOIND_RPC_PORT: BITCOIND_RPC_PORT_TESTNET4,
+                SAVED_INDEXER_URL: INDEXER_URL_TESTNET4,
+                SAVED_PROXY_ENDPOINT: PROXY_ENDPOINT_TESTNET4,
+            },
+            NetworkEnumModel.SIGNET: {
+                SAVED_BITCOIND_RPC_USER: BITCOIND_RPC_USER_SIGNET,
+                SAVED_BITCOIND_RPC_PASSWORD: BITCOIND_RPC_PASSWORD_SIGNET,
+                SAVED_BITCOIND_RPC_HOST: BITCOIND_RPC_HOST_SIGNET,
+                SAVED_BITCOIND_RPC_PORT: BITCOIND_RPC_PORT_SIGNET,
+                SAVED_INDEXER_URL: INDEXER_URL_SIGNET,
+                SAVED_PROXY_ENDPOINT: PROXY_ENDPOINT_SIGNET,
+            },
         }
         # Retrieve the appropriate configuration based on the network
         network_config = config_mapping.get(network) or {}
@@ -366,3 +395,51 @@ def get_bitcoin_config(network: NetworkEnumModel, password) -> UnlockRequestMode
         return bitcoin_config
     except Exception as exc:
         raise exc
+
+
+def write_ln_node_commit_id_file(file_name: str) -> tuple[str, str]:
+    """
+    Write the ln_node commit to a .commit file in the same directory as the backup file.
+
+    Args:
+        file_name (str): The name to use for the commit file (e.g., 'wallet.commit').
+
+    Returns:
+        str: The full path to the created version file.
+    """
+    version = SettingRepository.get_rln_node_commit_id()
+    version_file_name = f'{file_name}.commit'
+    version_file_path = os.path.join(
+        app_paths.backup_folder_path, version_file_name,
+    )
+
+    try:
+        with open(version_file_path, 'w', encoding='utf-8') as f:
+            f.write(version)
+        return version_file_path, version_file_name
+    except OSError as e:
+        raise RuntimeError(f'Failed to write version file: {e}') from e
+
+
+def read_ln_node_commit_id_file(file_name: str) -> str:
+    """
+    Read the ln_node commit from a .commit file in the same directory as the backup file.
+
+    Args:
+        file_name (str): The name of the commit file (e.g., 'wallet.commit').
+        backup_path (str): The full path to the backup file (used to derive the directory).
+
+    Returns:
+        str: The ln_node commit if available, otherwise "unknown".
+    """
+    commit_id_file_path = os.path.join(
+        app_paths.restore_folder_path, file_name,
+    )
+
+    try:
+        with open(commit_id_file_path, encoding='utf-8') as f:
+            return f.read().strip()
+    except FileNotFoundError:
+        return 'unknown'
+    except OSError as e:
+        raise RuntimeError(f'Failed to read version file: {e}') from e

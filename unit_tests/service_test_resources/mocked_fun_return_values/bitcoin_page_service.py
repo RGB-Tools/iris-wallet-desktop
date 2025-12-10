@@ -1,3 +1,4 @@
+"""This module contains the mocked function return values for the bitcoin page service."""
 from __future__ import annotations
 
 from unittest.mock import patch
@@ -99,6 +100,7 @@ mocked_expected_response = TransactionListWithBalanceResponse(
 @patch('src.data.repository.btc_repository.BtcRepository.get_btc_balance')
 @patch('src.data.repository.btc_repository.BtcRepository.list_transactions')
 def test_get_btc_transaction(mock_list_transactions, mock_get_btc_balance):
+    """This function tests the get_btc_transaction method of the BitcoinPageService class."""
     # Mocking the repository responses
     mock_get_btc_balance.return_value = mocked_balance
     mock_list_transactions.return_value = mocked_transaction_list

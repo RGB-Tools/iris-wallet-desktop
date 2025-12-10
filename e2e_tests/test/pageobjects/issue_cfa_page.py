@@ -1,24 +1,24 @@
 """
-IssueRgb25PageObjects class provides methods to interact with the issue RGB25 page.
+IssueCfaPageObjects class provides methods to interact with the issue CFA page.
 """
 from __future__ import annotations
 
 from dogtail.rawinput import keyCombo
 from dogtail.tree import root
 
+from accessible_constant import CFA_ASSET_AMOUNT
+from accessible_constant import CFA_ASSET_DESCRIPTION
+from accessible_constant import CFA_ASSET_NAME
+from accessible_constant import CFA_UPLOAD_FILE_BUTTON
 from accessible_constant import FILE_CHOOSER
-from accessible_constant import ISSUE_RGB25_ASSET_CLOSE_BUTTON
-from accessible_constant import ISSUE_RGB25_BUTTON
-from accessible_constant import RGB25_ASSET_AMOUNT
-from accessible_constant import RGB25_ASSET_DESCRIPTION
-from accessible_constant import RGB25_ASSET_NAME
-from accessible_constant import RGB25_UPLOAD_FILE_BUTTON
+from accessible_constant import ISSUE_CFA_ASSET_CLOSE_BUTTON
+from accessible_constant import ISSUE_CFA_BUTTON
 from e2e_tests.test.utilities.base_operation import BaseOperations
 
 
-class IssueRgb25PageObjects(BaseOperations):
+class IssueCfaPageObjects(BaseOperations):
     """
-    Initialize the IssueRgb25PageObjects class.
+    Initialize the IssueCfaPageObjects class.
 
     Args:
         application: The application instance.
@@ -26,7 +26,7 @@ class IssueRgb25PageObjects(BaseOperations):
 
     def __init__(self, application):
         """
-        Initialize the IssueRgb25PageObjects class.
+        Initialize the IssueCfaPageObjects class.
 
         Args:
             application: The application instance.
@@ -34,31 +34,31 @@ class IssueRgb25PageObjects(BaseOperations):
         super().__init__(application)
 
         self.close_button = lambda: self.perform_action_on_element(
-            role_name='push button', name=ISSUE_RGB25_ASSET_CLOSE_BUTTON,
+            role_name='push button', name=ISSUE_CFA_ASSET_CLOSE_BUTTON,
         )
         self.asset_name = lambda: self.perform_action_on_element(
-            role_name='text', name=RGB25_ASSET_NAME,
+            role_name='text', name=CFA_ASSET_NAME,
         )
         self.asset_description = lambda: self.perform_action_on_element(
-            role_name='text', name=RGB25_ASSET_DESCRIPTION,
+            role_name='text', name=CFA_ASSET_DESCRIPTION,
         )
         self.asset_amount = lambda: self.perform_action_on_element(
-            role_name='text', name=RGB25_ASSET_AMOUNT,
+            role_name='text', name=CFA_ASSET_AMOUNT,
         )
-        self.issue_rgb25_button = lambda: self.perform_action_on_element(
-            role_name='push button', name=ISSUE_RGB25_BUTTON,
+        self.issue_cfa_button = lambda: self.perform_action_on_element(
+            role_name='push button', name=ISSUE_CFA_BUTTON,
         )
         self.upload_file_button = lambda: self.perform_action_on_element(
-            role_name='push button', name=RGB25_UPLOAD_FILE_BUTTON,
+            role_name='push button', name=CFA_UPLOAD_FILE_BUTTON,
         )
         self.file_dialog = lambda: root.child(roleName=FILE_CHOOSER)
-        self.rgb25_asset_media = lambda: self.file_dialog().child(
+        self.cfa_asset_media = lambda: self.file_dialog().child(
             roleName='table cell', name='sample.png',
         )
 
     def click_close_button(self):
         """
-        Click the close button on the issue RGB25 page.
+        Click the close button on the issue CFA page.
 
         Returns:
             bool: True if the button is clicked, None otherwise.
@@ -67,7 +67,7 @@ class IssueRgb25PageObjects(BaseOperations):
 
     def enter_asset_name(self, asset_name):
         """
-        Enter the asset name on the issue RGB25 page.
+        Enter the asset name on the issue CFA page.
 
         Args:
             asset_name (str): The asset name to enter.
@@ -79,7 +79,7 @@ class IssueRgb25PageObjects(BaseOperations):
 
     def enter_asset_description(self, asset_description):
         """
-        Enter the asset description on the issue RGB25 page.
+        Enter the asset description on the issue CFA page.
 
         Args:
             asset_description (str): The asset description to enter.
@@ -91,7 +91,7 @@ class IssueRgb25PageObjects(BaseOperations):
 
     def enter_asset_amount(self, asset_amount):
         """
-        Enter the asset amount on the issue RGB25 page.
+        Enter the asset amount on the issue CFA page.
 
         Args:
             asset_amount (str): The asset amount to enter.
@@ -101,33 +101,33 @@ class IssueRgb25PageObjects(BaseOperations):
         """
         return self.do_set_value(self.asset_amount(), asset_amount) if self.do_is_displayed(self.asset_amount()) else None
 
-    def click_issue_rgb25_button(self):
+    def click_issue_cfa_button(self):
         """
-        Click the issue RGB25 button on the issue RGB25 page.
+        Click the issue CFA button on the issue CFA page.
 
         Returns:
             bool: True if the button is clicked, None otherwise.
         """
-        return self.do_click(self.issue_rgb25_button()) if self.do_is_displayed(self.issue_rgb25_button()) else None
+        return self.do_click(self.issue_cfa_button()) if self.do_is_displayed(self.issue_cfa_button()) else None
 
     def click_upload_file_button(self):
         """
-        Click the upload file button on the issue RGB25 page.
+        Click the upload file button on the issue CFA page.
 
         Returns:
             bool: True if the button is clicked, None otherwise.
         """
         return self.do_click(self.upload_file_button()) if self.do_is_displayed(self.upload_file_button()) else None
 
-    def click_rgb25_asset_media(self):
+    def click_cfa_asset_media(self):
         """
-        Select the RGB25 asset by focusing on it and pressing Enter.
+        Select the CFA asset by focusing on it and pressing Enter.
 
         Returns:
             bool: True if the asset is selected, False otherwise.
         """
-        if self.do_is_displayed(self.rgb25_asset_media()):
-            self.rgb25_asset_media().grabFocus()
+        if self.do_is_displayed(self.cfa_asset_media()):
+            self.cfa_asset_media().grabFocus()
             keyCombo('enter')
             return True
         return False  # Return False if the element is not displayed

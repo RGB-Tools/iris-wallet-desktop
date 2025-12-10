@@ -13,7 +13,6 @@ from src.model.rgb_model import Token
 
 mock_nia_asset = AssetModel(
     asset_id='rgb:2dkSTbr-jFhznbPmo-TQafzswCN-av4gTsJjX-ttx6CNou5-M98k8Zd',
-    asset_iface='RGB20',
     ticker='USDT',
     name='Tether',
     details='asset details',
@@ -30,7 +29,6 @@ mock_nia_asset = AssetModel(
 
 mock_uda_asset = AssetModel(
     asset_id='rgb:2dkSTbr-jFhznbPmo-TQafzswCN-av4gTsJjX-ttx6CNou5-M98k8Zd',
-    asset_iface='RGB20',
     ticker='UNI',
     name='Unique',
     details='asset details',
@@ -74,7 +72,6 @@ mock_uda_asset = AssetModel(
 
 mock_cfa_asset = AssetModel(
     asset_id='rgb:2dkSTbr-jFhznbPmo-TQafzswCN-av4gTsJjX-ttx6CNou5-M98k8Zd',
-    asset_iface='RGB20',
     name='Collectible',
     details='asset details',
     precision=0,
@@ -94,7 +91,6 @@ mock_cfa_asset = AssetModel(
 
 mock_cfa_asset_when_wallet_type_connect = AssetModel(
     asset_id='rgb:2dkSTbr-jFhznbPmo-TQafzswCN-av4gTsJjX-ttx6CNou5-M98k8Zd',
-    asset_iface='RGB20',
     name='Collectible',
     details='asset details',
     precision=0,
@@ -133,7 +129,8 @@ mock_node_info_Response_model = NodeInfoResponseModel(
     eventual_close_fees_sat=892,
     pending_outbound_payments_sat=7852,
     num_peers=0,
-    onchain_pubkey='02270dadcd6e7ba0ef707dac72acccae1a3607453a8dd2aef36ff3be4e0d31f043',
+    account_xpub_vanilla='02270dadcd6e7ba0ef707dac72acccae1a3607453a8dd2aef36ff3be4e0d31f043',
+    account_xpub_colored='02270dadcd6e7ba0ef707dac72acccae1a3607453a8dd2aef36ff3be4e0d31f043',
     max_media_upload_size_mb=5,
     rgb_htlc_min_msat=1,
     rgb_channel_capacity_min_sat=1,
@@ -150,7 +147,6 @@ mock_node_info_Response_model = NodeInfoResponseModel(
 
 mock_nia_asset_exhausted_asset = AssetModel(
     asset_id='rgb:2dkSTbr-jFhznbPmo-TQafzswCN-av4gTsJjX-ttx6CNou5-M98k333',
-    asset_iface='RGB20',
     ticker='TTK',
     name='super man',
     details='asset details',
@@ -167,7 +163,6 @@ mock_nia_asset_exhausted_asset = AssetModel(
 
 mock_uda_asset_exhausted_asset = AssetModel(
     asset_id='rgb:2dkSTbr-jFhznbPmo-TQafzswCN-av4gTsJjX-ttx6CNou5-M98k8Zd',
-    asset_iface='RGB20',
     ticker='UNI',
     name='Unique',
     details='asset details',
@@ -211,7 +206,6 @@ mock_uda_asset_exhausted_asset = AssetModel(
 
 mock_cfa_asset_exhausted_asset = AssetModel(
     asset_id='rgb:2dkSTbr-jFhznbPmo-TQafzswCN-av4gTsJjX-ttx6CNou5-M98k8Zd',
-    asset_iface='RGB20',
     name='Collectible',
     details='asset details',
     precision=0,

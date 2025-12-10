@@ -468,8 +468,8 @@ class Backup(QWidget):
 
         navigation_map = {
             'fungibles': self._view_model.page_navigation.fungibles_asset_page,
-            'RGB20': self._view_model.page_navigation.fungibles_asset_page,
-            'RGB25': self._view_model.page_navigation.collectibles_asset_page,
+            'NIA': self._view_model.page_navigation.fungibles_asset_page,
+            'CFA': self._view_model.page_navigation.collectibles_asset_page,
             'create_invoice': self._view_model.page_navigation.fungibles_asset_page,
             'channel_management': self._view_model.page_navigation.channel_management_page,
             'collectibles': self._view_model.page_navigation.collectibles_asset_page,
@@ -487,9 +487,9 @@ class Backup(QWidget):
             ToastManager.show_toast(
                 parent=self,
                 preset=ToastPreset.ERROR,
-                description=f'No navigation defined for {
+                description=f"""No navigation defined for {
                     originating_page
-                }',
+                }""",
             )
 
     def handle_mnemonic_visibility(self):

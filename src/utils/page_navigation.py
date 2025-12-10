@@ -24,8 +24,8 @@ from src.views.ui_enter_wallet_password import EnterWalletPassword
 from src.views.ui_faucets import FaucetsWidget
 from src.views.ui_fungible_asset import FungibleAssetWidget
 from src.views.ui_help import HelpWidget
-from src.views.ui_issue_rgb20 import IssueRGB20Widget
-from src.views.ui_issue_rgb25 import IssueRGB25Widget
+from src.views.ui_issue_cfa import IssueCFAWidget
+from src.views.ui_issue_nia import IssueNIAWidget
 from src.views.ui_ln_endpoint import LnEndpointWidget
 from src.views.ui_network_selection_page import NetworkSelectionWidget
 from src.views.ui_receive_bitcoin import ReceiveBitcoinWidget
@@ -62,19 +62,19 @@ class PageNavigation:
             'FungibleAssetWidget': FungibleAssetWidget,
             'CollectiblesAssetWidget': CollectiblesAssetWidget,
             'SetWalletPassword': SetWalletPasswordWidget,
-            'IssueRGB20': IssueRGB20Widget,
+            'IssueNIA': IssueNIAWidget,
             'Bitcoin': BtcWidget,
-            'IssueRGB25': IssueRGB25Widget,
-            'SendRGB25': SendRGBAssetWidget,
-            'ReceiveRGB25': ReceiveRGBAssetWidget,
-            'RGB25Detail': RGBAssetDetailWidget,
+            'IssueCFA': IssueCFAWidget,
+            'SendCFA': SendRGBAssetWidget,
+            'ReceiveCFA': ReceiveRGBAssetWidget,
+            'CFADetail': RGBAssetDetailWidget,
             'SendBitcoin': SendBitcoinWidget,
             'ReceiveBitcoin': ReceiveBitcoinWidget,
             'ChannelManagement': ChannelManagement,
             'CreateChannel': CreateChannelWidget,
             'ViewUnspentList': ViewUnspentList,
             'EnterWalletPassword': EnterWalletPassword,
-            'RGB25TransactionDetail': RGBAssetTransactionDetail,
+            'CFATransactionDetail': RGBAssetTransactionDetail,
             'BitcoinTransactionDetail': BitcoinTransactionDetail,
             'Backup': Backup,
             'Swap': SwapWidget,
@@ -128,23 +128,23 @@ class PageNavigation:
         self.event_based_navigation.enter_wallet_password_page_signal.connect(
             self.enter_wallet_password_page,
         )
-        self.event_based_navigation.issue_rgb20_asset_page_signal.connect(
-            self.issue_rgb20_asset_page,
+        self.event_based_navigation.issue_nia_asset_page_signal.connect(
+            self.issue_nia_asset_page,
         )
         self.event_based_navigation.bitcoin_page_signal.connect(
             self.bitcoin_page,
         )
-        self.event_based_navigation.issue_rgb25_asset_page_signal.connect(
-            self.issue_rgb25_asset_page,
+        self.event_based_navigation.issue_cfa_asset_page_signal.connect(
+            self.issue_cfa_asset_page,
         )
-        self.event_based_navigation.send_rgb25_page_signal.connect(
-            self.send_rgb25_page,
+        self.event_based_navigation.send_cfa_page_signal.connect(
+            self.send_cfa_page,
         )
-        self.event_based_navigation.receive_rgb25_page_signal.connect(
-            self.receive_rgb25_page,
+        self.event_based_navigation.receive_cfa_page_signal.connect(
+            self.receive_cfa_page,
         )
-        self.event_based_navigation.rgb25_detail_page_signal.connect(
-            self.rgb25_detail_page,
+        self.event_based_navigation.cfa_detail_page_signal.connect(
+            self.cfa_detail_page,
         )
         self.event_based_navigation.send_bitcoin_page_signal.connect(
             self.send_bitcoin_page,
@@ -161,8 +161,8 @@ class PageNavigation:
         self.event_based_navigation.view_unspent_list_page_signal.connect(
             self.view_unspent_list_page,
         )
-        self.event_based_navigation.rgb25_transaction_detail_page_signal.connect(
-            self.rgb25_transaction_detail_page,
+        self.event_based_navigation.cfa_transaction_detail_page_signal.connect(
+            self.cfa_transaction_detail_page,
         )
         self.event_based_navigation.bitcoin_transaction_detail_page_signal.connect(
             self.bitcoin_transaction_detail_page,
@@ -291,35 +291,35 @@ class PageNavigation:
         """This method display the set wallet password page."""
         self.navigate_to_page('EnterWalletPassword')
 
-    def issue_rgb20_asset_page(self):
-        """This method display the issue rgb20 asset page."""
-        self.navigate_to_page('IssueRGB20')
+    def issue_nia_asset_page(self):
+        """This method display the issue nia asset page."""
+        self.navigate_to_page('IssueNIA')
 
     def bitcoin_page(self):
         """This method display the bitcoin page."""
         self.navigate_to_page('Bitcoin')
 
-    def issue_rgb25_asset_page(self):
-        """This method display the issue rgb25 page."""
-        self.navigate_to_page('IssueRGB25')
+    def issue_cfa_asset_page(self):
+        """This method display the issue cfa page."""
+        self.navigate_to_page('IssueCFA')
 
-    def send_rgb25_page(self):
-        """This method display the send rgb25 page."""
-        self.navigate_to_page('SendRGB25')
+    def send_cfa_page(self):
+        """This method display the send cfa page."""
+        self.navigate_to_page('SendCFA')
 
-    def receive_rgb25_page(self, params):
-        """This method display the receive rgb25 asset page."""
+    def receive_cfa_page(self, params):
+        """This method display the receive cfa asset page."""
         self.current_stack = {
-            'name': 'ReceiveRGB25',
-            'widget': self.pages['ReceiveRGB25'](self._ui.view_model, params),
+            'name': 'ReceiveCFA',
+            'widget': self.pages['ReceiveCFA'](self._ui.view_model, params),
         }
         self.navigate_and_toggle(False)
 
-    def rgb25_detail_page(self, params: RgbAssetPageLoadModel):
-        """This method display the rgb25 detail page."""
+    def cfa_detail_page(self, params: RgbAssetPageLoadModel):
+        """This method display the cfa detail page."""
         self.current_stack = {
-            'name': 'RGB25Detail',
-            'widget': self.pages['RGB25Detail'](self._ui.view_model, params),
+            'name': 'CFADetail',
+            'widget': self.pages['CFADetail'](self._ui.view_model, params),
         }
         self.navigate_and_toggle(False)
 
@@ -343,11 +343,11 @@ class PageNavigation:
         """This method display the view unspent list page."""
         self.navigate_to_page('ViewUnspentList', show_sidebar=True)
 
-    def rgb25_transaction_detail_page(self, params: TransactionDetailPageModel):
-        """This method display the rgb25 transaction detail page."""
+    def cfa_transaction_detail_page(self, params: TransactionDetailPageModel):
+        """This method display the cfa transaction detail page."""
         self.current_stack = {
-            'name': 'RGB25TransactionDetail',
-            'widget': self.pages['RGB25TransactionDetail'](self._ui.view_model, params),
+            'name': 'CFATransactionDetail',
+            'widget': self.pages['CFATransactionDetail'](self._ui.view_model, params),
         }
         self.navigate_and_toggle(False)
 

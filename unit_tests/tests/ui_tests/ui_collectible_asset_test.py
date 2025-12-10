@@ -20,6 +20,7 @@ from PySide6.QtWidgets import QLabel
 from PySide6.QtWidgets import QScrollArea
 from PySide6.QtWidgets import QWidget
 
+from src.model.enums.enums_model import AssetType
 from src.model.enums.enums_model import ToastPreset
 from src.model.rgb_model import RgbAssetPageLoadModel
 from src.utils.constant import IRIS_WALLET_TRANSLATIONS_CONTEXT
@@ -71,7 +72,6 @@ def test_create_collectible_frame_with_image(collectible_asset_widget, mocker):
     coll_asset.name = 'Mock Asset'
     coll_asset.media.file_path = 'mock_image_path'
     coll_asset.media.hex = None  # Valid image path, no hex
-    coll_asset.asset_iface = 'mock_iface'
 
     # Mock the resize_image method to return a dummy QPixmap
     mocker.patch('src.utils.common_utils.resize_image', return_value=QPixmap())
@@ -126,7 +126,6 @@ def test_create_collectible_frame_with_empty_name(collectible_asset_widget, mock
     coll_asset.name = ''  # Empty name
     coll_asset.media.file_path = 'mock_image_path'
     coll_asset.media.hex = None
-    coll_asset.asset_iface = 'mock_iface'
 
     # Mock the resize_image method to return a dummy QPixmap
     mocker.patch('src.utils.common_utils.resize_image', return_value=QPixmap())
@@ -139,27 +138,6 @@ def test_create_collectible_frame_with_empty_name(collectible_asset_widget, mock
     assert asset_name_label.text() == ''  # The label should display an empty name
 
 
-def test_create_collectible_frame_with_different_asset_type(collectible_asset_widget, mocker):
-    """Test the creation of a collectible frame with a different asset type."""
-
-    # Mock a collectible asset with a different asset type
-    coll_asset = MagicMock()
-    coll_asset.asset_id = 'mock_id'
-    coll_asset.name = 'Mock Asset'
-    coll_asset.media.file_path = 'mock_image_path'
-    coll_asset.media.hex = None
-    coll_asset.asset_iface = 'different_type'  # Different asset type
-
-    # Mock the resize_image method to return a dummy QPixmap
-    mocker.patch('src.utils.common_utils.resize_image', return_value=QPixmap())
-
-    # Call the create_collectible_frame method
-    frame = collectible_asset_widget.create_collectible_frame(coll_asset)
-
-    # Assert that the asset type is correctly passed and used
-    assert frame._asset_type == 'different_type'
-
-
 def test_create_collectible_frame_edge_case(collectible_asset_widget, mocker):
     """Test the creation of a collectible frame with edge case values (e.g., very large image path)."""
 
@@ -169,7 +147,6 @@ def test_create_collectible_frame_edge_case(collectible_asset_widget, mocker):
     coll_asset.name = 'Edge Case Asset'
     coll_asset.media.file_path = 'a' * 1000  # Very large file path
     coll_asset.media.hex = None
-    coll_asset.asset_iface = 'mock_iface'
 
     # Mock the resize_image method to return a dummy QPixmap
     mocker.patch('src.utils.common_utils.resize_image', return_value=QPixmap())
@@ -202,7 +179,6 @@ def test_create_collectible_frame(collectible_asset_widget, mocker):
     coll_asset.name = 'Mock Asset'
     coll_asset.media.file_path = 'mock_path'
     coll_asset.media.hex = None
-    coll_asset.asset_iface = 'mock_iface'
 
     # Mock the resize_image and convert_hex_to_image methods
     mocker.patch('src.utils.common_utils.resize_image', return_value=QPixmap())
@@ -218,7 +194,7 @@ def test_create_collectible_frame(collectible_asset_widget, mocker):
         QLabel, 'collectible_asset_name',
     ).text() == 'Mock Asset'
     assert frame.findChild(QLabel, 'collectible_image').pixmap() is not None
-    assert frame._asset_type == 'mock_iface'
+    assert frame._asset_type == AssetType.CFA
     assert frame.cursor().shape() == Qt.CursorShape.PointingHandCursor
     assert frame.styleSheet() == (
         'background: transparent;\n'
@@ -336,17 +312,17 @@ def test_handle_collectible_frame_click(collectible_asset_widget, mocker):
     asset_type = 'mock_type'
 
     mock_view_model = collectible_asset_widget._view_model
-    mock_view_model.rgb25_view_model.asset_info.emit = MagicMock()
-    mock_view_model.page_navigation.rgb25_detail_page = MagicMock()
+    mock_view_model.cfa_view_model.asset_info.emit = MagicMock()
+    mock_view_model.page_navigation.cfa_detail_page = MagicMock()
 
     collectible_asset_widget.handle_collectible_frame_click(
         asset_id, asset_name, image_path, asset_type,
     )
 
-    mock_view_model.rgb25_view_model.asset_info.emit.assert_called_once_with(
+    mock_view_model.cfa_view_model.asset_info.emit.assert_called_once_with(
         asset_id, asset_name, image_path, asset_type,
     )
-    mock_view_model.page_navigation.rgb25_detail_page.assert_called_once_with(
+    mock_view_model.page_navigation.cfa_detail_page.assert_called_once_with(
         RgbAssetPageLoadModel(
             asset_id=None, asset_name=None,
             image_path=None, asset_type='mock_type',
@@ -396,7 +372,6 @@ def test_create_collectible_frame_image_loading_failure(collectible_asset_widget
     coll_asset.name = 'Mock Asset'
     coll_asset.media.file_path = 'mock_path'
     coll_asset.media.hex = None
-    coll_asset.asset_iface = 'mock_iface'
 
     # Simulate image loading failure
     mocker.patch('src.utils.common_utils.resize_image', return_value=None)
@@ -417,16 +392,16 @@ def test_handle_collectible_frame_click_invalid_data(collectible_asset_widget):
 
     # Mock view model methods to ensure they aren't called
     mock_view_model = collectible_asset_widget._view_model
-    mock_view_model.rgb25_view_model.asset_info.emit = MagicMock()
-    mock_view_model.page_navigation.rgb25_detail_page = MagicMock()
+    mock_view_model.cfa_view_model.asset_info.emit = MagicMock()
+    mock_view_model.page_navigation.cfa_detail_page = MagicMock()
 
     collectible_asset_widget.handle_collectible_frame_click(
         asset_id, asset_name, image_path, asset_type,
     )
 
     # Ensure that no method was called with invalid asset ID
-    mock_view_model.rgb25_view_model.asset_info.emit.assert_not_called()
-    mock_view_model.page_navigation.rgb25_detail_page.assert_not_called()
+    mock_view_model.cfa_view_model.asset_info.emit.assert_not_called()
+    mock_view_model.page_navigation.cfa_detail_page.assert_not_called()
 
 
 # Negative test case: Test failure during asset loading

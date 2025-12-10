@@ -1,5 +1,5 @@
 """Unit tests for issue asset service"""
-# pylint: disable=redefined-outer-name,unused-argument,too-many-arguments
+# pylint: disable=redefined-outer-name,unused-argument,too-many-arguments,unused-import
 from __future__ import annotations
 
 import pytest

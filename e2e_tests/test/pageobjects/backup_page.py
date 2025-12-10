@@ -9,6 +9,7 @@ import re
 import time
 
 import pyotp
+from dogtail.rawinput import keyCombo
 from dogtail.tree import root
 from dotenv import load_dotenv
 
@@ -108,7 +109,11 @@ class BackupPageObjects(BaseOperations):
         Returns:
             The result of the click action.
         """
-        return self.do_click(self.backup_window()) if self.do_is_displayed(self.backup_window()) else None
+        if self.do_is_displayed(self.backup_window()):
+            self.do_click(self.backup_window())
+            keyCombo('<Alt>F10')
+            return True
+        return False
 
     def enter_email(self, email):
         """

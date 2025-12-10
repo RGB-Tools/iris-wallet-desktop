@@ -283,7 +283,7 @@ def test_on_error_of_unlock_api(
 @patch('src.viewmodels.splash_view_model.CommonOperationRepository')
 @patch('src.viewmodels.splash_view_model.ToastManager')
 @patch('src.viewmodels.splash_view_model.QApplication')
-@patch('src.utils.local_store.LocalStore.set_value')
+@patch('src.viewmodels.splash_view_model.local_store.set_value')
 def test_on_success_of_unlock_api(mock_set_value, mock_qapp, mock_toast_manager, mock_common_repo):
     """Tests the on_success_of_unlock_api method."""
     # Arrange
@@ -307,7 +307,7 @@ def test_on_success_of_unlock_api(mock_set_value, mock_qapp, mock_toast_manager,
 @patch('src.viewmodels.splash_view_model.CommonOperationRepository')
 @patch('src.viewmodels.splash_view_model.ToastManager')
 @patch('src.viewmodels.splash_view_model.QApplication')
-@patch('src.utils.local_store.LocalStore.set_value')
+@patch('src.viewmodels.splash_view_model.local_store.set_value')
 def test_on_success_of_unlock_api_no_node_info(mock_set_value, mock_qapp, mock_toast_manager, mock_common_repo):
     """Tests the on_success_of_unlock_api method when node_info returns None."""
     # Arrange

@@ -60,13 +60,13 @@ SEND_ASSET_REFRESH_BUTTON = 'send_asset_refresh_button'
 SEND_ASSET_BUTTON = 'send_asset_button'
 ASSET_ADDRESS_VALIDATION_LABEL = 'asset_address_validation_label'
 
-# Issue RGB20 asset page
-ISSUE_RGB20_ASSET = 'issue_rgb20_asset'
-ISSUE_RGB20_ASSET_CLOSE_BUTTON = 'issue_rgb20_asset_close_button'
-RGB20_ASSET_TICKER = 'rgb20_asset_ticker'
-RGB20_ASSET_NAME = 'rgb20_asset_name'
-RGB20_ASSET_AMOUNT = 'rgb20_asset_amount'
-ISSUE_RGB20_BUTTON = 'issue_rgb20_button'
+# Issue NIA asset page
+ISSUE_NIA_ASSET = 'issue_nia_asset'
+ISSUE_NIA_ASSET_CLOSE_BUTTON = 'issue_nia_asset_close_button'
+NIA_ASSET_TICKER = 'nia_asset_ticker'
+NIA_ASSET_NAME = 'nia_asset_name'
+NIA_ASSET_AMOUNT = 'nia_asset_amount'
+ISSUE_NIA_BUTTON = 'issue_nia_button'
 
 # Success page
 SUCCESS_PAGE_CLOSE_BUTTON = 'success_page_close_button'
@@ -90,14 +90,14 @@ SIDEBAR_RECEIVE_ASSET_BUTTON = 'sidebar_receive_asset_button'
 VIEW_UNSPENT_LIST_BUTTON = 'view_unspent_list_button'
 SETTINGS_BUTTON = 'settings_button'
 
-# Issue RGB25 asset page
-ISSUE_RGB25_ASSET = 'issue_rgb25_asset'
-ISSUE_RGB25_BUTTON = 'issue_rgb25_button'
-RGB25_ASSET_DESCRIPTION = 'rgb25_asset_description'
-RGB25_ASSET_NAME = 'rgb25_asset_name'
-RGB25_ASSET_AMOUNT = 'rgb25_asset_amount'
-RGB25_UPLOAD_FILE_BUTTON = 'rgb25_upload_file_button'
-ISSUE_RGB25_ASSET_CLOSE_BUTTON = 'issue_rgb25_asset_close_button'
+# Issue CFA asset page
+ISSUE_CFA_ASSET = 'issue_cfa_asset'
+ISSUE_CFA_BUTTON = 'issue_cfa_button'
+CFA_ASSET_DESCRIPTION = 'cfa_asset_description'
+CFA_ASSET_NAME = 'cfa_asset_name'
+CFA_ASSET_AMOUNT = 'cfa_asset_amount'
+CFA_UPLOAD_FILE_BUTTON = 'cfa_upload_file_button'
+ISSUE_CFA_ASSET_CLOSE_BUTTON = 'issue_cfa_asset_close_button'
 
 # File chooser
 FILE_CHOOSER = 'file chooser'

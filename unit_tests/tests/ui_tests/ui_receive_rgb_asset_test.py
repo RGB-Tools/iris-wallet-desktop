@@ -24,7 +24,7 @@ def receive_rgb_asset_widget(qtbot):
     """Fixture to create and return an instance of ReceiveRGBAssetWidget."""
     mock_navigation = MagicMock()
     mock_view_model = MagicMock(MainViewModel(mock_navigation))
-    asset_data = AssetDataModel(asset_type='RGB25', asset_id='test_asset_id')
+    asset_data = AssetDataModel(asset_type='CFA', asset_id='test_asset_id')
     widget = ReceiveRGBAssetWidget(mock_view_model, asset_data)
     qtbot.addWidget(widget)
     return widget
@@ -32,11 +32,11 @@ def receive_rgb_asset_widget(qtbot):
 
 def test_generate_invoice(receive_rgb_asset_widget: ReceiveRGBAssetWidget):
     """Test that generate_invoice calls get_rgb_invoice for specific asset types."""
-    receive_rgb_asset_widget._view_model.receive_rgb25_view_model.get_rgb_invoice = MagicMock()
+    receive_rgb_asset_widget._view_model.receive_cfa_view_model.get_rgb_invoice = MagicMock()
 
     receive_rgb_asset_widget.generate_invoice()
 
-    receive_rgb_asset_widget._view_model.receive_rgb25_view_model.get_rgb_invoice.assert_called_once_with(
+    receive_rgb_asset_widget._view_model.receive_cfa_view_model.get_rgb_invoice.assert_called_once_with(
         1, 'test_asset_id',
     )
 
@@ -54,10 +54,10 @@ def test_setup_ui_connection(receive_rgb_asset_widget: ReceiveRGBAssetWidget):
                 receive_rgb_asset_widget.receive_rgb_asset_page.copy_button.clicked.emit()
 
                 # Verify UI connections are set up
-                receive_rgb_asset_widget._view_model.receive_rgb25_view_model.address.connect.assert_called_once()
+                receive_rgb_asset_widget._view_model.receive_cfa_view_model.address.connect.assert_called_once()
                 receive_rgb_asset_widget._view_model.ln_offchain_view_model.invoice_get_event.connect.assert_called()
-                receive_rgb_asset_widget._view_model.receive_rgb25_view_model.message.connect.assert_called()
-                receive_rgb_asset_widget._view_model.receive_rgb25_view_model.hide_loading.connect.assert_called()
+                receive_rgb_asset_widget._view_model.receive_cfa_view_model.message.connect.assert_called()
+                receive_rgb_asset_widget._view_model.receive_cfa_view_model.hide_loading.connect.assert_called()
 
                 # Verify address label text is set correctly
                 assert receive_rgb_asset_widget.receive_rgb_asset_page.address_label.text() == QCoreApplication.translate(
@@ -80,22 +80,22 @@ def test_close_button_navigation(receive_rgb_asset_widget):
 
     # Mock ToastManager for error messages
     with patch.object(ToastManager, 'error') as mock_error:
-        # Test case 1: Navigation for AssetType.RGB25
-        receive_rgb_asset_widget.close_page_navigation = AssetType.RGB25.value
+        # Test case 1: Navigation for AssetType.CFA
+        receive_rgb_asset_widget.close_page_navigation = AssetType.CFA.value
         receive_rgb_asset_widget.close_button_navigation()
         receive_rgb_asset_widget._view_model.page_navigation.collectibles_asset_page.assert_called_once()
         receive_rgb_asset_widget._view_model.page_navigation.collectibles_asset_page.reset_mock()
 
-        # Test case 2: Navigation for AssetType.RGB20
-        receive_rgb_asset_widget.close_page_navigation = AssetType.RGB20.value
+        # Test case 2: Navigation for AssetType.NIA
+        receive_rgb_asset_widget.close_page_navigation = AssetType.NIA.value
         receive_rgb_asset_widget.close_button_navigation()
         receive_rgb_asset_widget._view_model.page_navigation.fungibles_asset_page.assert_called_once()
         receive_rgb_asset_widget._view_model.page_navigation.fungibles_asset_page.reset_mock()
 
-        # Test case 3: Specific originating page (e.g., 'RGB20')
+        # Test case 3: Specific originating page (e.g., 'NIA')
         # Simulate no specific asset navigation
         receive_rgb_asset_widget.close_page_navigation = None
-        receive_rgb_asset_widget.originating_page = 'RGB20'
+        receive_rgb_asset_widget.originating_page = 'NIA'
         receive_rgb_asset_widget.close_button_navigation()
         receive_rgb_asset_widget._view_model.page_navigation.fungibles_asset_page.assert_called_once()
         receive_rgb_asset_widget._view_model.page_navigation.fungibles_asset_page.reset_mock()
