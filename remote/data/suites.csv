@@ -1,65 +1,63 @@
 "Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"skipped","Mon Dec 15 12:44:51 UTC 2025","Mon Dec 15 12:44:51 UTC 2025","0","test.spec","test_backup_and_restore","","","","test_backup[False]","
+"skipped","Mon Dec 15 15:06:28 UTC 2025","Mon Dec 15 15:06:28 UTC 2025","0","test.spec","test_backup_and_restore","","","","test_restore[False]","
+    This test case is used to restore the wallet from the backup.
+    "
+"passed","Mon Dec 15 15:07:36 UTC 2025","Mon Dec 15 15:09:14 UTC 2025","98070","test.spec","test_issue_rgb25_asset","","","","test_issue_rgb25_with_sufficient_sats_and_no_utxo[False]","
+    Test issuing rgb25 asset with sufficient sats but no utxo.
+    "
+"passed","Mon Dec 15 16:06:30 UTC 2025","Mon Dec 15 16:07:55 UTC 2025","85017","test.spec","test_ask_auth_for_imp_operations","","","","test_ask_auth_for_imp_question_send_rgb20_on","Sending RGB20 asset with ask auth for important operations on"
+"skipped","Mon Dec 15 15:06:28 UTC 2025","Mon Dec 15 15:06:28 UTC 2025","0","test.spec","test_backup_and_restore","","","","test_backup[False]","
     Test the backup page functionality.
     This test case covers the following scenarios:
     - Create a embedded wallet
     - Configure backup
     - Take a backup of wallet
     "
-"skipped","Mon Dec 15 12:44:51 UTC 2025","Mon Dec 15 12:44:51 UTC 2025","0","test.spec","test_backup_and_restore","","","","test_restore[False]","
-    This test case is used to restore the wallet from the backup.
-    "
-"passed","Mon Dec 15 12:48:04 UTC 2025","Mon Dec 15 12:54:52 UTC 2025","407537","test.spec","test_rgb20_channel_tx","","","","test_send_and_receive_with_correct_invoice_for_rgb20","Test sending and receiving with correct invoice for RGB20"
-"passed","Mon Dec 15 12:45:02 UTC 2025","Mon Dec 15 12:46:22 UTC 2025","80719","test.spec","test_issue_rgb20_asset","","","","test_issue_rgb20_with_sufficient_sats_and_no_utxo[False]","
+"passed","Mon Dec 15 16:07:57 UTC 2025","Mon Dec 15 16:08:56 UTC 2025","58557","test.spec","test_ask_auth_for_imp_operations","","","","test_ask_auth_for_imp_question_issue_rgb_25_on","Issuing RGB25 asset with ask auth for important operations on"
+"passed","Mon Dec 15 15:10:31 UTC 2025","Mon Dec 15 15:12:09 UTC 2025","98012","test.spec","test_send_and_receive_rgb20_asset","","","","test_send_and_receive_rgb20_asset_operation","Test send and receive operation for rgb20 asset"
+"passed","Mon Dec 15 15:05:55 UTC 2025","Mon Dec 15 15:07:13 UTC 2025","78292","test.spec","test_issue_rgb20_asset","","","","test_issue_rgb20_with_sufficient_sats_and_no_utxo[False]","
     Test rgb20 asset issuance with sufficient sats and no utxo.
     "
-"passed","Mon Dec 15 12:45:05 UTC 2025","Mon Dec 15 12:50:52 UTC 2025","346267","test.spec","test_refresh_transfer","","","","test_refresh_transfer","Test for refresh transfer"
-"passed","Mon Dec 15 12:51:39 UTC 2025","Mon Dec 15 12:52:20 UTC 2025","41262","test.spec","test_create_and_close_channel","","","","test_create_channel_with_wrong_node_uri","
-    Test the creation of a channel with a wrong node URI.
+"passed","Mon Dec 15 15:04:30 UTC 2025","Mon Dec 15 15:05:53 UTC 2025","82257","test.spec","test_issue_rgb20_asset","","","","test_issue_rgb20_without_sufficient_sats[False]","
+    Test rgb20 asset issuance without sufficient sats.
     "
-"passed","Mon Dec 15 12:45:45 UTC 2025","Mon Dec 15 12:45:49 UTC 2025","4748","test.spec","test_about","","","","test_rgb_proxy_info[False]","Test asserting RGB proxy info"
-"passed","Mon Dec 15 13:16:43 UTC 2025","Mon Dec 15 13:18:17 UTC 2025","94316","test.spec","test_ask_auth_for_imp_operations","","","","test_ask_auth_for_imp_question_issue_rgb_25_off","Issuing RGB20 asset with ask auth for important operations off"
-"passed","Mon Dec 15 12:54:54 UTC 2025","Mon Dec 15 12:55:32 UTC 2025","38959","test.spec","test_rgb20_channel_tx","","","","test_create_wrong_amount_invoice","
-    Test case to create wrong ln invoice with insufficient amount
+"passed","Mon Dec 15 15:25:05 UTC 2025","Mon Dec 15 15:26:33 UTC 2025","87554","test.spec","test_settings","","","","test_default_expiry_time_hour[False]","
+    Test setting a default expiry time in hours for lightning invoices.
+
+    Tests that a user can:
+    1. Navigate to settings
+    2. Set a new default expiry time in hours
+    3. Verify the expiry time is saved and applied
     "
-"passed","Mon Dec 15 13:13:31 UTC 2025","Mon Dec 15 13:14:25 UTC 2025","53995","test.spec","test_ask_auth_for_imp_operations","","","","test_ask_auth_for_imp_question_issue_rgb_20_off","Issuing RGB20 asset with ask auth for important operations off"
-"passed","Mon Dec 15 13:06:09 UTC 2025","Mon Dec 15 13:07:09 UTC 2025","60771","test.spec","test_settings","","","","test_set_valid_announce_address[False]","Testing with an invalid announce address"
-"passed","Mon Dec 15 12:58:23 UTC 2025","Mon Dec 15 13:00:19 UTC 2025","115339","test.spec","test_settings","","","","test_set_default_fee_rate[False]","Test setting a default fee rate
+"passed","Mon Dec 15 16:16:37 UTC 2025","Mon Dec 15 16:18:13 UTC 2025","95692","test.spec","test_ask_auth_for_imp_operations","","","","test_ask_auth_for_imp_question_issue_rgb_25_off","Issuing RGB20 asset with ask auth for important operations off"
+"passed","Mon Dec 15 15:05:05 UTC 2025","Mon Dec 15 15:06:28 UTC 2025","82791","test.spec","test_about","","","","test_node_info[False]","Test asserting node info"
+"passed","Mon Dec 15 15:02:45 UTC 2025","Mon Dec 15 15:04:12 UTC 2025","87397","test.spec","test_help","","","","test_help_page[False]","Test help page"
+"passed","Mon Dec 15 15:33:47 UTC 2025","Mon Dec 15 15:35:06 UTC 2025","78442","test.spec","test_settings","","","","test_set_invalid_electrum_url[False]","Test setting an invalid electrum URL
+
+    Tests that when a user:
+    1. Navigates to settings
+    2. Attempts to set an invalid electrum URL
+    3. The system shows appropriate error message
+    "
+"passed","Mon Dec 15 15:06:30 UTC 2025","Mon Dec 15 15:06:35 UTC 2025","4648","test.spec","test_about","","","","test_bitcoind_host_info[False]","Test asserting bitcoind host info"
+"passed","Mon Dec 15 15:36:44 UTC 2025","Mon Dec 15 15:38:21 UTC 2025","96816","test.spec","test_settings","","","","test_set_invalid_rgb_proxy_url[False]","Test setting an invalid RGB proxy URL
+
+    Tests that when a user:
+    1. Navigates to settings
+    2. Attempts to set an invalid RGB proxy URL
+    3. The system shows appropriate error message
+    "
+"passed","Mon Dec 15 15:44:21 UTC 2025","Mon Dec 15 15:48:14 UTC 2025","233325","test.spec","test_send_and_receive_rgb25_asset","","","","test_send_rgb25_with_expired_invoice","Test send rgb25 asset with expired invoice"
+"passed","Mon Dec 15 15:06:43 UTC 2025","Mon Dec 15 15:06:48 UTC 2025","4734","test.spec","test_about","","","","test_indexer_info[False]","Test asserting indexer info"
+"passed","Mon Dec 15 16:13:25 UTC 2025","Mon Dec 15 16:14:20 UTC 2025","54890","test.spec","test_ask_auth_for_imp_operations","","","","test_ask_auth_for_imp_question_issue_rgb_20_off","Issuing RGB20 asset with ask auth for important operations off"
+"passed","Mon Dec 15 15:21:45 UTC 2025","Mon Dec 15 15:23:40 UTC 2025","115000","test.spec","test_settings","","","","test_set_default_fee_rate[False]","Test setting a default fee rate
 
     Tests that a user can:
     1. Navigate to settings
     2. Set a new default fee rate
     3. Verify the fee rate is saved and applied
     "
-"passed","Mon Dec 15 12:57:03 UTC 2025","Mon Dec 15 12:58:02 UTC 2025","58954","test.spec","test_receive_and_send_bitcoin","","","","test_send_bitcoin_with_invalid_invoice","Test sending bitcoin with an invalid invoice."
-"passed","Mon Dec 15 12:47:39 UTC 2025","Mon Dec 15 12:48:49 UTC 2025","69723","test.spec","test_issue_rgb25_asset","","","","test_issue_rgb25_with_sufficient_sats_and_utxo[False]","
-    Test issuing rgb25 asset with sufficient sats and utxo.
-    "
-"passed","Mon Dec 15 13:06:43 UTC 2025","Mon Dec 15 13:08:09 UTC 2025","85829","test.spec","test_ask_auth_for_imp_operations","","","","test_ask_auth_for_imp_question_send_rgb20_on","Sending RGB20 asset with ask auth for important operations on"
-"passed","Mon Dec 15 12:44:19 UTC 2025","Mon Dec 15 12:45:57 UTC 2025","98602","test.spec","test_issue_rgb25_asset","","","","test_issue_rgb25_without_sufficient_sats[False]","
-    Test issuing rgb25 asset without sufficient sats.
-    "
-"passed","Mon Dec 15 12:45:38 UTC 2025","Mon Dec 15 12:45:43 UTC 2025","4717","test.spec","test_about","","","","test_indexer_info[False]","Test asserting indexer info"
-"passed","Mon Dec 15 13:09:11 UTC 2025","Mon Dec 15 13:10:59 UTC 2025","107996","test.spec","test_ask_auth_for_imp_operations","","","","test_ask_auth_for_imp_question_send_rgb_25_on","Sending RGB25 asset with ask auth for important operations on"
-"passed","Mon Dec 15 13:16:07 UTC 2025","Mon Dec 15 13:18:14 UTC 2025","127490","test.spec","test_settings","","","","test_set_valid_electrum_url[False]","Test setting a valid electrum URL
-
-    Tests that a user can:
-    1. Navigate to settings
-    2. Set a valid electrum URL
-    3. Verify the URL is saved correctly
-    "
-"passed","Mon Dec 15 12:45:31 UTC 2025","Mon Dec 15 12:45:36 UTC 2025","4685","test.spec","test_about","","","","test_bitcoind_port_info[False]","Test asserting bitcoind port info"
-"passed","Mon Dec 15 13:03:35 UTC 2025","Mon Dec 15 13:05:18 UTC 2025","102590","test.spec","test_settings","","","","test_default_expiry_time_days[False]","
-    Test setting a default expiry time in days for lightning invoices.
-
-    Tests that a user can:
-    1. Navigate to settings
-    2. Set a new default expiry time in days
-    3. Verify the expiry time is saved and applied
-    "
-"passed","Mon Dec 15 12:45:24 UTC 2025","Mon Dec 15 12:45:29 UTC 2025","4657","test.spec","test_about","","","","test_bitcoind_host_info[False]","Test asserting bitcoind host info"
-"passed","Mon Dec 15 12:51:17 UTC 2025","Mon Dec 15 12:54:12 UTC 2025","174774","test.spec","test_receive_and_send_bitcoin","","","","test_receive_and_send_bitcoin","Test receiving and sending bitcoin."
-"passed","Mon Dec 15 12:57:58 UTC 2025","Mon Dec 15 13:03:40 UTC 2025","341721","test.spec","test_btc_channel_tx","","","","test_send_and_receive_with_correct_invoice_for_btc","
+"passed","Mon Dec 15 15:27:47 UTC 2025","Mon Dec 15 15:33:45 UTC 2025","358021","test.spec","test_btc_channel_tx","","","","test_send_and_receive_with_correct_invoice_for_btc","
     Test sending and receiving with correct invoice.
 
     This test case creates embedded wallets, funds them, gets the node URI, creates a channel,
@@ -71,66 +69,26 @@
     Returns:
         None
     "
-"passed","Mon Dec 15 12:53:00 UTC 2025","Mon Dec 15 12:55:27 UTC 2025","146593","test.spec","test_fail_transfer","","","","test_fail_transfer[False]","Test for fail transfer"
-"passed","Mon Dec 15 13:18:19 UTC 2025","Mon Dec 15 13:21:15 UTC 2025","175802","test.spec","test_ask_auth_for_imp_operations","","","","test_ask_auth_for_imp_question_send_rgb_25_off","Sending RGB25 asset with ask auth for important operations off"
-"passed","Mon Dec 15 13:08:11 UTC 2025","Mon Dec 15 13:09:09 UTC 2025","57887","test.spec","test_ask_auth_for_imp_operations","","","","test_ask_auth_for_imp_question_issue_rgb_25_on","Issuing RGB25 asset with ask auth for important operations on"
-"passed","Mon Dec 15 12:46:50 UTC 2025","Mon Dec 15 12:47:48 UTC 2025","58059","test.spec","test_about","","","","test_announce_alias_info[False]","Test asserting announce alias info"
-"passed","Mon Dec 15 12:45:59 UTC 2025","Mon Dec 15 12:47:37 UTC 2025","98337","test.spec","test_issue_rgb25_asset","","","","test_issue_rgb25_with_sufficient_sats_and_no_utxo[False]","
-    Test issuing rgb25 asset with sufficient sats but no utxo.
+"skipped","Mon Dec 15 15:06:28 UTC 2025","Mon Dec 15 15:06:28 UTC 2025","0","test.spec","test_backup_and_restore","","","","test_mnemonic_and_backup_configure[False]","
+    Test the mnemonic and backup configuration functionality.
+    This test case covers the following scenarios:
+    - Create a embedded wallet
+    - Copy mnemonic from setting page
+    - Assert copied mnemonic with backup page mnemonic
+    - Verify the backup configuration functionality
+    :param wallets_and_operations: WalletTestSetup instance
+    :return: None
     "
-"passed","Mon Dec 15 13:10:42 UTC 2025","Mon Dec 15 13:12:45 UTC 2025","123224","test.spec","test_settings","","","","test_set_invalid_electrum_url[False]","Test setting an invalid electrum URL
-
-    Tests that when a user:
-    1. Navigates to settings
-    2. Attempts to set an invalid electrum URL
-    3. The system shows appropriate error message
-    "
-"passed","Mon Dec 15 13:12:47 UTC 2025","Mon Dec 15 13:14:19 UTC 2025","91445","test.spec","test_settings","","","","test_set_rgb_proxy_url[False]","Test setting a valid RGB proxy URL
+"passed","Mon Dec 15 15:35:08 UTC 2025","Mon Dec 15 15:36:42 UTC 2025","94331","test.spec","test_settings","","","","test_set_rgb_proxy_url[False]","Test setting a valid RGB proxy URL
 
     Tests that a user can:
     1. Navigate to settings
     2. Set a valid RGB proxy URL
     3. Verify the URL is saved correctly
     "
-"passed","Mon Dec 15 12:41:14 UTC 2025","Mon Dec 15 12:42:43 UTC 2025","89146","test.spec","test_help","","","","test_help_page[False]","Test help page"
-"passed","Mon Dec 15 12:49:25 UTC 2025","Mon Dec 15 12:51:15 UTC 2025","110590","test.spec","test_receive_and_send_bitcoin","","","","test_send_bitcoin_with_zero_balance","Test sending bitcoin with zero balance."
-"passed","Mon Dec 15 12:46:24 UTC 2025","Mon Dec 15 12:47:14 UTC 2025","49274","test.spec","test_issue_rgb20_asset","","","","test_issue_rgb20_with_sufficient_sats_and_utxo[False]","
-    Test rgb20 asset issuance with sufficient sats and utxo.
-    "
-"passed","Mon Dec 15 12:45:51 UTC 2025","Mon Dec 15 12:46:48 UTC 2025","56422","test.spec","test_about","","","","test_announce_address_info[False]","Test asserting announce address info"
-"passed","Mon Dec 15 12:47:29 UTC 2025","Mon Dec 15 12:52:24 UTC 2025","295469","test.spec","test_hide_exhausted_asset","","","","test_hide_exhausted_asset_on","Test for hiding exhausted asset"
-"passed","Mon Dec 15 13:07:11 UTC 2025","Mon Dec 15 13:08:17 UTC 2025","65222","test.spec","test_settings","","","","test_set_announce_alias[False]","Test setting an announce alias
-
-    Tests that a user can:
-    1. Navigate to settings
-    2. Set an announce alias
-    3. Verify the alias is saved correctly
-    "
-"passed","Mon Dec 15 12:45:27 UTC 2025","Mon Dec 15 12:49:24 UTC 2025","237078","test.spec","test_send_and_receive_rgb25_asset","","","","test_send_rgb25_with_expired_invoice","Test send rgb25 asset with expired invoice"
-"passed","Mon Dec 15 13:11:01 UTC 2025","Mon Dec 15 13:13:29 UTC 2025","148443","test.spec","test_ask_auth_for_imp_operations","","","","test_ask_auth_for_imp_question_send_bitcoin_off","test native auth for important operations (send btc) off"
-"passed","Mon Dec 15 13:08:19 UTC 2025","Mon Dec 15 13:09:28 UTC 2025","69264","test.spec","test_settings","","","","test_set_invalid_bitcoind_host[False]","Test setting an invalid bitcoind host
-
-    Tests that when a user:
-    1. Navigates to settings
-    2. Attempts to set an invalid bitcoind host
-    3. The system shows appropriate error message
-    "
-"passed","Mon Dec 15 13:05:20 UTC 2025","Mon Dec 15 13:06:07 UTC 2025","46986","test.spec","test_settings","","","","test_set_default_min_confirmation[False]","Test for setting default minimum confirmation"
-"passed","Mon Dec 15 12:43:37 UTC 2025","Mon Dec 15 12:44:38 UTC 2025","61119","test.spec","test_keyring_dialog","","","","test_keyring_option[False]","
-    Test the keyring option by restarting the app and verifying the keyring toggle button state.
-
-    :param wallets_and_operations: The wallets and operations fixture.
-    "
-"passed","Mon Dec 15 13:14:21 UTC 2025","Mon Dec 15 13:16:05 UTC 2025","103938","test.spec","test_settings","","","","test_set_invalid_rgb_proxy_url[False]","Test setting an invalid RGB proxy URL
-
-    Tests that when a user:
-    1. Navigates to settings
-    2. Attempts to set an invalid RGB proxy URL
-    3. The system shows appropriate error message
-    "
-"passed","Mon Dec 15 12:54:14 UTC 2025","Mon Dec 15 12:57:01 UTC 2025","166813","test.spec","test_receive_and_send_bitcoin","","","","test_send_bitcoin_with_custom_fee_rate","Test sending bitcoin with a custom fee rate."
-"passed","Mon Dec 15 12:43:41 UTC 2025","Mon Dec 15 12:45:22 UTC 2025","100980","test.spec","test_about","","","","test_node_info[False]","Test asserting node info"
-"passed","Mon Dec 15 13:00:21 UTC 2025","Mon Dec 15 13:01:41 UTC 2025","80802","test.spec","test_settings","","","","test_default_expiry_time_minute[False]","
+"passed","Mon Dec 15 15:07:09 UTC 2025","Mon Dec 15 15:12:22 UTC 2025","313557","test.spec","test_hide_exhausted_asset","","","","test_hide_exhausted_asset_on","Test for hiding exhausted asset"
+"passed","Mon Dec 15 15:06:23 UTC 2025","Mon Dec 15 15:11:14 UTC 2025","291502","test.spec","test_refresh_transfer","","","","test_refresh_transfer","Test for refresh transfer"
+"passed","Mon Dec 15 15:23:42 UTC 2025","Mon Dec 15 15:25:03 UTC 2025","81307","test.spec","test_settings","","","","test_default_expiry_time_minute[False]","
     Test setting a default expiry time in minutes for lightning invoices.
 
     Tests that a user can:
@@ -138,10 +96,37 @@
     2. Set a new default expiry time in minutes
     3. Verify the expiry time is saved and applied
     "
-"passed","Mon Dec 15 12:41:43 UTC 2025","Mon Dec 15 12:43:16 UTC 2025","92907","test.spec","test_view_unspent","","","","test_view_unspent_list[False]","
-    Test view unspent list.
+"passed","Mon Dec 15 15:32:15 UTC 2025","Mon Dec 15 15:33:45 UTC 2025","89782","test.spec","test_settings","","","","test_set_invalid_bitcoind_port[False]","Test setting an invalid bitcoind port
+
+    Tests that when a user:
+    1. Navigates to settings
+    2. Attempts to set an invalid bitcoind port
+    3. The system shows appropriate error message
     "
-"passed","Mon Dec 15 12:42:04 UTC 2025","Mon Dec 15 12:43:09 UTC 2025","65299","test.spec","test_login_app_auth","","","","test_login_app_toggle_button_on[False]","
+"passed","Mon Dec 15 15:07:56 UTC 2025","Mon Dec 15 15:08:54 UTC 2025","58096","test.spec","test_about","","","","test_announce_alias_info[False]","Test asserting announce alias info"
+"passed","Mon Dec 15 15:18:29 UTC 2025","Mon Dec 15 15:19:27 UTC 2025","57711","test.spec","test_receive_and_send_bitcoin","","","","test_send_bitcoin_with_invalid_invoice","Test sending bitcoin with an invalid invoice."
+"passed","Mon Dec 15 15:08:56 UTC 2025","Mon Dec 15 15:09:07 UTC 2025","11480","test.spec","test_about","","","","test_download_debug_log[False]","Test for downloading debug logs"
+"passed","Mon Dec 15 15:09:24 UTC 2025","Mon Dec 15 15:17:06 UTC 2025","462481","test.spec","test_rgb20_channel_tx","","","","test_send_and_receive_with_correct_invoice_for_rgb20","Test sending and receiving with correct invoice for RGB20"
+"passed","Mon Dec 15 15:24:23 UTC 2025","Mon Dec 15 15:25:04 UTC 2025","40964","test.spec","test_create_and_close_channel","","","","test_create_channel_with_wrong_node_uri","
+    Test the creation of a channel with a wrong node URI.
+    "
+"passed","Mon Dec 15 15:48:16 UTC 2025","Mon Dec 15 15:49:40 UTC 2025","83325","test.spec","test_send_and_receive_rgb25_asset","","","","test_send_and_receive_rgb25_asset_operation","Test send and receive operation for rgb25 asset"
+"passed","Mon Dec 15 15:06:37 UTC 2025","Mon Dec 15 15:06:41 UTC 2025","4675","test.spec","test_about","","","","test_bitcoind_port_info[False]","Test asserting bitcoind port info"
+"passed","Mon Dec 15 15:07:15 UTC 2025","Mon Dec 15 15:08:00 UTC 2025","45444","test.spec","test_issue_rgb20_asset","","","","test_issue_rgb20_with_sufficient_sats_and_utxo[False]","
+    Test rgb20 asset issuance with sufficient sats and utxo.
+    "
+"passed","Mon Dec 15 15:28:18 UTC 2025","Mon Dec 15 15:29:04 UTC 2025","46555","test.spec","test_settings","","","","test_set_default_min_confirmation[False]","Test for setting default minimum confirmation"
+"passed","Mon Dec 15 16:10:51 UTC 2025","Mon Dec 15 16:13:23 UTC 2025","151241","test.spec","test_ask_auth_for_imp_operations","","","","test_ask_auth_for_imp_question_send_bitcoin_off","test native auth for important operations (send btc) off"
+"passed","Mon Dec 15 16:08:58 UTC 2025","Mon Dec 15 16:10:49 UTC 2025","111732","test.spec","test_ask_auth_for_imp_operations","","","","test_ask_auth_for_imp_question_send_rgb_25_on","Sending RGB25 asset with ask auth for important operations on"
+"passed","Mon Dec 15 16:00:14 UTC 2025","Mon Dec 15 16:05:50 UTC 2025","336369","test.spec","test_ask_auth_for_imp_operations","","","","test_ask_auth_for_imp_question_send_bitcoin_on","Test for hiding exhausted asset"
+"passed","Mon Dec 15 15:31:10 UTC 2025","Mon Dec 15 15:32:13 UTC 2025","63149","test.spec","test_settings","","","","test_set_invalid_bitcoind_host[False]","Test setting an invalid bitcoind host
+
+    Tests that when a user:
+    1. Navigates to settings
+    2. Attempts to set an invalid bitcoind host
+    3. The system shows appropriate error message
+    "
+"passed","Mon Dec 15 15:03:30 UTC 2025","Mon Dec 15 15:04:35 UTC 2025","65448","test.spec","test_login_app_auth","","","","test_login_app_toggle_button_on[False]","
     Test the login app toggle button functionality.
 
     This test case creates first wallet,
@@ -154,21 +139,47 @@
     Returns:
         None
     "
-"passed","Mon Dec 15 12:44:56 UTC 2025","Mon Dec 15 12:48:35 UTC 2025","218449","test.spec","test_send_and_receive_rgb20_asset","","","","test_send_rgb20_with_expired_invoice","Test send rgb20 asset with expired invoice"
-"passed","Mon Dec 15 13:01:19 UTC 2025","Mon Dec 15 13:06:03 UTC 2025","283500","test.spec","test_ask_auth_for_imp_operations","","","","test_ask_auth_for_imp_question_send_bitcoin_on","Test for hiding exhausted asset"
-"passed","Mon Dec 15 12:47:50 UTC 2025","Mon Dec 15 12:48:01 UTC 2025","11477","test.spec","test_about","","","","test_download_debug_log[False]","Test for downloading debug logs"
-"passed","Mon Dec 15 12:49:26 UTC 2025","Mon Dec 15 12:50:55 UTC 2025","88681","test.spec","test_send_and_receive_rgb25_asset","","","","test_send_and_receive_rgb25_asset_operation","Test send and receive operation for rgb25 asset"
-"passed","Mon Dec 15 12:45:57 UTC 2025","Mon Dec 15 12:51:37 UTC 2025","340064","test.spec","test_create_and_close_channel","","","","test_create_channel_with_actual_value","Test creating channel with actual value."
-"passed","Mon Dec 15 13:09:30 UTC 2025","Mon Dec 15 13:10:40 UTC 2025","70043","test.spec","test_settings","","","","test_set_invalid_bitcoind_port[False]","Test setting an invalid bitcoind port
-
-    Tests that when a user:
-    1. Navigates to settings
-    2. Attempts to set an invalid bitcoind port
-    3. The system shows appropriate error message
+"passed","Mon Dec 15 16:18:15 UTC 2025","Mon Dec 15 16:21:01 UTC 2025","166304","test.spec","test_ask_auth_for_imp_operations","","","","test_ask_auth_for_imp_question_send_rgb_25_off","Sending RGB25 asset with ask auth for important operations off"
+"passed","Mon Dec 15 15:17:08 UTC 2025","Mon Dec 15 15:17:47 UTC 2025","39215","test.spec","test_rgb20_channel_tx","","","","test_create_wrong_amount_invoice","
+    Test case to create wrong ln invoice with insufficient amount
     "
-"passed","Mon Dec 15 13:14:27 UTC 2025","Mon Dec 15 13:16:41 UTC 2025","133299","test.spec","test_ask_auth_for_imp_operations","","","","test_ask_auth_for_imp_question_send_rgb_20_off","Sending RGB20 asset with ask auth for important operations off"
-"passed","Mon Dec 15 13:06:05 UTC 2025","Mon Dec 15 13:06:41 UTC 2025","36003","test.spec","test_ask_auth_for_imp_operations","","","","test_ask_auth_for_imp_question_issue_rgb_20_on","Issuing RGB 20 asset with ask auth for important operations on"
-"passed","Mon Dec 15 12:43:11 UTC 2025","Mon Dec 15 12:43:23 UTC 2025","11324","test.spec","test_login_app_auth","","","","test_login_app_with_authentication[False]","
+"passed","Mon Dec 15 15:06:34 UTC 2025","Mon Dec 15 15:10:29 UTC 2025","234614","test.spec","test_send_and_receive_rgb20_asset","","","","test_send_rgb20_with_expired_invoice","Test send rgb20 asset with expired invoice"
+"passed","Mon Dec 15 15:03:19 UTC 2025","Mon Dec 15 15:04:52 UTC 2025","93255","test.spec","test_view_unspent","","","","test_view_unspent_list[False]","
+    Test view unspent list.
+    "
+"passed","Mon Dec 15 15:29:06 UTC 2025","Mon Dec 15 15:30:06 UTC 2025","59866","test.spec","test_settings","","","","test_set_valid_announce_address[False]","Testing with an invalid announce address"
+"passed","Mon Dec 15 15:03:13 UTC 2025","Mon Dec 15 15:04:24 UTC 2025","71323","test.spec","test_keyring_dialog","","","","test_keyring_dialog[False]","
+    Test the keyring dialog functionality by restarting the application within the same test.
+
+    :param test_environment: The test environment fixture.
+    :param wallets_and_operations: The wallets and operations fixture.
+    "
+"passed","Mon Dec 15 15:26:35 UTC 2025","Mon Dec 15 15:28:16 UTC 2025","100958","test.spec","test_settings","","","","test_default_expiry_time_days[False]","
+    Test setting a default expiry time in days for lightning invoices.
+
+    Tests that a user can:
+    1. Navigate to settings
+    2. Set a new default expiry time in days
+    3. Verify the expiry time is saved and applied
+    "
+"passed","Mon Dec 15 15:09:16 UTC 2025","Mon Dec 15 15:10:25 UTC 2025","69225","test.spec","test_issue_rgb25_asset","","","","test_issue_rgb25_with_sufficient_sats_and_utxo[False]","
+    Test issuing rgb25 asset with sufficient sats and utxo.
+    "
+"passed","Mon Dec 15 15:12:48 UTC 2025","Mon Dec 15 15:15:41 UTC 2025","172889","test.spec","test_receive_and_send_bitcoin","","","","test_receive_and_send_bitcoin","Test receiving and sending bitcoin."
+"passed","Mon Dec 15 15:38:23 UTC 2025","Mon Dec 15 15:40:07 UTC 2025","103969","test.spec","test_settings","","","","test_set_valid_electrum_url[False]","Test setting a valid electrum URL
+
+    Tests that a user can:
+    1. Navigate to settings
+    2. Set a valid electrum URL
+    3. Verify the URL is saved correctly
+    "
+"passed","Mon Dec 15 15:03:53 UTC 2025","Mon Dec 15 15:06:38 UTC 2025","164877","test.spec","test_fail_transfer","","","","test_fail_transfer[False]","Test for fail transfer"
+"passed","Mon Dec 15 15:05:37 UTC 2025","Mon Dec 15 15:07:34 UTC 2025","116648","test.spec","test_issue_rgb25_asset","","","","test_issue_rgb25_without_sufficient_sats[False]","
+    Test issuing rgb25 asset without sufficient sats.
+    "
+"passed","Mon Dec 15 16:05:52 UTC 2025","Mon Dec 15 16:06:28 UTC 2025","35631","test.spec","test_ask_auth_for_imp_operations","","","","test_ask_auth_for_imp_question_issue_rgb_20_on","Issuing RGB 20 asset with ask auth for important operations on"
+"passed","Mon Dec 15 15:18:04 UTC 2025","Mon Dec 15 15:24:21 UTC 2025","376295","test.spec","test_create_and_close_channel","","","","test_create_channel_with_actual_value","Test creating channel with actual value."
+"passed","Mon Dec 15 15:04:37 UTC 2025","Mon Dec 15 15:04:49 UTC 2025","11285","test.spec","test_login_app_auth","","","","test_login_app_with_authentication[False]","
     Test the login app with authentication functionality.
 
     This test case types the login password, asserts the state of the toggle button,
@@ -181,32 +192,21 @@
     Returns:
         None
     "
-"skipped","Mon Dec 15 12:44:51 UTC 2025","Mon Dec 15 12:44:51 UTC 2025","0","test.spec","test_backup_and_restore","","","","test_mnemonic_and_backup_configure[False]","
-    Test the mnemonic and backup configuration functionality.
-    This test case covers the following scenarios:
-    - Create a embedded wallet
-    - Copy mnemonic from setting page
-    - Assert copied mnemonic with backup page mnemonic
-    - Verify the backup configuration functionality
-    :param wallets_and_operations: WalletTestSetup instance
-    :return: None
+"passed","Mon Dec 15 15:15:43 UTC 2025","Mon Dec 15 15:18:27 UTC 2025","164154","test.spec","test_receive_and_send_bitcoin","","","","test_send_bitcoin_with_custom_fee_rate","Test sending bitcoin with a custom fee rate."
+"passed","Mon Dec 15 15:04:26 UTC 2025","Mon Dec 15 15:05:27 UTC 2025","60257","test.spec","test_keyring_dialog","","","","test_keyring_option[False]","
+    Test the keyring option by restarting the app and verifying the keyring toggle button state.
+
+    :param wallets_and_operations: The wallets and operations fixture.
     "
-"passed","Mon Dec 15 12:52:26 UTC 2025","Mon Dec 15 12:52:54 UTC 2025","27610","test.spec","test_hide_exhausted_asset","","","","test_hide_exhausted_asset_off","Test for hiding exhausted asset"
-"passed","Mon Dec 15 12:48:37 UTC 2025","Mon Dec 15 12:50:21 UTC 2025","104484","test.spec","test_send_and_receive_rgb20_asset","","","","test_send_and_receive_rgb20_asset_operation","Test send and receive operation for rgb20 asset"
-"passed","Mon Dec 15 12:43:36 UTC 2025","Mon Dec 15 12:45:00 UTC 2025","83322","test.spec","test_issue_rgb20_asset","","","","test_issue_rgb20_without_sufficient_sats[False]","
-    Test rgb20 asset issuance without sufficient sats.
-    "
-"passed","Mon Dec 15 13:01:43 UTC 2025","Mon Dec 15 13:03:33 UTC 2025","109640","test.spec","test_settings","","","","test_default_expiry_time_hour[False]","
-    Test setting a default expiry time in hours for lightning invoices.
+"passed","Mon Dec 15 15:10:02 UTC 2025","Mon Dec 15 15:12:46 UTC 2025","164206","test.spec","test_receive_and_send_bitcoin","","","","test_send_bitcoin_with_zero_balance","Test sending bitcoin with zero balance."
+"passed","Mon Dec 15 15:06:57 UTC 2025","Mon Dec 15 15:07:54 UTC 2025","56529","test.spec","test_about","","","","test_announce_address_info[False]","Test asserting announce address info"
+"passed","Mon Dec 15 15:30:08 UTC 2025","Mon Dec 15 15:31:08 UTC 2025","60150","test.spec","test_settings","","","","test_set_announce_alias[False]","Test setting an announce alias
 
     Tests that a user can:
     1. Navigate to settings
-    2. Set a new default expiry time in hours
-    3. Verify the expiry time is saved and applied
+    2. Set an announce alias
+    3. Verify the alias is saved correctly
     "
-"passed","Mon Dec 15 12:42:22 UTC 2025","Mon Dec 15 12:43:35 UTC 2025","72941","test.spec","test_keyring_dialog","","","","test_keyring_dialog[False]","
-    Test the keyring dialog functionality by restarting the application within the same test.
-
-    :param test_environment: The test environment fixture.
-    :param wallets_and_operations: The wallets and operations fixture.
-    "
+"passed","Mon Dec 15 16:14:22 UTC 2025","Mon Dec 15 16:16:35 UTC 2025","133494","test.spec","test_ask_auth_for_imp_operations","","","","test_ask_auth_for_imp_question_send_rgb_20_off","Sending RGB20 asset with ask auth for important operations off"
+"passed","Mon Dec 15 15:06:50 UTC 2025","Mon Dec 15 15:06:55 UTC 2025","4763","test.spec","test_about","","","","test_rgb_proxy_info[False]","Test asserting RGB proxy info"
+"passed","Mon Dec 15 15:12:24 UTC 2025","Mon Dec 15 15:12:50 UTC 2025","25402","test.spec","test_hide_exhausted_asset","","","","test_hide_exhausted_asset_off","Test for hiding exhausted asset"
