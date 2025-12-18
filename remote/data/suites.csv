@@ -1,0 +1,80 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Thu Dec 18 15:54:07 UTC 2025","Thu Dec 18 15:54:21 UTC 2025","14055","test.spec","test_about","","","","test_download_debug_log[False]","Test for downloading debug logs"
+"passed","Thu Dec 18 15:55:39 UTC 2025","Thu Dec 18 16:01:46 UTC 2025","366822","test.spec","test_create_and_close_channel","","","","test_create_channel_with_actual_value","Test creating channel with actual value."
+"passed","Thu Dec 18 15:55:52 UTC 2025","Thu Dec 18 15:57:33 UTC 2025","100203","test.spec","test_send_and_receive_rgb20_asset","","","","test_send_and_receive_rgb20_asset_operation","Test send and receive operation for rgb20 asset"
+"passed","Thu Dec 18 15:53:34 UTC 2025","Thu Dec 18 15:55:11 UTC 2025","97325","test.spec","test_issue_rgb25_asset","","","","test_issue_rgb25_with_sufficient_sats_and_no_utxo[False]","
+    Test issuing rgb25 asset with sufficient sats but no utxo.
+    "
+"passed","Thu Dec 18 15:56:51 UTC 2025","Thu Dec 18 16:00:04 UTC 2025","192924","test.spec","test_receive_and_send_bitcoin","","","","test_receive_and_send_bitcoin","Test receiving and sending bitcoin."
+"passed","Thu Dec 18 15:51:48 UTC 2025","Thu Dec 18 15:51:53 UTC 2025","5159","test.spec","test_about","","","","test_indexer_info[False]","Test asserting indexer info"
+"passed","Thu Dec 18 15:54:25 UTC 2025","Thu Dec 18 16:01:17 UTC 2025","412017","test.spec","test_rgb20_channel_tx","","","","test_send_and_receive_with_correct_invoice_for_rgb20","Test sending and receiving with correct invoice for RGB20"
+"passed","Thu Dec 18 15:53:04 UTC 2025","Thu Dec 18 15:54:05 UTC 2025","60820","test.spec","test_about","","","","test_announce_alias_info[False]","Test asserting announce alias info"
+"passed","Thu Dec 18 15:48:07 UTC 2025","Thu Dec 18 15:49:40 UTC 2025","92289","test.spec","test_help","","","","test_help_page[False]","Test help page"
+"passed","Thu Dec 18 16:00:06 UTC 2025","Thu Dec 18 16:02:49 UTC 2025","162447","test.spec","test_receive_and_send_bitcoin","","","","test_send_bitcoin_with_custom_fee_rate","Test sending bitcoin with a custom fee rate."
+"passed","Thu Dec 18 15:51:34 UTC 2025","Thu Dec 18 15:51:39 UTC 2025","5123","test.spec","test_about","","","","test_bitcoind_host_info[False]","Test asserting bitcoind host info"
+"passed","Thu Dec 18 15:51:51 UTC 2025","Thu Dec 18 15:55:50 UTC 2025","239414","test.spec","test_send_and_receive_rgb20_asset","","","","test_send_rgb20_with_expired_invoice","Test send rgb20 asset with expired invoice"
+"passed","Thu Dec 18 15:50:26 UTC 2025","Thu Dec 18 15:51:32 UTC 2025","66026","test.spec","test_about","","","","test_node_info[False]","Test asserting node info"
+"passed","Thu Dec 18 15:51:56 UTC 2025","Thu Dec 18 15:52:01 UTC 2025","5219","test.spec","test_about","","","","test_rgb_proxy_info[False]","Test asserting RGB proxy info"
+"passed","Thu Dec 18 15:51:50 UTC 2025","Thu Dec 18 15:53:32 UTC 2025","101601","test.spec","test_issue_rgb25_asset","","","","test_issue_rgb25_without_sufficient_sats[False]","
+    Test issuing rgb25 asset without sufficient sats.
+    "
+"passed","Thu Dec 18 15:57:20 UTC 2025","Thu Dec 18 15:58:49 UTC 2025","89257","test.spec","test_send_and_receive_rgb25_asset","","","","test_send_and_receive_rgb25_asset_operation","Test send and receive operation for rgb25 asset"
+"passed","Thu Dec 18 15:52:09 UTC 2025","Thu Dec 18 15:58:04 UTC 2025","355012","test.spec","test_hide_exhausted_asset","","","","test_hide_exhausted_asset_on","Test for hiding exhausted asset"
+"passed","Thu Dec 18 15:52:22 UTC 2025","Thu Dec 18 15:57:18 UTC 2025","296085","test.spec","test_send_and_receive_rgb25_asset","","","","test_send_rgb25_with_expired_invoice","Test send rgb25 asset with expired invoice"
+"passed","Thu Dec 18 15:54:58 UTC 2025","Thu Dec 18 15:56:49 UTC 2025","111370","test.spec","test_receive_and_send_bitcoin","","","","test_send_bitcoin_with_zero_balance","Test sending bitcoin with zero balance."
+"skipped","Thu Dec 18 15:53:19 UTC 2025","Thu Dec 18 15:53:19 UTC 2025","0","test.spec","test_backup_and_restore","","","","test_mnemonic_and_backup_configure[False]","
+    Test the mnemonic and backup configuration functionality.
+    This test case covers the following scenarios:
+    - Create a embedded wallet
+    - Copy mnemonic from setting page
+    - Assert copied mnemonic with backup page mnemonic
+    - Verify the backup configuration functionality
+    :param wallets_and_operations: WalletTestSetup instance
+    :return: None
+    "
+"passed","Thu Dec 18 15:55:13 UTC 2025","Thu Dec 18 15:56:19 UTC 2025","66401","test.spec","test_issue_rgb25_asset","","","","test_issue_rgb25_with_sufficient_sats_and_utxo[False]","
+    Test issuing rgb25 asset with sufficient sats and utxo.
+    "
+"passed","Thu Dec 18 16:02:51 UTC 2025","Thu Dec 18 16:03:46 UTC 2025","55378","test.spec","test_receive_and_send_bitcoin","","","","test_send_bitcoin_with_invalid_invoice","Test sending bitcoin with an invalid invoice."
+"passed","Thu Dec 18 15:48:50 UTC 2025","Thu Dec 18 15:50:04 UTC 2025","74614","test.spec","test_keyring_dialog","","","","test_keyring_dialog[False]","
+    Test the keyring dialog functionality by restarting the application within the same test.
+
+    :param test_environment: The test environment fixture.
+    :param wallets_and_operations: The wallets and operations fixture.
+    "
+"passed","Thu Dec 18 15:58:06 UTC 2025","Thu Dec 18 15:58:31 UTC 2025","25034","test.spec","test_hide_exhausted_asset","","","","test_hide_exhausted_asset_off","Test for hiding exhausted asset"
+"skipped","Thu Dec 18 15:53:19 UTC 2025","Thu Dec 18 15:53:19 UTC 2025","0","test.spec","test_backup_and_restore","","","","test_backup[False]","
+    Test the backup page functionality.
+    This test case covers the following scenarios:
+    - Create a embedded wallet
+    - Configure backup
+    - Take a backup of wallet
+    "
+"passed","Thu Dec 18 15:52:03 UTC 2025","Thu Dec 18 15:53:02 UTC 2025","59355","test.spec","test_about","","","","test_announce_address_info[False]","Test asserting announce address info"
+"passed","Thu Dec 18 16:01:48 UTC 2025","Thu Dec 18 16:02:29 UTC 2025","41157","test.spec","test_create_and_close_channel","","","","test_create_channel_with_wrong_node_uri","
+    Test the creation of a channel with a wrong node URI.
+    "
+"passed","Thu Dec 18 15:51:37 UTC 2025","Thu Dec 18 15:56:31 UTC 2025","293605","test.spec","test_refresh_transfer","","","","test_refresh_transfer","Test for refresh transfer"
+"passed","Thu Dec 18 16:03:40 UTC 2025","Thu Dec 18 16:05:36 UTC 2025","115948","test.spec","test_settings","","","","test_set_default_fee_rate[False]","Test setting a default fee rate
+
+    Tests that a user can:
+    1. Navigate to settings
+    2. Set a new default fee rate
+    3. Verify the fee rate is saved and applied
+    "
+"passed","Thu Dec 18 15:48:52 UTC 2025","Thu Dec 18 15:51:20 UTC 2025","147936","test.spec","test_fail_transfer","","","","test_fail_transfer[False]","Test for fail transfer"
+"passed","Thu Dec 18 15:50:06 UTC 2025","Thu Dec 18 15:51:10 UTC 2025","63322","test.spec","test_keyring_dialog","","","","test_keyring_option[False]","
+    Test the keyring option by restarting the app and verifying the keyring toggle button state.
+
+    :param wallets_and_operations: The wallets and operations fixture.
+    "
+"passed","Thu Dec 18 15:51:41 UTC 2025","Thu Dec 18 15:51:46 UTC 2025","5138","test.spec","test_about","","","","test_bitcoind_port_info[False]","Test asserting bitcoind port info"
+"passed","Thu Dec 18 15:48:42 UTC 2025","Thu Dec 18 15:50:17 UTC 2025","95001","test.spec","test_view_unspent","","","","test_view_unspent_list[False]","
+    Test view unspent list.
+    "
+"skipped","Thu Dec 18 15:53:19 UTC 2025","Thu Dec 18 15:53:19 UTC 2025","0","test.spec","test_backup_and_restore","","","","test_restore[False]","
+    This test case is used to restore the wallet from the backup.
+    "
+"passed","Thu Dec 18 16:01:19 UTC 2025","Thu Dec 18 16:01:58 UTC 2025","38314","test.spec","test_rgb20_channel_tx","","","","test_create_wrong_amount_invoice","
+    Test case to create wrong ln invoice with insufficient amount
+    "
