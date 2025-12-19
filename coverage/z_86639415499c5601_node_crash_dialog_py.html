@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Coverage for src/views/components/node_crash_dialog.py: 100%</title>
+    <title>Coverage for src/views/components/node_crash_dialog.py: 44%</title>
     <link rel="icon" sizes="32x32" href="favicon_32_cb_58284776.png">
     <link rel="stylesheet" href="style_cb_8e611ae1.css" type="text/css">
     <script src="coverage_html_cb_6fb7b396.js" defer></script>
@@ -12,7 +12,7 @@
     <div class="content">
         <h1>
             <span class="text">Coverage for </span><b>src/views/components/node_crash_dialog.py</b>:
-            <span class="pc_cov">100%</span>
+            <span class="pc_cov">44%</span>
         </h1>
         <aside id="help_panel_wrapper">
             <input id="help_panel_state" type="checkbox">
@@ -55,8 +55,8 @@
         </aside>
         <h2>
             <span class="text">18 statements &nbsp;</span>
-            <button type="button" class="run button_toggle_run" value="run" data-shortcut="r" title="Toggle lines run">18<span class="text"> run</span></button>
-            <button type="button" class="mis show_mis button_toggle_mis" value="mis" data-shortcut="m" title="Toggle lines missing">0<span class="text"> missing</span></button>
+            <button type="button" class="run button_toggle_run" value="run" data-shortcut="r" title="Toggle lines run">8<span class="text"> run</span></button>
+            <button type="button" class="mis show_mis button_toggle_mis" value="mis" data-shortcut="m" title="Toggle lines missing">10<span class="text"> missing</span></button>
             <button type="button" class="exc show_exc button_toggle_exc" value="exc" data-shortcut="x" title="Toggle lines excluded">0<span class="text"> excluded</span></button>
         </h2>
         <p class="text">
@@ -65,7 +65,7 @@
             <a id="nextFileLink" class="nav" href="z_86639415499c5601_node_incompatibility_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.8.0">coverage.py v7.8.0</a>,
-            created at 2025-12-19 14:53 +0530
+            created at 2025-12-19 18:35 +0530
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -107,35 +107,35 @@
     <p class="pln"><span class="n"><a id="t25" href="#t25">25</a></span><span class="t"><span class="str">        - A 'Restart Node' button to retry the connection.</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t26" href="#t26">26</a></span><span class="t"><span class="str">        - A 'Close Application' button to exit the app.</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t27" href="#t27">27</a></span><span class="t"><span class="str">        """</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t28" href="#t28">28</a></span><span class="t">        <span class="nam">super</span><span class="op">(</span><span class="op">)</span><span class="op">.</span><span class="nam">__init__</span><span class="op">(</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t28" href="#t28">28</a></span><span class="t">        <span class="nam">super</span><span class="op">(</span><span class="op">)</span><span class="op">.</span><span class="nam">__init__</span><span class="op">(</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t29" href="#t29">29</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t30" href="#t30">30</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">message_box</span> <span class="op">=</span> <span class="nam">QMessageBox</span><span class="op">(</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t30" href="#t30">30</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">message_box</span> <span class="op">=</span> <span class="nam">QMessageBox</span><span class="op">(</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t31" href="#t31">31</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t32" href="#t32">32</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">message_box</span><span class="op">.</span><span class="nam">setIcon</span><span class="op">(</span><span class="nam">QMessageBox</span><span class="op">.</span><span class="nam">Icon</span><span class="op">.</span><span class="nam">Critical</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t33" href="#t33">33</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">message_box</span><span class="op">.</span><span class="nam">setText</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t32" href="#t32">32</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">message_box</span><span class="op">.</span><span class="nam">setIcon</span><span class="op">(</span><span class="nam">QMessageBox</span><span class="op">.</span><span class="nam">Icon</span><span class="op">.</span><span class="nam">Critical</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t33" href="#t33">33</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">message_box</span><span class="op">.</span><span class="nam">setText</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t34" href="#t34">34</a></span><span class="t">            <span class="nam">QCoreApplication</span><span class="op">.</span><span class="nam">translate</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t35" href="#t35">35</a></span><span class="t">                <span class="nam">IRIS_WALLET_TRANSLATIONS_CONTEXT</span><span class="op">,</span> <span class="str">'rgb_ln_node_connection_failed'</span><span class="op">,</span> <span class="key">None</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t36" href="#t36">36</a></span><span class="t">            <span class="op">)</span><span class="op">.</span><span class="nam">format</span><span class="op">(</span><span class="fst">f"</span><span class="fst">&lt;a href='</span><span class="op">{</span><span class="nam">GITHUB_ISSUE_LINK</span><span class="op">}</span><span class="fst">'>GitHub&lt;/a></span><span class="fst">"</span><span class="op">,</span> <span class="str">'&lt;br>&lt;br>'</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t37" href="#t37">37</a></span><span class="t">        <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t38" href="#t38">38</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">message_box</span><span class="op">.</span><span class="nam">setTextFormat</span><span class="op">(</span><span class="nam">Qt</span><span class="op">.</span><span class="nam">TextFormat</span><span class="op">.</span><span class="nam">RichText</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t39" href="#t39">39</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">message_box</span><span class="op">.</span><span class="nam">setTextInteractionFlags</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t38" href="#t38">38</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">message_box</span><span class="op">.</span><span class="nam">setTextFormat</span><span class="op">(</span><span class="nam">Qt</span><span class="op">.</span><span class="nam">TextFormat</span><span class="op">.</span><span class="nam">RichText</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t39" href="#t39">39</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">message_box</span><span class="op">.</span><span class="nam">setTextInteractionFlags</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t40" href="#t40">40</a></span><span class="t">            <span class="nam">Qt</span><span class="op">.</span><span class="nam">TextInteractionFlag</span><span class="op">.</span><span class="nam">TextBrowserInteraction</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t41" href="#t41">41</a></span><span class="t">        <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t42" href="#t42">42</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">retry_button</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">message_box</span><span class="op">.</span><span class="nam">addButton</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t42" href="#t42">42</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">retry_button</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">message_box</span><span class="op">.</span><span class="nam">addButton</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t43" href="#t43">43</a></span><span class="t">            <span class="nam">QCoreApplication</span><span class="op">.</span><span class="nam">translate</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t44" href="#t44">44</a></span><span class="t">                <span class="nam">IRIS_WALLET_TRANSLATIONS_CONTEXT</span><span class="op">,</span> <span class="str">'crash_dialog_restart_node'</span><span class="op">,</span> <span class="key">None</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t45" href="#t45">45</a></span><span class="t">            <span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t46" href="#t46">46</a></span><span class="t">            <span class="nam">QMessageBox</span><span class="op">.</span><span class="nam">AcceptRole</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t47" href="#t47">47</a></span><span class="t">        <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t48" href="#t48">48</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">close_button</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">message_box</span><span class="op">.</span><span class="nam">addButton</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t48" href="#t48">48</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">close_button</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">message_box</span><span class="op">.</span><span class="nam">addButton</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t49" href="#t49">49</a></span><span class="t">            <span class="nam">QCoreApplication</span><span class="op">.</span><span class="nam">translate</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t50" href="#t50">50</a></span><span class="t">                <span class="nam">IRIS_WALLET_TRANSLATIONS_CONTEXT</span><span class="op">,</span> <span class="str">'crash_dialog_close_app'</span><span class="op">,</span> <span class="key">None</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t51" href="#t51">51</a></span><span class="t">            <span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t52" href="#t52">52</a></span><span class="t">            <span class="nam">QMessageBox</span><span class="op">.</span><span class="nam">RejectRole</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t53" href="#t53">53</a></span><span class="t">        <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t54" href="#t54">54</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">message_box</span><span class="op">.</span><span class="nam">setDefaultButton</span><span class="op">(</span><span class="nam">self</span><span class="op">.</span><span class="nam">retry_button</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t54" href="#t54">54</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">message_box</span><span class="op">.</span><span class="nam">setDefaultButton</span><span class="op">(</span><span class="nam">self</span><span class="op">.</span><span class="nam">retry_button</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t55" href="#t55">55</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t56" href="#t56">56</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">message_box</span><span class="op">.</span><span class="nam">exec</span><span class="op">(</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t56" href="#t56">56</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">message_box</span><span class="op">.</span><span class="nam">exec</span><span class="op">(</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
 </main>
 <footer>
     <div class="content">
@@ -145,7 +145,7 @@
             <a class="nav" href="z_86639415499c5601_node_incompatibility_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.8.0">coverage.py v7.8.0</a>,
-            created at 2025-12-19 14:53 +0530
+            created at 2025-12-19 18:35 +0530
         </p>
     </div>
 </footer>
