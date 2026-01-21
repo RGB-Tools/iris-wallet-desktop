@@ -22,9 +22,11 @@ def test_get_offline_asset_ticker():
     """Case 1 : Test all network"""
     response_net_regtest = get_offline_asset_ticker(NetworkEnumModel.REGTEST)
     response_net_testnet = get_offline_asset_ticker(NetworkEnumModel.TESTNET)
+    response_net_testnet4 = get_offline_asset_ticker(NetworkEnumModel.TESTNET4)
     response_net_mainnet = get_offline_asset_ticker(NetworkEnumModel.MAINNET)
     assert response_net_mainnet == 'BTC'
     assert response_net_testnet == 'tBTC'
+    assert response_net_testnet4 == 'tBTC'
     assert response_net_regtest == 'rBTC'
 
 

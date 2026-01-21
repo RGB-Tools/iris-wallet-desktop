@@ -160,7 +160,7 @@ def test_get_ln_invoice(mock_create_ln_invoice_view_model, create_ln_invoice_wid
 
     # Test page navigation after invoice creation
     mock_page_navigation = MagicMock()
-    widget._view_model.page_navigation.receive_rgb25_page = mock_page_navigation
+    widget._view_model.page_navigation.receive_cfa_page = mock_page_navigation
 
     widget.get_ln_invoice()
     mock_page_navigation.assert_called_once()
@@ -431,9 +431,9 @@ def test_on_close(create_ln_invoice_widget):
     create_ln_invoice_widget._view_model.page_navigation.collectibles_asset_page = MagicMock()
     create_ln_invoice_widget._view_model.page_navigation.fungibles_asset_page = MagicMock()
 
-    # Test case when asset_type is RGB25 (should navigate to collectibles_asset_page)
-    # Assuming AssetType.RGB25.value is 'RGB25'
-    create_ln_invoice_widget.asset_type = 'RGB25'
+    # Test case when asset_type is CFA (should navigate to collectibles_asset_page)
+    # Assuming AssetType.CFA.value is 'CFA'
+    create_ln_invoice_widget.asset_type = 'CFA'
     create_ln_invoice_widget.on_close()
 
     # Check that collectibles_asset_page is called and fungibles_asset_page is not
@@ -444,8 +444,8 @@ def test_on_close(create_ln_invoice_widget):
     create_ln_invoice_widget._view_model.page_navigation.collectibles_asset_page.reset_mock()
     create_ln_invoice_widget._view_model.page_navigation.fungibles_asset_page.reset_mock()
 
-    # Test case when asset_type is not RGB25 (should navigate to fungibles_asset_page)
-    # Any asset type other than 'RGB25'
+    # Test case when asset_type is not CFA (should navigate to fungibles_asset_page)
+    # Any asset type other than 'CFA'
     create_ln_invoice_widget.asset_type = 'OTHER_ASSET'
     create_ln_invoice_widget.on_close()
 

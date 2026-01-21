@@ -200,7 +200,7 @@ class Sidebar(QWidget):
         )
         self.help.clicked.connect(self._view_model.page_navigation.help_page)
         self.receive_asset_button.clicked.connect(
-            lambda: self._view_model.page_navigation.receive_rgb25_page(
+            lambda: self._view_model.page_navigation.receive_cfa_page(
                 params=AssetDataModel(
                     asset_type=self.get_checked_button_translation_key(),
                 ),

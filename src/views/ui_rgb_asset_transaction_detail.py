@@ -442,18 +442,18 @@ class RGBAssetTransactionDetail(QWidget):
         """
         Handle the close action for the transaction detail view.
 
-        This method emits a signal with the asset information and navigates to the RGB25 detail page.
+        This method emits a signal with the asset information and navigates to the CFA detail page.
 
         Attributes:
             self (object): The instance of the class containing the view model and navigation logic.
         """
-        self._view_model.rgb25_view_model.asset_info.emit(
+        self._view_model.cfa_view_model.asset_info.emit(
             self.params.asset_id,
             self.params.asset_name,
             self.params.image_path,
             self.params.asset_type,
         )
-        self._view_model.page_navigation.rgb25_detail_page(
+        self._view_model.page_navigation.cfa_detail_page(
             RgbAssetPageLoadModel(asset_type=self.params.asset_type),
         )
 

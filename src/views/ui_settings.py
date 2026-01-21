@@ -44,13 +44,16 @@ from src.utils.constant import ANNOUNCE_ALIAS
 from src.utils.constant import BITCOIND_RPC_HOST_MAINNET
 from src.utils.constant import BITCOIND_RPC_HOST_REGTEST
 from src.utils.constant import BITCOIND_RPC_HOST_TESTNET
+from src.utils.constant import BITCOIND_RPC_HOST_TESTNET4
 from src.utils.constant import BITCOIND_RPC_PORT_MAINNET
 from src.utils.constant import BITCOIND_RPC_PORT_REGTEST
 from src.utils.constant import BITCOIND_RPC_PORT_TESTNET
+from src.utils.constant import BITCOIND_RPC_PORT_TESTNET4
 from src.utils.constant import FEE_RATE
 from src.utils.constant import INDEXER_URL_MAINNET
 from src.utils.constant import INDEXER_URL_REGTEST
 from src.utils.constant import INDEXER_URL_TESTNET
+from src.utils.constant import INDEXER_URL_TESTNET4
 from src.utils.constant import IRIS_WALLET_TRANSLATIONS_CONTEXT
 from src.utils.constant import LN_INVOICE_EXPIRY_TIME
 from src.utils.constant import LN_INVOICE_EXPIRY_TIME_UNIT
@@ -59,6 +62,7 @@ from src.utils.constant import MNEMONIC_KEY
 from src.utils.constant import PROXY_ENDPOINT_MAINNET
 from src.utils.constant import PROXY_ENDPOINT_REGTEST
 from src.utils.constant import PROXY_ENDPOINT_TESTNET
+from src.utils.constant import PROXY_ENDPOINT_TESTNET4
 from src.utils.constant import WALLET_PASSWORD_KEY
 from src.utils.helpers import load_stylesheet
 from src.utils.info_message import INFO_VALIDATION_OF_NODE_PASSWORD_AND_KEYRING_ACCESS
@@ -68,6 +72,9 @@ from src.views.components.configurable_card import ConfigurableCardFrame
 from src.views.components.header_frame import HeaderFrame
 from src.views.components.keyring_error_dialog import KeyringErrorDialog
 from src.views.components.loading_screen import LoadingTranslucentScreen
+from src.views.components.settings_helpers import check_keyring_state_for_password
+from src.views.components.settings_helpers import set_endpoint_based_on_network
+from src.views.components.settings_helpers import set_frame_content
 from src.views.components.toast import ToastManager
 from src.views.components.toggle_switch import ToggleSwitch
 from src.views.ui_restore_mnemonic import RestoreMnemonicWidget
@@ -91,7 +98,7 @@ class SettingsWidget(QWidget):
         self.announce_address = ANNOUNCE_ADDRESS
         self.announce_alias = ANNOUNCE_ALIAS
         self.min_confirmation = MIN_CONFIRMATION
-        self._set_endpoint_based_on_network()
+        self.indexer_url, self.proxy_endpoint, self.bitcoind_host, self.bitcoind_port = set_endpoint_based_on_network()
         self.current_network = None
         self.grid_layout = QGridLayout(self)
         self.grid_layout.setSpacing(0)
@@ -661,7 +668,7 @@ class SettingsWidget(QWidget):
 
     def _set_indexer_url(self):
         """Set the default indexer url based on user input. """
-        password = self._check_keyring_state()
+        password = check_keyring_state_for_password(self, self._view_model)
         if password:
             self._view_model.setting_view_model.check_indexer_url_endpoint(
                 self.set_indexer_url_frame.input_value.text(), password,
@@ -669,7 +676,7 @@ class SettingsWidget(QWidget):
 
     def _set_proxy_endpoint(self):
         """Set the default proxy endpoint based on user input."""
-        password = self._check_keyring_state()
+        password = check_keyring_state_for_password(self, self._view_model)
         if password:
             self._view_model.setting_view_model.check_proxy_endpoint(
                 self.set_proxy_endpoint_frame.input_value.text(), password,
@@ -677,7 +684,7 @@ class SettingsWidget(QWidget):
 
     def _set_bitcoind_host(self):
         """ Set the default bitcoind host based on user input."""
-        password = self._check_keyring_state()
+        password = check_keyring_state_for_password(self, self._view_model)
         if password:
             self._view_model.setting_view_model.set_bitcoind_host(
                 self.set_bitcoind_rpc_host_frame.input_value.text(), password,
@@ -685,7 +692,7 @@ class SettingsWidget(QWidget):
 
     def _set_bitcoind_port(self):
         """Set the default bitcoind port based on user input."""
-        password = self._check_keyring_state()
+        password = check_keyring_state_for_password(self, self._view_model)
         if password:
             self._view_model.setting_view_model.set_bitcoind_port(
                 int(self.set_bitcoind_rpc_port_frame.input_value.text()), password,
@@ -693,7 +700,7 @@ class SettingsWidget(QWidget):
 
     def _set_announce_address(self):
         """Set the default announce address based on user input."""
-        password = self._check_keyring_state()
+        password = check_keyring_state_for_password(self, self._view_model)
         if password:
             self._view_model.setting_view_model.set_announce_address(
                 self.set_announce_address_frame.input_value.text(), password,
@@ -701,7 +708,7 @@ class SettingsWidget(QWidget):
 
     def _set_announce_alias(self):
         """Set the default announce alias based on user input."""
-        password = self._check_keyring_state()
+        password = check_keyring_state_for_password(self, self._view_model)
         if password:
             self._view_model.setting_view_model.set_announce_alias(
                 self.set_announce_alias_frame.input_value.text(), password,
@@ -834,112 +841,21 @@ class SettingsWidget(QWidget):
             else:
                 frame.save_button.stop_loading()
 
-    def _check_keyring_state(self):
-        """Checks the keyring status and retrieves the wallet password, either
-        from secure storage if the keyring is disabled or via a user prompt
-        through a mnemonic dialog if enabled."""
-        keyring_status = SettingRepository.get_keyring_status()
-        if keyring_status is False:
-            network: NetworkEnumModel = SettingRepository.get_wallet_network()
-            password: str = get_value(WALLET_PASSWORD_KEY, network.value)
-            return password
-        if keyring_status is True:
-            mnemonic_dialog = RestoreMnemonicWidget(
-                parent=self, view_model=self._view_model, origin_page='setting_card', mnemonic_visibility=False,
-            )
-            mnemonic_dialog.mnemonic_detail_text_label.setText(
-                QCoreApplication.translate(
-                    IRIS_WALLET_TRANSLATIONS_CONTEXT, 'lock_unlock_password_required', None,
-                ),
-            )
-            mnemonic_dialog.mnemonic_detail_text_label.setFixedHeight(40)
-            result = mnemonic_dialog.exec()
-            if result == QDialog.Accepted:
-                password = mnemonic_dialog.password_input.text()
-                return password
-        return None
-
-    def _set_endpoint_based_on_network(self):
-        """Sets various endpoints and configuration parameters
-        based on the currently selected wallet network."""
-        network_config_map = {
-            NetworkEnumModel.MAINNET: (INDEXER_URL_MAINNET, PROXY_ENDPOINT_MAINNET, BITCOIND_RPC_HOST_MAINNET, BITCOIND_RPC_PORT_MAINNET),
-            NetworkEnumModel.TESTNET: (INDEXER_URL_TESTNET, PROXY_ENDPOINT_TESTNET, BITCOIND_RPC_HOST_TESTNET, BITCOIND_RPC_PORT_TESTNET),
-            NetworkEnumModel.REGTEST: (INDEXER_URL_REGTEST, PROXY_ENDPOINT_REGTEST, BITCOIND_RPC_HOST_REGTEST, BITCOIND_RPC_PORT_REGTEST),
-        }
-        stored_network: NetworkEnumModel = SettingRepository.get_wallet_network()
-        config = network_config_map.get(stored_network)
-        if config:
-            self.indexer_url, self.proxy_endpoint, self.bitcoind_host, self.bitcoind_port = config
-        else:
-            raise ValueError(f"Unsupported network type: {stored_network}")
-
-    def _set_frame_content(self, frame, input_value, validator=None, time_unit_combobox=None, suggestion_desc=None):
-        """
-        Sets the content for a given frame, configuring the input value and optionally hiding/showing other widgets.
-        """
-        if isinstance(input_value, float) and input_value.is_integer():
-            input_value = int(input_value)
-
-        frame.input_value.setText(str(input_value))
-        frame.input_value.setPlaceholderText(str(input_value))
-        frame.input_value.setValidator(validator)
-
-        if not suggestion_desc:
-            frame.suggestion_desc.hide()
-
-        if time_unit_combobox:
-            index = time_unit_combobox.findText(
-                self.expiry_time_unit, Qt.MatchFixedString,
-            )
-            if index != -1:
-                time_unit_combobox.setCurrentIndex(index)
-        else:
-            frame.time_unit_combobox.hide()
-
-        frame.input_value.textChanged.connect(
-            lambda: self._update_save_button(frame, input_value),
-        )
-
-        if time_unit_combobox:
-            frame.time_unit_combobox.currentTextChanged.connect(
-                lambda: self._update_save_button(
-                    frame, input_value, time_unit_combobox,
-                ),
-            )
-
-        # Initial call to set the correct button state
-        self._update_save_button(frame, input_value, time_unit_combobox)
-
-    def _update_save_button(self, frame, input_value, time_unit_combobox=None):
-        """
-        Updates the state of the save button based on input value and time unit changes.
-        """
-        current_text = frame.input_value.text().strip()
-        current_unit = frame.time_unit_combobox.currentText() if time_unit_combobox else ''
-
-        time_unit_changed = current_unit != self.expiry_time_unit
-
-        if current_text and (current_text != str(input_value) or (time_unit_combobox and time_unit_changed)):
-            frame.save_button.setDisabled(False)
-        else:
-            frame.save_button.setDisabled(True)
-
     def handle_fee_rate_frame(self):
         """Handle the frame for setting the fee rate."""
-        self._set_frame_content(
+        set_frame_content(
             self.set_fee_rate_frame,
             self.fee_rate,
-            QIntValidator(),
+            validator=QIntValidator(),
             suggestion_desc=self.set_fee_rate_frame.suggestion_desc,
         )
 
     def handle_expiry_time_frame(self):
         """Handle the frame for setting the expiry time and unit."""
-        self._set_frame_content(
+        set_frame_content(
             self.set_expiry_time_frame,
             self.expiry_time,
-            QIntValidator(),
+            validator=QIntValidator(),
             suggestion_desc=self.set_expiry_time_frame.suggestion_desc,
             time_unit_combobox=self.set_expiry_time_frame.time_unit_combobox,
 
@@ -950,50 +866,50 @@ class SettingsWidget(QWidget):
 
     def handle_indexer_url_frame(self):
         """Handle the frame for setting the indexer url."""
-        self._set_frame_content(
+        set_frame_content(
             self.set_indexer_url_frame,
             self.indexer_url,
         )
 
     def handle_proxy_endpoint_frame(self):
         """Handle the frame for setting the proxy endpoint."""
-        self._set_frame_content(
+        set_frame_content(
             self.set_proxy_endpoint_frame,
             self.proxy_endpoint,
         )
 
     def handle_bitcoind_host_frame(self):
         """Handle the frame for setting the bitcoind host."""
-        self._set_frame_content(
+        set_frame_content(
             self.set_bitcoind_rpc_host_frame,
             self.bitcoind_host,
         )
 
     def handle_bitcoind_port_frame(self):
         """Handle the frame for setting the bitcoind port."""
-        self._set_frame_content(
+        set_frame_content(
             self.set_bitcoind_rpc_port_frame,
             self.bitcoind_port,
-            QIntValidator(),
+            validator=QIntValidator(),
         )
 
     def handle_announce_address_frame(self):
         """Handle the frame for setting the announce address."""
-        self._set_frame_content(
+        set_frame_content(
             self.set_announce_address_frame,
             self.announce_address,
         )
 
     def handle_announce_alias_frame(self):
         """Handle the frame for setting the announce alias."""
-        self._set_frame_content(
+        set_frame_content(
             self.set_announce_alias_frame,
             self.announce_alias,
         )
 
     def handle_minimum_confirmation_frame(self):
         """Handle the frame for setting the minimum confirmation."""
-        self._set_frame_content(
+        set_frame_content(
             self.set_minimum_confirmation_frame,
             self.min_confirmation,
             QIntValidator(),

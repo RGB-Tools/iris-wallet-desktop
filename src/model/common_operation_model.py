@@ -123,7 +123,8 @@ class NodeInfoResponseModel(BaseModel):
     eventual_close_fees_sat: int
     pending_outbound_payments_sat: int
     num_peers: int
-    onchain_pubkey: str
+    account_xpub_vanilla: str
+    account_xpub_colored: str
     max_media_upload_size_mb: int
     rgb_htlc_min_msat: int
     rgb_channel_capacity_min_sat: int

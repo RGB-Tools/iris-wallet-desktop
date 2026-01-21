@@ -6,12 +6,9 @@ import pytest
 
 from src.data.service.asset_detail_page_services import AssetDetailPageService
 from src.model.payments_model import ListPaymentResponseModel
-from src.model.rgb_model import AssetBalanceResponseModel
 from src.model.rgb_model import AssetIdModel
 from src.model.rgb_model import ListOnAndOffChainTransfersWithBalance
-from src.model.rgb_model import ListTransferAssetWithBalanceResponseModel
 from src.model.rgb_model import ListTransfersRequestModel
-from src.model.rgb_model import TransferAsset
 from src.utils.custom_exception import CommonException
 from src.utils.custom_exception import ServiceOperationException
 from unit_tests.repository_fixture.rgb_repository_mock import mock_get_asset_balance

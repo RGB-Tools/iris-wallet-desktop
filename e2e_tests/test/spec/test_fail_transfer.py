@@ -14,7 +14,7 @@ from src.utils.info_message import INFO_FAIL_TRANSFER_SUCCESSFULLY
 
 
 ASSET_TICKER = 'TTK'
-RGB20_ASSET_NAME = 'Tether'
+NIA_ASSET_NAME = 'Tether'
 ASSET_AMOUNT = '2000'
 
 
@@ -30,13 +30,13 @@ def test_fail_transfer(wallets_and_operations: WalletTestSetup):
         )
 
     with allure.step('Issuing an RGB asset'):
-        wallets_and_operations.first_page_features.issue_rgb20_features.issue_rgb20_with_sufficient_sats_and_utxo(
-            FIRST_APPLICATION, ASSET_TICKER, RGB20_ASSET_NAME, ASSET_AMOUNT,
+        wallets_and_operations.first_page_features.issue_nia_features.issue_nia_with_sufficient_sats_and_utxo(
+            FIRST_APPLICATION, ASSET_TICKER, NIA_ASSET_NAME, ASSET_AMOUNT,
         )
 
     with allure.step('Generating an invoice'):
-        wallets_and_operations.first_page_objects.fungible_page_objects.click_rgb20_frame(
-            asset_name=RGB20_ASSET_NAME,
+        wallets_and_operations.first_page_objects.fungible_page_objects.click_nia_frame(
+            asset_name=NIA_ASSET_NAME,
         )
         wallets_and_operations.first_page_objects.asset_detail_page_objects.click_receive_button()
         wallets_and_operations.first_page_features.receive_features.receive(
@@ -44,8 +44,8 @@ def test_fail_transfer(wallets_and_operations: WalletTestSetup):
         )
 
     with allure.step('Failing the transfer'):
-        wallets_and_operations.first_page_objects.fungible_page_objects.click_rgb20_frame(
-            asset_name=RGB20_ASSET_NAME,
+        wallets_and_operations.first_page_objects.fungible_page_objects.click_nia_frame(
+            asset_name=NIA_ASSET_NAME,
         )
         wallets_and_operations.first_page_objects.asset_detail_page_objects.click_fail_transfer_button()
         wallets_and_operations.first_page_objects.asset_detail_page_objects.click_confirmation_continue_button()

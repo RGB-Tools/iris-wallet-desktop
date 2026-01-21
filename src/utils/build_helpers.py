@@ -20,9 +20,9 @@ def add_network_argument(parser: ArgumentParser) -> None:
     """Add the common --network argument to an ArgumentParser."""
     parser.add_argument(
         '--network',
-        choices=['mainnet', 'testnet', 'regtest'],
+        choices=['mainnet', 'testnet', 'regtest', 'testnet4'],
         required=True,
-        help="Specify the network to build for: 'mainnet', 'testnet', or 'regtest'.",
+        help="Specify the network to build for: 'mainnet', 'testnet', 'regtest', or 'testnet4'.",
     )
 
 

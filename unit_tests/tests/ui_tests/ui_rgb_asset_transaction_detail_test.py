@@ -55,7 +55,7 @@ def rgb_asset_transaction_detail_widget(qtbot):
     params.recipient_id = 'recipient_124'
     params.receive_utxo = 'utxo_1234'
     params.change_utxo = 'utxo_4567'
-    params.asset_type = 'RGB20'
+    params.asset_type = 'NIA'
     params.is_off_chain = False  # Add the missing attribute
 
     # Initialize the widget
@@ -222,18 +222,18 @@ def test_handle_close(rgb_asset_transaction_detail_widget: RGBAssetTransactionDe
     rgb_asset_transaction_detail_widget.params.asset_type = 'Test Type'
 
     # Mock the view model methods (signal and navigation)
-    rgb_asset_transaction_detail_widget._view_model.rgb25_view_model.asset_info = MagicMock()
-    rgb_asset_transaction_detail_widget._view_model.page_navigation.rgb25_detail_page = MagicMock()
+    rgb_asset_transaction_detail_widget._view_model.cfa_view_model.asset_info = MagicMock()
+    rgb_asset_transaction_detail_widget._view_model.page_navigation.cfa_detail_page = MagicMock()
 
     # Call the method to test
     rgb_asset_transaction_detail_widget.handle_close()
 
     # Assert that the signal is emitted with the correct parameters
-    rgb_asset_transaction_detail_widget._view_model.rgb25_view_model.asset_info.emit.assert_called_once_with(
+    rgb_asset_transaction_detail_widget._view_model.cfa_view_model.asset_info.emit.assert_called_once_with(
         '123', 'Test Asset', 'path/to/image', 'Test Type',
     )
 
     # Assert that the navigation method is called with the correct argument
-    rgb_asset_transaction_detail_widget._view_model.page_navigation.rgb25_detail_page.assert_called_once_with(
+    rgb_asset_transaction_detail_widget._view_model.page_navigation.cfa_detail_page.assert_called_once_with(
         RgbAssetPageLoadModel(asset_type='Test Type'),
     )

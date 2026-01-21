@@ -4,7 +4,7 @@ Fungible page objects class for interacting with the application.
 from __future__ import annotations
 
 from accessible_constant import FUNGIBLES_SCROLL_WIDGETS
-from accessible_constant import ISSUE_RGB20_ASSET
+from accessible_constant import ISSUE_NIA_ASSET
 from accessible_constant import NETWORK_AND_BACKUP_FRAME
 from e2e_tests.test.utilities.base_operation import BaseOperations
 
@@ -22,9 +22,9 @@ class FungiblePageObjects(BaseOperations):
         super().__init__(application)
 
         # Define elements using lambdas for lazy evaluation
-        self.rgb_20_asset_name = None
-        self.issue_rgb20_button = lambda: self.perform_action_on_element(
-            role_name='push button', name=ISSUE_RGB20_ASSET,
+        self.nia_asset_name = None
+        self.issue_nia_button = lambda: self.perform_action_on_element(
+            role_name='push button', name=ISSUE_NIA_ASSET,
         )
         self.bitcoin_frame = lambda: self.perform_action_on_element(
             role_name='label', name='regtest bitcoin',
@@ -40,14 +40,14 @@ class FungiblePageObjects(BaseOperations):
         """Returns child count"""
         return self.do_get_child_count(self.fungibles_scroll_area()) if self.do_is_displayed(self.fungibles_scroll_area()) else None
 
-    def click_issue_rgb20_button(self):
+    def click_issue_nia_button(self):
         """
-        Clicks the issue RGB20 button if it is displayed.
+        Clicks the issue NIA button if it is displayed.
 
         Returns:
             bool: True if the button is clicked, None otherwise.
         """
-        return self.do_click(self.issue_rgb20_button()) if self.do_is_displayed(self.issue_rgb20_button()) else None
+        return self.do_click(self.issue_nia_button()) if self.do_is_displayed(self.issue_nia_button()) else None
 
     def click_bitcoin_frame(self):
         """
@@ -58,7 +58,7 @@ class FungiblePageObjects(BaseOperations):
         """
         return self.do_click(self.bitcoin_frame()) if self.do_is_displayed(self.bitcoin_frame()) else None
 
-    def get_rgb20_asset_name(self, asset_name):
+    def get_nia_asset_name(self, asset_name):
         """
         Retrieves the asset name if it is displayed.
 
@@ -68,14 +68,14 @@ class FungiblePageObjects(BaseOperations):
         Returns:
             str: The asset name if it is displayed, None otherwise.
         """
-        self.rgb_20_asset_name = self.perform_action_on_element(
+        self.nia_asset_name = self.perform_action_on_element(
             role_name='label', name=asset_name,
         )
-        return self.do_get_text(self.rgb_20_asset_name) if self.do_is_displayed(self.rgb_20_asset_name) else None
+        return self.do_get_text(self.nia_asset_name) if self.do_is_displayed(self.nia_asset_name) else None
 
-    def click_rgb20_frame(self, asset_name):
+    def click_nia_frame(self, asset_name):
         """
-        Clicks the RGB20 frame if it is displayed.
+        Clicks the NIA frame if it is displayed.
 
         Args:
             asset_name (str): The name of the asset.
@@ -83,10 +83,10 @@ class FungiblePageObjects(BaseOperations):
         Returns:
             bool: True if the frame is clicked, None otherwise.
         """
-        self.rgb_20_asset_name = self.perform_action_on_element(
+        self.nia_asset_name = self.perform_action_on_element(
             role_name='label', name=asset_name,
         )
-        return self.do_click(self.rgb_20_asset_name) if self.do_is_displayed(self.rgb_20_asset_name) else None
+        return self.do_click(self.nia_asset_name) if self.do_is_displayed(self.nia_asset_name) else None
 
     def get_backup_tooltip(self):
         """

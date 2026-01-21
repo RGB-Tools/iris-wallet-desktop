@@ -130,11 +130,11 @@ def test_enter_wallet_password_page(page_navigation):
     assert page_navigation.current_stack['name'] == 'EnterWalletPassword'
 
 
-def test_issue_rgb20_asset_page(page_navigation):
-    """Test issue_rgb20_asset_page navigation."""
-    page_navigation.issue_rgb20_asset_page()
+def test_issue_nia_asset_page(page_navigation):
+    """Test issue_nia_asset_page navigation."""
+    page_navigation.issue_nia_asset_page()
 
-    assert page_navigation.current_stack['name'] == 'IssueRGB20'
+    assert page_navigation.current_stack['name'] == 'IssueNIA'
 
 
 def test_bitcoin_page(page_navigation):
@@ -144,34 +144,34 @@ def test_bitcoin_page(page_navigation):
     assert page_navigation.current_stack['name'] == 'Bitcoin'
 
 
-def test_issue_rgb25_asset_page(page_navigation):
-    """Test issue_rgb25_asset_page navigation."""
-    page_navigation.issue_rgb25_asset_page()
+def test_issue_cfa_asset_page(page_navigation):
+    """Test issue_cfa_asset_page navigation."""
+    page_navigation.issue_cfa_asset_page()
 
-    assert page_navigation.current_stack['name'] == 'IssueRGB25'
-
-
-def test_send_rgb25_page(page_navigation):
-    """Test send_rgb25_page navigation."""
-    page_navigation.send_rgb25_page()
-
-    assert page_navigation.current_stack['name'] == 'SendRGB25'
+    assert page_navigation.current_stack['name'] == 'IssueCFA'
 
 
-def test_receive_rgb25_page(page_navigation):
-    """Test receive_rgb25_page navigation."""
+def test_send_cfa_page(page_navigation):
+    """Test send_cfa_page navigation."""
+    page_navigation.send_cfa_page()
+
+    assert page_navigation.current_stack['name'] == 'SendCFA'
+
+
+def test_receive_cfa_page(page_navigation):
+    """Test receive_cfa_page navigation."""
     params = MagicMock()
-    page_navigation.receive_rgb25_page(params)
+    page_navigation.receive_cfa_page(params)
 
-    assert page_navigation.current_stack['name'] == 'ReceiveRGB25'
+    assert page_navigation.current_stack['name'] == 'ReceiveCFA'
 
 
-def test_rgb25_detail_page(page_navigation):
-    """Test rgb25_detail_page navigation."""
+def test_cfa_detail_page(page_navigation):
+    """Test cfa_detail_page navigation."""
     params = MagicMock(spec=RgbAssetPageLoadModel)
-    page_navigation.rgb25_detail_page(params)
+    page_navigation.cfa_detail_page(params)
 
-    assert page_navigation.current_stack['name'] == 'RGB25Detail'
+    assert page_navigation.current_stack['name'] == 'CFADetail'
 
 
 def test_send_bitcoin_page(page_navigation):
@@ -209,12 +209,12 @@ def test_view_unspent_list_page(page_navigation):
     assert page_navigation.current_stack['name'] == 'ViewUnspentList'
 
 
-def test_rgb25_transaction_detail_page(page_navigation):
-    """Test rgb25_transaction_detail_page navigation."""
+def test_cfa_transaction_detail_page(page_navigation):
+    """Test cfa_transaction_detail_page navigation."""
     params = MagicMock(spec=TransactionDetailPageModel)
-    page_navigation.rgb25_transaction_detail_page(params)
+    page_navigation.cfa_transaction_detail_page(params)
 
-    assert page_navigation.current_stack['name'] == 'RGB25TransactionDetail'
+    assert page_navigation.current_stack['name'] == 'CFATransactionDetail'
 
 
 def test_bitcoin_transaction_detail_page(page_navigation):

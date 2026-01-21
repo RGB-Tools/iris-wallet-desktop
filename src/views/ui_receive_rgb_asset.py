@@ -1,6 +1,6 @@
 # pylint: disable=too-many-instance-attributes, too-many-statements, unused-import
 """This module contains the ReceiveRGBAssetWidget class,
- which represents the UI for receive rgb25.
+ which represents the UI for receive cfa.
  """
 from __future__ import annotations
 
@@ -38,8 +38,8 @@ class ReceiveRGBAssetWidget(QWidget):
         self.default_min_confirmation = SettingCardRepository.get_default_min_confirmation()
         self.receive_rgb_asset_page = ReceiveAssetWidget(
             self._view_model,
-            'RGB25 page',
-            'rgb25_address_info',
+            'CFA page',
+            'cfa_address_info',
         )
         self.__loading_translucent_screen = LoadingTranslucentScreen(
             parent=self, description_text='Loading', dot_animation=True,
@@ -54,9 +54,9 @@ class ReceiveRGBAssetWidget(QWidget):
     def generate_invoice(self):
         """Call get rgb invoice to get invoice"""
         if self.originating_page in [
-            'RGB20',
+            'NIA',
             'fungibles',
-            'RGB25',
+            'CFA',
             'collectibles',
             'channel_management',
             'view_unspent_list',
@@ -66,7 +66,7 @@ class ReceiveRGBAssetWidget(QWidget):
             'about',
             'backup',
         ]:
-            self._view_model.receive_rgb25_view_model.get_rgb_invoice(
+            self._view_model.receive_cfa_view_model.get_rgb_invoice(
                 self.default_min_confirmation.min_confirmation, self.asset_id,
             )
 
@@ -92,19 +92,19 @@ class ReceiveRGBAssetWidget(QWidget):
         self.receive_rgb_asset_page.receive_asset_close_button.clicked.connect(
             self.close_button_navigation,
         )
-        self._view_model.receive_rgb25_view_model.address.connect(
+        self._view_model.receive_cfa_view_model.address.connect(
             self.update_address,
         )
         self._view_model.ln_offchain_view_model.invoice_get_event.connect(
             lambda address: self.update_address(address, ln_invoice=True),
         )
-        self._view_model.receive_rgb25_view_model.message.connect(
+        self._view_model.receive_cfa_view_model.message.connect(
             self.handle_message,
         )
         self._view_model.ln_offchain_view_model.invoice_get_event.connect(
             self.hide_loading_screen,
         )
-        self._view_model.receive_rgb25_view_model.hide_loading.connect(
+        self._view_model.receive_cfa_view_model.hide_loading.connect(
             self.hide_loading_screen,
         )
 
@@ -113,16 +113,16 @@ class ReceiveRGBAssetWidget(QWidget):
         Navigate to the specified page when the close button is clicked.
         """
 
-        if self.close_page_navigation == AssetType.RGB25.value:
+        if self.close_page_navigation == AssetType.CFA.value:
             self._view_model.page_navigation.collectibles_asset_page()
-        elif self.close_page_navigation == AssetType.RGB20.value:
+        elif self.close_page_navigation == AssetType.NIA.value:
             self._view_model.page_navigation.fungibles_asset_page()
         else:
             navigation_map = {
-                'RGB20': self._view_model.page_navigation.fungibles_asset_page,
+                'NIA': self._view_model.page_navigation.fungibles_asset_page,
                 'fungibles': self._view_model.page_navigation.fungibles_asset_page,
                 'create_invoice': self._view_model.page_navigation.fungibles_asset_page,
-                'RGB25': self._view_model.page_navigation.collectibles_asset_page,
+                'CFA': self._view_model.page_navigation.collectibles_asset_page,
                 'collectibles': self._view_model.page_navigation.collectibles_asset_page,
                 'channel_management': self._view_model.page_navigation.channel_management_page,
                 'view_unspent_list': self._view_model.page_navigation.view_unspent_list_page,

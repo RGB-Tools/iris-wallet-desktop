@@ -27,6 +27,8 @@ def render_timer():
 
 def test_singleton_pattern():
     """Test that RenderTimer follows the singleton pattern."""
+    # Clear the singleton instance to ensure test isolation
+    RenderTimer._instance = None
     with patch('src.utils.render_timer.logger'):
         # Create two instances
         timer1 = RenderTimer('Task 1')
@@ -108,6 +110,8 @@ def test_multiple_start_stop_cycles(render_timer):
 
 def test_timer_initialization():
     """Test that timer is properly initialized."""
+    # Clear the singleton instance to ensure test isolation
+    RenderTimer._instance = None
     with patch('src.utils.render_timer.logger'):
         timer = RenderTimer('Test Task')
         assert isinstance(timer.timer, QElapsedTimer)
@@ -126,6 +130,8 @@ def test_stop_resets_rendering_flag(render_timer):
 
 def test_initialization_happens_once():
     """Test that initialization only happens once despite multiple instantiations."""
+    # Clear the singleton instance to ensure test isolation
+    RenderTimer._instance = None
     with patch('src.utils.render_timer.logger'):
         timer1 = RenderTimer('Task 1')
         original_timer = timer1.timer

@@ -36,11 +36,11 @@ def send_rgb_asset_widget(qtbot):
     asset_balance = Balance(future=100, spendable=50, settled=100)
     txn_list = MagicMock(ListTransferAssetWithBalanceResponseModel)
     txn_list.asset_balance = asset_balance
-    view_model.rgb25_view_model.txn_list = txn_list
+    view_model.cfa_view_model.txn_list = txn_list
 
-    # Mock the attributes of rgb25_view_model
-    view_model.rgb25_view_model.is_loading = MagicMock()
-    view_model.rgb25_view_model.stop_loading = MagicMock()
+    # Mock the attributes of cfa_view_model
+    view_model.cfa_view_model.is_loading = MagicMock()
+    view_model.cfa_view_model.stop_loading = MagicMock()
 
     widget = SendRGBAssetWidget(view_model)
     qtbot.addWidget(widget)
@@ -108,7 +108,7 @@ def test_set_asset_balance(send_rgb_asset_widget: SendRGBAssetWidget, qtbot):
     assert send_rgb_asset_widget.send_rgb_asset_page.send_btn.isEnabled()
 
     # Test with zero spendable balance
-    send_rgb_asset_widget._view_model.rgb25_view_model.txn_list.asset_balance.spendable = 0
+    send_rgb_asset_widget._view_model.cfa_view_model.txn_list.asset_balance.spendable = 0
     send_rgb_asset_widget.set_asset_balance()
     assert not send_rgb_asset_widget.send_rgb_asset_page.send_btn.isEnabled()
 
@@ -134,13 +134,13 @@ def test_handle_show_message(send_rgb_asset_widget: SendRGBAssetWidget):
 def test_handle_message(send_rgb_asset_widget: SendRGBAssetWidget):
     """Test the handle_message method of WelcomeWidget."""
     with patch('src.views.ui_send_rgb_asset.ToastManager') as mock_toast_manager:
-        send_rgb_asset_widget.show_rgb25_message(
+        send_rgb_asset_widget.show_cfa_message(
             ToastPreset.ERROR, 'Test Error Message',
         )
         mock_toast_manager.error.assert_called_once_with('Test Error Message')
         mock_toast_manager.success.assert_not_called()
 
-        send_rgb_asset_widget.show_rgb25_message(
+        send_rgb_asset_widget.show_cfa_message(
             ToastPreset.SUCCESS, 'Test Success Message',
         )
         mock_toast_manager.error.assert_called_once()
@@ -153,21 +153,21 @@ def test_refresh_asset(send_rgb_asset_widget: SendRGBAssetWidget, mocker):
     """Test the refresh_asset method of the widget."""
 
     # Mock the view model and its methods
-    mock_rgb25_view_model = MagicMock()
+    mock_cfa_view_model = MagicMock()
     mock_view_model = MagicMock()
 
     send_rgb_asset_widget._view_model = mock_view_model
-    send_rgb_asset_widget._view_model.rgb25_view_model = mock_rgb25_view_model
+    send_rgb_asset_widget._view_model.cfa_view_model = mock_cfa_view_model
 
     # Mock the values that should be set on the view model
-    mock_rgb25_view_model.asset_id = '123'
-    mock_rgb25_view_model.asset_name = 'Asset Name'
-    mock_rgb25_view_model.image_path = 'path/to/image'
-    mock_rgb25_view_model.asset_type = 'type'
+    mock_cfa_view_model.asset_id = '123'
+    mock_cfa_view_model.asset_name = 'Asset Name'
+    mock_cfa_view_model.image_path = 'path/to/image'
+    mock_cfa_view_model.asset_type = 'type'
 
-    # Mock the get_rgb25_asset_detail method
-    mock_get_rgb25_asset_detail = MagicMock()
-    mock_rgb25_view_model.get_rgb25_asset_detail = mock_get_rgb25_asset_detail
+    # Mock the get_cfa_asset_detail method
+    mock_get_cfa_asset_detail = MagicMock()
+    mock_cfa_view_model.get_cfa_asset_detail = mock_get_cfa_asset_detail
 
     # Call the refresh_asset method
     send_rgb_asset_widget.refresh_asset()
@@ -176,7 +176,7 @@ def test_refresh_asset(send_rgb_asset_widget: SendRGBAssetWidget, mocker):
     assert send_rgb_asset_widget.loading_performer == 'REFRESH_BUTTON'
 
     # Verify that on_refresh_click was called
-    mock_rgb25_view_model.on_refresh_click.assert_called_once()
+    mock_cfa_view_model.on_refresh_click.assert_called_once()
 
     # Verify that the asset details were correctly assigned
     assert send_rgb_asset_widget.asset_id == '123'
@@ -184,8 +184,8 @@ def test_refresh_asset(send_rgb_asset_widget: SendRGBAssetWidget, mocker):
     assert send_rgb_asset_widget.image_path == 'path/to/image'
     assert send_rgb_asset_widget.asset_type == 'type'
 
-    # Verify that get_rgb25_asset_detail was called with the correct arguments
-    mock_rgb25_view_model.get_rgb25_asset_detail.assert_called_once_with(
+    # Verify that get_cfa_asset_detail was called with the correct arguments
+    mock_cfa_view_model.get_cfa_asset_detail.assert_called_once_with(
         asset_id='123',
         asset_name='Asset Name',
         image_path='path/to/image',
@@ -196,11 +196,11 @@ def test_refresh_asset(send_rgb_asset_widget: SendRGBAssetWidget, mocker):
 def test_set_originating_page(send_rgb_asset_widget: SendRGBAssetWidget):
     """Test the set_originating_page method of the widget."""
 
-    # Test when asset_type is 'RGB20'
-    send_rgb_asset_widget.set_originating_page('RGB20')
+    # Test when asset_type is 'NIA'
+    send_rgb_asset_widget.set_originating_page('NIA')
 
-    # Verify the asset_type is set to 'RGB20'
-    assert send_rgb_asset_widget.asset_type == 'RGB20'
+    # Verify the asset_type is set to 'NIA'
+    assert send_rgb_asset_widget.asset_type == 'NIA'
 
 
 def test_rgb_asset_page_navigation(send_rgb_asset_widget: SendRGBAssetWidget, mocker):
@@ -214,8 +214,8 @@ def test_rgb_asset_page_navigation(send_rgb_asset_widget: SendRGBAssetWidget, mo
     send_rgb_asset_widget._view_model.page_navigation = mock_page_navigation
     mock_page_navigation.sidebar.return_value = mock_sidebar
 
-    # Test when asset_type is 'RGB20'
-    send_rgb_asset_widget.asset_type = 'RGB20'
+    # Test when asset_type is 'NIA'
+    send_rgb_asset_widget.asset_type = 'NIA'
 
     # Call the rgb_asset_page_navigation method
     send_rgb_asset_widget.rgb_asset_page_navigation()
@@ -226,7 +226,7 @@ def test_rgb_asset_page_navigation(send_rgb_asset_widget: SendRGBAssetWidget, mo
     # Verify that fungibles_asset_page was called
     mock_page_navigation.fungibles_asset_page.assert_called_once()
 
-    # Test when asset_type is not 'RGB20' (e.g., 'OtherType')
+    # Test when asset_type is not 'NIA' (e.g., 'OtherType')
     send_rgb_asset_widget.asset_type = 'OtherType'
 
     # Call the rgb_asset_page_navigation method again
@@ -270,7 +270,7 @@ def test_send_rgb_asset_button_success(send_rgb_asset_widget: SendRGBAssetWidget
 
     # Mock the on_send_click method
     mock_on_send_click = MagicMock()
-    send_rgb_asset_widget._view_model.rgb25_view_model.on_send_click = mock_on_send_click
+    send_rgb_asset_widget._view_model.cfa_view_model.on_send_click = mock_on_send_click
 
     # Mock ToastManager to prevent actual toast displays
     mock_toast_manager = MagicMock()
@@ -352,7 +352,7 @@ def test_send_rgb_asset_button_send_error(send_rgb_asset_widget: SendRGBAssetWid
     # Mock on_send_click to raise CommonException
     mock_error = CommonException('Send failed')
     mock_on_send_click = MagicMock(side_effect=mock_error)
-    send_rgb_asset_widget._view_model.rgb25_view_model.on_send_click = mock_on_send_click
+    send_rgb_asset_widget._view_model.cfa_view_model.on_send_click = mock_on_send_click
 
     # Use patch to mock ToastManager
     with patch('src.views.ui_send_rgb_asset.ToastManager') as mock_toast_manager:

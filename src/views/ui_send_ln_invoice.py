@@ -648,7 +648,7 @@ class SendLnInvoiceWidget(QWidget):
 
     def on_success_sent_navigation(self):
         """This method is used to navigate to collectibles or fungibles page when the originating page is create ln invoice"""
-        if self.asset_type == AssetType.RGB25.value:
+        if self.asset_type == AssetType.CFA.value:
             self._view_model.page_navigation.collectibles_asset_page()
         else:
             self._view_model.page_navigation.fungibles_asset_page()
@@ -671,7 +671,7 @@ class SendLnInvoiceWidget(QWidget):
 
     def on_click_close_button(self):
         """This method is used to navigate to fungibles or collectibles page based on asset type"""
-        if self.asset_type == AssetType.RGB25.value:
+        if self.asset_type == AssetType.CFA.value:
             self._view_model.page_navigation.collectibles_asset_page()
         else:
             self._view_model.page_navigation.fungibles_asset_page()

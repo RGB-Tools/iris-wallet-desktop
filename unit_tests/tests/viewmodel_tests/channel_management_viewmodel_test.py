@@ -18,7 +18,9 @@ from src.model.rgb_model import AssetModel
 from src.model.rgb_model import GetAssetResponseModel
 from src.utils.custom_exception import CommonException
 from src.utils.error_message import ERROR_CREATE_UTXO
-from src.utils.error_message import ERROR_INSUFFICIENT_ALLOCATION_SLOT
+from src.utils.error_message import ERROR_INSUFFICIENT_ASSET
+from src.utils.error_message import ERROR_INVALID_PUBKEY_TYPE
+from src.utils.error_message import ERROR_NO_UNCOLORED_UTXOS_AVAILABLE
 from src.utils.error_message import ERROR_SOMETHING_WENT_WRONG
 from src.utils.info_message import INFO_CHANNEL_DELETED
 from src.viewmodels.channel_management_viewmodel import ChannelManagementViewModel
@@ -256,7 +258,6 @@ def test_get_asset_name(channel_view_model):
     mock_nia_asset = AssetModel(
         asset_id='1',
         name='NIA Asset',
-        asset_iface='interface1',
         details=None,
         precision=2,
         issued_supply=4000,
@@ -269,7 +270,6 @@ def test_get_asset_name(channel_view_model):
     mock_cfa_asset = AssetModel(
         asset_id='2',
         name='CFA Asset',
-        asset_iface='interface2',
         details=None,
         precision=2,
         issued_supply=1000,
@@ -308,7 +308,6 @@ def test_get_asset_list_success_with_both_assets(channel_view_model, mocker):
     mock_nia_asset = AssetModel(
         asset_id='1',
         name='Asset1',
-        asset_iface='interface1',
         details=None,
         precision=2,
         issued_supply=1000,
@@ -322,7 +321,6 @@ def test_get_asset_list_success_with_both_assets(channel_view_model, mocker):
     mock_cfa_asset = AssetModel(
         asset_id='2',
         name='Asset2',
-        asset_iface='interface2',
         details=None,
         precision=2,
         issued_supply=2000,
@@ -453,7 +451,7 @@ def test_create_rgb_channel_insufficient_allocation_error(channel_view_model, mo
     channel_view_model.handle_insufficient_allocation = MagicMock()
     channel_view_model.run_in_thread = MagicMock()
 
-    error_message = ERROR_INSUFFICIENT_ALLOCATION_SLOT
+    error_message = ERROR_NO_UNCOLORED_UTXOS_AVAILABLE
     mock_error = CommonException(error_message)
 
     # Act
@@ -489,6 +487,64 @@ def test_navigate_to_create_channel_page(channel_view_model, mocker):
 
     # Assert
     mock_page_navigation.create_channel_page.assert_called_once()
+
+
+def test_create_rgb_channel_hard_stop_invalid_pubkey(channel_view_model, mocker):
+    """Ensure invalid pubkey error shows toast and does not retry creating UTXOs."""
+    # Arrange
+    channel_view_model.is_loading = MagicMock()
+    channel_view_model.handle_insufficient_allocation = MagicMock()
+    channel_view_model.run_in_thread = MagicMock()
+    mock_toast_error = mocker.patch(
+        'src.views.components.toast.ToastManager.error',
+    )
+
+    mock_error = CommonException(ERROR_INVALID_PUBKEY_TYPE)
+
+    # Act
+    channel_view_model.create_rgb_channel(
+        pub_key='pub_key', asset_id='asset_id', amount=1000, capacity_sat='30000', push_msat='0',
+    )
+
+    run_thread_kwargs = channel_view_model.run_in_thread.call_args[0][1]
+    on_error = run_thread_kwargs['error_callback']
+    on_error(mock_error)
+
+    # Assert
+    channel_view_model.is_loading.emit.assert_called_with(False)
+    mock_toast_error.assert_called_once_with(
+        description=ERROR_INVALID_PUBKEY_TYPE,
+    )
+    channel_view_model.handle_insufficient_allocation.assert_not_called()
+
+
+def test_create_rgb_channel_hard_stop_insufficient_asset(channel_view_model, mocker):
+    """Ensure not enough assets error shows toast and does not retry creating UTXOs."""
+    # Arrange
+    channel_view_model.is_loading = MagicMock()
+    channel_view_model.handle_insufficient_allocation = MagicMock()
+    channel_view_model.run_in_thread = MagicMock()
+    mock_toast_error = mocker.patch(
+        'src.views.components.toast.ToastManager.error',
+    )
+
+    mock_error = CommonException(ERROR_INSUFFICIENT_ASSET)
+
+    # Act
+    channel_view_model.create_rgb_channel(
+        pub_key='pub_key', asset_id='asset_id', amount=1000, capacity_sat='30000', push_msat='0',
+    )
+
+    run_thread_kwargs = channel_view_model.run_in_thread.call_args[0][1]
+    on_error = run_thread_kwargs['error_callback']
+    on_error(mock_error)
+
+    # Assert
+    channel_view_model.is_loading.emit.assert_called_with(False)
+    mock_toast_error.assert_called_once_with(
+        description=ERROR_INSUFFICIENT_ASSET,
+    )
+    channel_view_model.handle_insufficient_allocation.assert_not_called()
 
 
 def test_handle_insufficient_allocation(channel_view_model, mocker):

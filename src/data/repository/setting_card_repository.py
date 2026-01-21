@@ -25,19 +25,23 @@ from src.utils.constant import ANNOUNCE_ALIAS
 from src.utils.constant import BITCOIND_RPC_HOST_MAINNET
 from src.utils.constant import BITCOIND_RPC_HOST_REGTEST
 from src.utils.constant import BITCOIND_RPC_HOST_TESTNET
+from src.utils.constant import BITCOIND_RPC_HOST_TESTNET4
 from src.utils.constant import BITCOIND_RPC_PORT_MAINNET
 from src.utils.constant import BITCOIND_RPC_PORT_REGTEST
 from src.utils.constant import BITCOIND_RPC_PORT_TESTNET
+from src.utils.constant import BITCOIND_RPC_PORT_TESTNET4
 from src.utils.constant import FEE_RATE
 from src.utils.constant import INDEXER_URL_MAINNET
 from src.utils.constant import INDEXER_URL_REGTEST
 from src.utils.constant import INDEXER_URL_TESTNET
+from src.utils.constant import INDEXER_URL_TESTNET4
 from src.utils.constant import LN_INVOICE_EXPIRY_TIME
 from src.utils.constant import LN_INVOICE_EXPIRY_TIME_UNIT
 from src.utils.constant import MIN_CONFIRMATION
 from src.utils.constant import PROXY_ENDPOINT_MAINNET
 from src.utils.constant import PROXY_ENDPOINT_REGTEST
 from src.utils.constant import PROXY_ENDPOINT_TESTNET
+from src.utils.constant import PROXY_ENDPOINT_TESTNET4
 from src.utils.constant import SAVED_ANNOUNCE_ADDRESS
 from src.utils.constant import SAVED_ANNOUNCE_ALIAS
 from src.utils.constant import SAVED_BITCOIND_RPC_HOST
@@ -199,6 +203,8 @@ class SettingCardRepository:
                 indexer_url = INDEXER_URL_MAINNET
             elif stored_network == NetworkEnumModel.TESTNET:
                 indexer_url = INDEXER_URL_TESTNET
+            elif stored_network == NetworkEnumModel.TESTNET4:
+                indexer_url = INDEXER_URL_TESTNET4
             elif stored_network == NetworkEnumModel.REGTEST:
                 indexer_url = INDEXER_URL_REGTEST
             url = local_store.get_value(SAVED_INDEXER_URL)
@@ -242,6 +248,8 @@ class SettingCardRepository:
                 proxy_endpoint = PROXY_ENDPOINT_MAINNET
             elif stored_network == NetworkEnumModel.TESTNET:
                 proxy_endpoint = PROXY_ENDPOINT_TESTNET
+            elif stored_network == NetworkEnumModel.TESTNET4:
+                proxy_endpoint = PROXY_ENDPOINT_TESTNET4
             elif stored_network == NetworkEnumModel.REGTEST:
                 proxy_endpoint = PROXY_ENDPOINT_REGTEST
             endpoint = local_store.get_value(SAVED_PROXY_ENDPOINT)
@@ -267,6 +275,8 @@ class SettingCardRepository:
                 bitcoind_host = BITCOIND_RPC_HOST_MAINNET
             elif stored_network == NetworkEnumModel.TESTNET:
                 bitcoind_host = BITCOIND_RPC_HOST_TESTNET
+            elif stored_network == NetworkEnumModel.TESTNET4:
+                bitcoind_host = BITCOIND_RPC_HOST_TESTNET4
             elif stored_network == NetworkEnumModel.REGTEST:
                 bitcoind_host = BITCOIND_RPC_HOST_REGTEST
             host = local_store.get_value(SAVED_BITCOIND_RPC_HOST)
@@ -292,6 +302,8 @@ class SettingCardRepository:
                 bitcoind_port = BITCOIND_RPC_PORT_MAINNET
             elif stored_network == NetworkEnumModel.TESTNET:
                 bitcoind_port = BITCOIND_RPC_PORT_TESTNET
+            elif stored_network == NetworkEnumModel.TESTNET4:
+                bitcoind_port = BITCOIND_RPC_PORT_TESTNET4
             elif stored_network == NetworkEnumModel.REGTEST:
                 bitcoind_port = BITCOIND_RPC_PORT_REGTEST
             port = local_store.get_value(SAVED_BITCOIND_RPC_PORT)

@@ -324,11 +324,11 @@ If you understand the above remarks and wish to proceed, press the button below 
         <translation>CHANGE UPLOADED FILE</translation>
     </message>
     <message>
-        <source>issue_new_rgb25_asset</source>
-        <translation>Issue new RGB25 asset</translation>
+        <source>issue_new_cfa_asset</source>
+        <translation>Issue new CFA asset</translation>
     </message>
     <message>
-        <source>rgb25_address_info</source>
+        <source>cfa_address_info</source>
         <translation>The blinded UTXO in this invoice will expire in 24 hours after its creation and will be valid only for this asset</translation>
     </message>
     <message>
@@ -588,8 +588,8 @@ If you understand the above remarks and wish to proceed, press the button below 
       <translation>Fungibles</translation>
     </message>
     <message>
-      <source>issue_new_rgb20_asset</source>
-      <translation>Issue new RGB20 asset</translation>
+      <source>issue_new_nia_asset</source>
+      <translation>Issue new NIA asset</translation>
     </message>
     <message>
       <source>backup_message</source>

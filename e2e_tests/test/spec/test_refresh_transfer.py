@@ -34,8 +34,8 @@ def test_refresh_transfer(wallets_and_operations: WalletTestSetup):
             wallets_and_operations=wallets_and_operations, application=SECOND_APPLICATION, application_url=SECOND_APPLICATION_URL,
         )
 
-    with allure.step('Issue RGB20 asset for refresh transfer'):
-        wallets_and_operations.first_page_features.issue_rgb20_features.issue_rgb20_with_sufficient_sats_and_utxo(
+    with allure.step('Issue NIA asset for refresh transfer'):
+        wallets_and_operations.first_page_features.issue_nia_features.issue_nia_with_sufficient_sats_and_utxo(
             application=FIRST_APPLICATION, asset_ticker=ASSET_TICKER, asset_name=ASSET_NAME, asset_amount=ASSET_AMOUNT,
         )
 
@@ -44,12 +44,12 @@ def test_refresh_transfer(wallets_and_operations: WalletTestSetup):
             SECOND_APPLICATION,
         )
 
-    with allure.step('Send RGB20 asset to correct invoice'):
+    with allure.step('Send NIA asset to correct invoice'):
         wallets_and_operations.first_page_operations.do_focus_on_application(
             FIRST_APPLICATION,
         )
 
-        wallets_and_operations.first_page_objects.fungible_page_objects.click_rgb20_frame(
+        wallets_and_operations.first_page_objects.fungible_page_objects.click_nia_frame(
             ASSET_NAME,
         )
 
@@ -81,7 +81,7 @@ def test_refresh_transfer(wallets_and_operations: WalletTestSetup):
         wallets_and_operations.first_page_operations.do_focus_on_application(
             FIRST_APPLICATION,
         )
-        wallets_and_operations.first_page_objects.fungible_page_objects.click_rgb20_frame(
+        wallets_and_operations.first_page_objects.fungible_page_objects.click_nia_frame(
             ASSET_NAME,
         )
         actual_transfer_status_first_app = wallets_and_operations.first_page_objects.asset_detail_page_objects.get_transfer_status()
@@ -89,7 +89,7 @@ def test_refresh_transfer(wallets_and_operations: WalletTestSetup):
         wallets_and_operations.second_page_operations.do_focus_on_application(
             SECOND_APPLICATION,
         )
-        wallets_and_operations.second_page_objects.fungible_page_objects.click_rgb20_frame(
+        wallets_and_operations.second_page_objects.fungible_page_objects.click_nia_frame(
             ASSET_NAME,
         )
         actual_transfer_status_second_app = wallets_and_operations.second_page_objects.asset_detail_page_objects.get_transfer_status()

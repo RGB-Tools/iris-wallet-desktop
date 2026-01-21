@@ -12,7 +12,6 @@ from accessible_constant import FIRST_APPLICATION_URL
 from e2e_tests.test.utilities.app_setup import test_environment
 from e2e_tests.test.utilities.app_setup import wallets_and_operations
 from e2e_tests.test.utilities.app_setup import WalletTestSetup
-from src.model.enums.enums_model import WalletType
 
 
 @pytest.mark.parametrize('test_environment', [False], indirect=True)

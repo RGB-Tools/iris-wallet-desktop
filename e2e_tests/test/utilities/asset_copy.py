@@ -9,7 +9,7 @@ import shutil
 from pathlib import Path
 
 
-def copy_rgb25_image_to_home_directory(current_working_directory):
+def copy_cfa_image_to_home_directory(current_working_directory):
     """
     Copies the sample.png image from the e2e_tests/assets directory to the home directory.
 

@@ -54,7 +54,7 @@ class SendRGBAssetWidget(QWidget):
         layout = QVBoxLayout()
         layout.addWidget(self.send_rgb_asset_page)
         self.setLayout(layout)
-        self.set_originating_page(self._view_model.rgb25_view_model.asset_type)
+        self.set_originating_page(self._view_model.cfa_view_model.asset_type)
         self.setup_ui_connection()
         self.handle_button_enabled()
         self.set_asset_balance()
@@ -72,8 +72,8 @@ class SendRGBAssetWidget(QWidget):
         self.send_rgb_asset_page.close_button.clicked.connect(
             self.rgb_asset_page_navigation,
         )
-        self._view_model.rgb25_view_model.message.connect(
-            self.show_rgb25_message,
+        self._view_model.cfa_view_model.message.connect(
+            self.show_cfa_message,
         )
         self.send_rgb_asset_page.asset_address_value.textChanged.connect(
             self.validate_rgb_invoice,
@@ -84,16 +84,16 @@ class SendRGBAssetWidget(QWidget):
         self.send_rgb_asset_page.asset_address_value.textChanged.connect(
             self.handle_button_enabled,
         )
-        self._view_model.rgb25_view_model.is_loading.connect(
+        self._view_model.cfa_view_model.is_loading.connect(
             self.update_loading_state,
         )
         self.send_rgb_asset_page.refresh_button.clicked.connect(
             self.refresh_asset,
         )
-        self._view_model.rgb25_view_model.txn_list_loaded.connect(
+        self._view_model.cfa_view_model.txn_list_loaded.connect(
             self.set_asset_balance,
         )
-        self._view_model.rgb25_view_model.txn_list_loaded.connect(
+        self._view_model.cfa_view_model.txn_list_loaded.connect(
             self.handle_spendable_balance_validation,
         )
         self._view_model.estimate_fee_view_model.loading_status.connect(
@@ -106,25 +106,25 @@ class SendRGBAssetWidget(QWidget):
     def refresh_asset(self):
         """This method handle the refresh asset on send asset page"""
         self.loading_performer = 'REFRESH_BUTTON'
-        view_model = self._view_model.rgb25_view_model
+        view_model = self._view_model.cfa_view_model
         view_model.on_refresh_click()
         self.asset_id = view_model.asset_id
         self.asset_name = view_model.asset_name
         self.image_path = view_model.image_path
         self.asset_type = view_model.asset_type
-        self._view_model.rgb25_view_model.get_rgb25_asset_detail(
+        self._view_model.cfa_view_model.get_cfa_asset_detail(
             asset_id=self.asset_id, asset_name=self.asset_name, image_path=self.image_path, asset_type=self.asset_type,
         )
 
     def set_originating_page(self, asset_type):
         """This method sets the originating page for when closing send asset"""
-        if asset_type == 'RGB20':
-            self.asset_type = 'RGB20'
+        if asset_type == 'NIA':
+            self.asset_type = 'NIA'
 
     def rgb_asset_page_navigation(self):
         """Navigate to the collectibles asset page."""
         self.sidebar = self._view_model.page_navigation.sidebar()
-        if self.asset_type == 'RGB20':
+        if self.asset_type == 'NIA':
             self.sidebar.my_fungibles.setChecked(True)
             self._view_model.page_navigation.fungibles_asset_page()
         else:
@@ -146,7 +146,7 @@ class SendRGBAssetWidget(QWidget):
                 DecodeRgbInvoiceRequestModel(invoice=provided_invoice),
             )
             try:
-                self._view_model.rgb25_view_model.on_send_click(
+                self._view_model.cfa_view_model.on_send_click(
                     amount, decoded_rgb_invoice.recipient_id, decoded_rgb_invoice.transport_endpoints, fee_rate, default_min_confirmation.min_confirmation,
                 )
                 # Success toast or indicator can be added here if needed
@@ -161,7 +161,7 @@ class SendRGBAssetWidget(QWidget):
                 description=ERROR_UNEXPECTED.format(str(e.message)),
             )
 
-    def show_rgb25_message(self, msg_type: ToastPreset, message: str):
+    def show_cfa_message(self, msg_type: ToastPreset, message: str):
         """Handle show message"""
         if msg_type == ToastPreset.ERROR:
             ToastManager.error(message)
@@ -254,7 +254,7 @@ class SendRGBAssetWidget(QWidget):
 
     def set_asset_balance(self):
         """Set the spendable and total balance of the asset"""
-        view_model = self._view_model.rgb25_view_model
+        view_model = self._view_model.cfa_view_model
         asset_transactions: ListTransferAssetWithBalanceResponseModel = view_model.txn_list
         self.asset_spendable_balance = asset_transactions.asset_balance.spendable
         self.send_rgb_asset_page.asset_balance_label_total.setText(

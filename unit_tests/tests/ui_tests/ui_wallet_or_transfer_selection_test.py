@@ -93,11 +93,11 @@ def test_handle_frame_click_on_chain_receive(wallet_or_transfer_selection_widget
 
     # Mock asset_type if necessary
     # Ensure asset_type is set
-    wallet_or_transfer_selection_widget.asset_type = AssetType.RGB20.value
+    wallet_or_transfer_selection_widget.asset_type = AssetType.NIA.value
 
     # Mock the methods that should be called
-    mock_receive_rgb25_page = mocker.patch.object(
-        wallet_or_transfer_selection_widget._view_model.page_navigation, 'receive_rgb25_page',
+    mock_receive_cfa_page = mocker.patch.object(
+        wallet_or_transfer_selection_widget._view_model.page_navigation, 'receive_cfa_page',
     )
 
     # Call the method with the on-chain ID
@@ -106,9 +106,9 @@ def test_handle_frame_click_on_chain_receive(wallet_or_transfer_selection_widget
     )
 
     # Assertions
-    mock_receive_rgb25_page.assert_called_once_with(
+    mock_receive_cfa_page.assert_called_once_with(
         params=AssetDataModel(
-            asset_type=AssetType.RGB20.value,  # Ensure asset_type is passed as expected
+            asset_type=AssetType.NIA.value,  # Ensure asset_type is passed as expected
             asset_id='test_asset_id',
         ),
     )
@@ -120,8 +120,8 @@ def test_handle_frame_click_on_chain_send(wallet_or_transfer_selection_widget: W
     wallet_or_transfer_selection_widget._params.callback = TransferStatusEnumModel.SEND.value
 
     # Mock the methods that should be called
-    mock_send_rgb25_page = mocker.patch.object(
-        wallet_or_transfer_selection_widget._view_model.page_navigation, 'send_rgb25_page',
+    mock_send_cfa_page = mocker.patch.object(
+        wallet_or_transfer_selection_widget._view_model.page_navigation, 'send_cfa_page',
     )
 
     # Call the method with the on-chain ID
@@ -130,7 +130,7 @@ def test_handle_frame_click_on_chain_send(wallet_or_transfer_selection_widget: W
     )
 
     # Assertions
-    mock_send_rgb25_page.assert_called_once()
+    mock_send_cfa_page.assert_called_once()
 
 
 def test_handle_frame_click_off_chain_receive(wallet_or_transfer_selection_widget: WalletOrTransferSelectionWidget, mocker):
@@ -227,14 +227,14 @@ def test_close_button_navigation(wallet_or_transfer_selection_widget: WalletOrTr
     mock_back_page_navigation = mocker.Mock()
     wallet_or_transfer_selection_widget._params.back_page_navigation = mock_back_page_navigation
 
-    # Mock the rgb25_view_model object
-    mock_rgb25_view_model = mocker.patch.object(
-        wallet_or_transfer_selection_widget._view_model, 'rgb25_view_model', autospec=False,
+    # Mock the cfa_view_model object
+    mock_cfa_view_model = mocker.patch.object(
+        wallet_or_transfer_selection_widget._view_model, 'cfa_view_model', autospec=False,
     )
 
     # Create a MagicMock for asset_info and mock its emit method
     mock_asset_info = mocker.MagicMock()
-    mock_rgb25_view_model.asset_info = mock_asset_info
+    mock_cfa_view_model.asset_info = mock_asset_info
 
     # Set up rgb_asset_page_load_model with test values
     wallet_or_transfer_selection_widget._params.rgb_asset_page_load_model = mocker.Mock(

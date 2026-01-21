@@ -85,6 +85,9 @@ def test_header_frame_view_model_init(mocker):
 
 def test_header_frame_view_model_network_check(mocker):
     """Test that start_network_check creates a NetworkCheckerThread and starts it."""
+    # Mock QTimer to prevent side effects during init
+    mocker.patch('src.viewmodels.header_frame_view_model.QTimer')
+
     view_model = HeaderFrameViewModel()
 
     mock_thread = mocker.patch(
@@ -101,8 +104,11 @@ def test_header_frame_view_model_network_check(mocker):
     mock_instance.start.assert_called_once()
 
 
-def test_header_frame_view_model_handle_network_status():
+def test_header_frame_view_model_handle_network_status(mocker):
     """Test that handle_network_status emits the correct signal."""
+    # Mock QTimer to prevent it from starting and creating circular references
+    mocker.patch('src.viewmodels.header_frame_view_model.QTimer')
+
     view_model = HeaderFrameViewModel()
     received_signals = []
 
@@ -119,10 +125,17 @@ def test_header_frame_view_model_handle_network_status():
 
 def test_header_frame_view_model_stop_network_checker(mocker):
     """Test that stop_network_checker stops the timer."""
+    # Mock QTimer so we can verify stop() is called without starting real timer
+    mock_timer_class = mocker.patch(
+        'src.viewmodels.header_frame_view_model.QTimer',
+    )
+    mock_timer_instance = mock_timer_class.return_value
+
     view_model = HeaderFrameViewModel()
 
-    mock_timer = mocker.patch.object(view_model.timer, 'stop')
+    # Reset mock to clear init calls
+    mock_timer_instance.stop.reset_mock()
 
     view_model.stop_network_checker()
 
-    mock_timer.assert_called_once()
+    mock_timer_instance.stop.assert_called_once()

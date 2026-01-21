@@ -134,6 +134,7 @@ class TestEnvironment:
             str(peer_port),
             '--network',
             'regtest',
+            '--disable-authentication',
         ]
         process = subprocess.Popen(command, cwd=ln_binary_dir)
         return process

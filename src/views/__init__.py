@@ -14,7 +14,7 @@ Submodules:
 - Sidebar: Contains UI elements and functions for the sidebar navigation.
 - SetWalletPasswordWidget: Contains UI elements and functions for setting the wallet password.
 - MainAssetWidget: Contains UI elements and functions for displaying and managing main assets.
-- IssueRGB20Widget: Contains UI elements and functions for issuing RGB20 tokens.
+- IssueNIAWidget: Contains UI elements and functions for issuing NIA tokens.
 - MainWindow: Contains the main application window and manages the primary layout and interactions.
 
 Usage:

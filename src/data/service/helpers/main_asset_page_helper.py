@@ -24,7 +24,7 @@ def get_offline_asset_ticker(network: NetworkEnumModel):
     try:
         if network.value == NetworkEnumModel.REGTEST.value:
             return 'r' + 'BTC'
-        if network.value == NetworkEnumModel.TESTNET.value:
+        if network.value in (NetworkEnumModel.TESTNET.value, NetworkEnumModel.TESTNET4.value):
             return 't' + 'BTC'
         if network.value == NetworkEnumModel.MAINNET.value:
             return 'BTC'
@@ -48,7 +48,7 @@ def get_asset_name(network: NetworkEnumModel):
     try:
         if network.value == NetworkEnumModel.REGTEST.value:
             return 'r' + 'Bitcoin'
-        if network.value == NetworkEnumModel.TESTNET.value:
+        if network.value in (NetworkEnumModel.TESTNET.value, NetworkEnumModel.TESTNET4.value):
             return 't' + 'Bitcoin'
         if network.value == NetworkEnumModel.MAINNET.value:
             return 'Bitcoin'

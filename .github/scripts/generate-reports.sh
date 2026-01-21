@@ -3,33 +3,33 @@
 
 set -euo pipefail
 
-mkdir -p gh-pages
+mkdir -p site
 
 # Generate embedded report
 if [ -d "allure-results-embedded" ] && [ "$(ls -A allure-results-embedded 2>/dev/null)" ]; then
-  allure generate allure-results-embedded --clean -o gh-pages/embedded
+  allure generate allure-results-embedded --clean -o site/embedded
 else
-  mkdir -p gh-pages/embedded
-  echo "<h1>No embedded test results available</h1>" > gh-pages/embedded/index.html
+  mkdir -p site/embedded
+  echo "<h1>No embedded test results available</h1>" > site/embedded/index.html
 fi
 
 # Generate remote report
 if [ -d "allure-results-remote" ] && [ "$(ls -A allure-results-remote 2>/dev/null)" ]; then
-  allure generate allure-results-remote --clean -o gh-pages/remote
+  allure generate allure-results-remote --clean -o site/remote
 else
-  mkdir -p gh-pages/remote
-  echo "<h1>No remote test results available</h1>" > gh-pages/remote/index.html
+  mkdir -p site/remote
+  echo "<h1>No remote test results available</h1>" > site/remote/index.html
 fi
 
 # Copy coverage report
 if [ -d "coverage-report" ] && [ "$(ls -A coverage-report 2>/dev/null)" ]; then
-  cp -r coverage-report gh-pages/coverage
+  cp -r coverage-report site/coverage
 else
-  mkdir -p gh-pages/coverage
-  echo "<h1>No coverage report available</h1>" > gh-pages/coverage/index.html
+  mkdir -p site/coverage
+  echo "<h1>No coverage report available</h1>" > site/coverage/index.html
 fi
 
 # Create index page with links to all reports
-cp .github/pages/allure-index.html gh-pages/index.html
+cp .github/pages/allure-index.html site/index.html
 
 echo "✅ Reports generated successfully"

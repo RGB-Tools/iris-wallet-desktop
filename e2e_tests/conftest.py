@@ -4,12 +4,17 @@ Custom pytest configuration for wallet mode testing
 """
 from __future__ import annotations
 
+import io
 import os
 import subprocess
 import time
 
+import allure
 import pytest
 from dogtail.tree import root
+from PIL import Image
+from Xlib import display
+from Xlib import X
 
 from accessible_constant import DEFAULT_WALLET_MODES
 from src.model.enums.enums_model import WalletType
@@ -130,6 +135,82 @@ def pytest_runtest_logreport(report):
             _print_test_result('❌', 'FAILED', test_name, report.longreprtext)
         elif report.skipped:
             _print_test_result('⏭️', 'SKIPPED', test_name)
+
+
+def _capture_screenshot():
+    """
+    Capture a screenshot of the entire screen using Xlib.
+
+    Returns:
+        bytes: PNG image data, or None if capture fails
+    """
+    try:
+        # Get the display and screen
+        dpy = display.Display()
+        screen = dpy.screen()
+        root_window = screen.root
+
+        # Get screen dimensions
+        width = screen.width_in_pixels
+        height = screen.height_in_pixels
+
+        # Capture the screen
+        raw_image = root_window.get_image(
+            0, 0, width, height, X.ZPixmap, 0xffffffff,
+        )
+
+        # Convert to PIL Image
+        image = Image.frombytes(
+            'RGB',
+            (width, height),
+            raw_image.data,
+            'raw',
+            'BGRX',
+        )
+
+        # Save to bytes buffer
+        buffer = io.BytesIO()
+        image.save(buffer, format='PNG')
+        buffer.seek(0)
+
+        return buffer.getvalue()
+    except Exception as e:
+        print(f"[SCREENSHOT] Failed to capture screenshot: {e}")
+        return None
+
+
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item):
+    """
+    Pytest hook to capture screenshots on test failure and attach to Allure report.
+
+    This hook runs after each test phase (setup, call, teardown) and captures
+    a screenshot if the test failed during the 'call' phase.
+    """
+    # Execute all other hooks to obtain the report object
+    outcome = yield
+    report = outcome.get_result()
+
+    # Only capture screenshot on test failure during the 'call' phase
+    if report.when == 'call' and report.failed:
+        try:
+            screenshot_bytes = _capture_screenshot()
+
+            if screenshot_bytes:
+                # Attach screenshot to Allure report
+                allure.attach(
+                    screenshot_bytes,
+                    name='failure_screenshot',
+                    attachment_type=allure.attachment_type.PNG,
+                )
+                print(f"""[SCREENSHOT] ✅ Screenshot captured and attached for failed test:
+                {item.nodeid}""")
+            else:
+                print(f"""[SCREENSHOT] ⚠️ Failed to capture screenshot for:
+                {item.nodeid}""")
+        except Exception as e:
+            print(f"""[SCREENSHOT] ❌ Error capturing screenshot for
+            {item.nodeid}: {e}""")
 
 
 def _is_ci_environment():

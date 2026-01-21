@@ -40,7 +40,10 @@ def mock_list_unspents_response():
                 'rgb_allocations': [
                     {
                         'asset_id': 'rgb:2dkSTbr-jFhznbPmo-TQafzswCN-av4gTsJjX-ttx6CNou5-M98k8Zd',
-                        'amount': 42,
+                        'assignment': {
+                            'type': 'Fungible',
+                            'value': 42,
+                        },
                         'settled': False,
                     },
                 ],

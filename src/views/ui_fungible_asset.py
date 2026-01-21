@@ -24,7 +24,7 @@ from PySide6.QtWidgets import QWidget
 
 import src.resources_rc
 from accessible_constant import FUNGIBLES_SCROLL_WIDGETS
-from accessible_constant import ISSUE_RGB20_ASSET
+from accessible_constant import ISSUE_NIA_ASSET
 from src.data.repository.setting_repository import SettingRepository
 from src.data.service.common_operation_service import CommonOperationService
 from src.model.enums.enums_model import AssetType
@@ -84,7 +84,7 @@ class FungibleAssetWidget(QWidget, ThreadManager):
         self.title_frame = HeaderFrame(
             title_logo_path=':/assets/my_asset.png', title_name='fungibles',
         )
-        self.title_frame.action_button.setAccessibleName(ISSUE_RGB20_ASSET)
+        self.title_frame.action_button.setAccessibleName(ISSUE_NIA_ASSET)
         self.fungible_frame = None
         self.vertical_layout_fungible_frame = None
         self.grid_layout_fungible_frame = None
@@ -231,6 +231,7 @@ class FungibleAssetWidget(QWidget, ThreadManager):
         bitcoin_img_path = {
             NetworkEnumModel.MAINNET.value: ':/assets/bitcoin.png',
             NetworkEnumModel.REGTEST.value: ':/assets/regtest_bitcoin.png',
+            NetworkEnumModel.TESTNET4.value: ':/assets/testnet_bitcoin.png',
             NetworkEnumModel.TESTNET.value: ':/assets/testnet_bitcoin.png',
         }
 
@@ -273,10 +274,64 @@ class FungibleAssetWidget(QWidget, ThreadManager):
             ),
         )
 
+    def _get_asset_logo_pixmap(self, asset, img_path):
+        """Generate and return the pixmap for the asset logo."""
+        if img_path:
+            return QPixmap(img_path)
+
+        img_str = generate_identicon(asset.asset_id)
+        image = QImage.fromData(QByteArray.fromBase64(img_str.encode()))
+        return QPixmap.fromImage(image)
+
+    def _get_address_text(self, asset, img_path):
+        """Get the appropriate address text based on asset type and network."""
+        if not img_path:
+            return asset.asset_id
+
+        network = SettingRepository.get_wallet_network()
+        network_token_map = {
+            NetworkEnumModel.REGTEST: TokenSymbol.REGTEST_BITCOIN,
+            NetworkEnumModel.TESTNET: TokenSymbol.TESTNET_BITCOIN,
+            NetworkEnumModel.TESTNET4: TokenSymbol.TESTNET4_BITCOIN,
+        }
+        return network_token_map.get(network, '')
+
+    def _get_outbound_balance_text(self, asset, img_path):
+        """Get the outbound balance text for the asset."""
+        if img_path:
+            return 'N/A'
+
+        return str(asset.balance.offchain_outbound) if asset.balance.offchain_outbound else 'N/A'
+
+    def _apply_bitcoin_naming(self, asset):
+        """Apply Bitcoin-specific naming conventions based on ticker."""
+        if 'BTC' not in asset.ticker:
+            return
+
+        self.token_symbol.setText(TokenSymbol.SAT.value)
+        bitcoin_asset = AssetType.BITCOIN.value.lower()
+
+        # For mainnet Bitcoin
+        if asset.ticker == TokenSymbol.BITCOIN.value:
+            self.asset_name.setText(bitcoin_asset)
+            return
+
+        # For testnet variants and regtest, use network to distinguish
+        # since TESTNET_BITCOIN and TESTNET4_BITCOIN have the same ticker 'tBTC'
+        network = SettingRepository.get_wallet_network()
+        network_naming_map = {
+            NetworkEnumModel.TESTNET: f'{NetworkEnumModel.TESTNET.value} {bitcoin_asset}',
+            NetworkEnumModel.TESTNET4: f'{NetworkEnumModel.TESTNET4.value} {bitcoin_asset}',
+            NetworkEnumModel.REGTEST: f'{NetworkEnumModel.REGTEST.value} {bitcoin_asset}',
+        }
+
+        if network in network_naming_map:
+            self.asset_name.setText(network_naming_map[network])
+
     def create_fungible_card(self, asset, img_path=None):
         """This method creates all the fungible assets elements of the main asset page."""
         self.fungible_frame = ClickableFrame(
-            asset.asset_id, asset.name, self.fungibles_widget, asset_type=asset.asset_iface,
+            asset.asset_id, asset.name, self.fungibles_widget, asset_type=AssetType.BITCOIN if img_path else AssetType.NIA,
         )
         self.fungible_frame.setStyleSheet(
             load_stylesheet('views/qss/fungible_asset_style.qss'),
@@ -298,23 +353,16 @@ class FungibleAssetWidget(QWidget, ThreadManager):
             'horizontal_layout_7',
         )
         self.grid_layout_fungible_frame.setContentsMargins(6, 0, 6, 0)
+
+        # Asset Logo
         self.asset_logo = QLabel(self.fungible_frame)
         self.asset_logo.setObjectName('asset_logo')
-
         self.asset_logo.setMinimumSize(QSize(40, 40))
         self.asset_logo.setMaximumSize(QSize(40, 40))
-
-        if img_path:
-            self.asset_logo.setPixmap(QPixmap(img_path))
-
-        else:
-            img_str = generate_identicon(asset.asset_id)
-            image = QImage.fromData(QByteArray.fromBase64(img_str.encode()))
-            pixmap = QPixmap.fromImage(image)
-            self.asset_logo.setPixmap(pixmap)
-
+        self.asset_logo.setPixmap(self._get_asset_logo_pixmap(asset, img_path))
         self.grid_layout_fungible_frame.addWidget(self.asset_logo, 0, 0)
 
+        # Asset Name
         self.asset_name = QLabel(self.fungible_frame)
         self.asset_name.setObjectName('asset_name')
         self.asset_name.setMinimumSize(QSize(135, 40))
@@ -326,31 +374,21 @@ class FungibleAssetWidget(QWidget, ThreadManager):
         self.asset_name.setText(asset.name)
         self.grid_layout_fungible_frame.addWidget(self.asset_name, 0, 1)
 
+        # Address
         self.address = QLabel(self.fungible_frame)
         self.address.setObjectName('address')
         self.address.setMinimumSize(QSize(600, 0))
         self.address.setMaximumSize(QSize(16777215, 16777215))
-        self.address.setStyleSheet(
-            'padding-left:10px;',
-        )
-
-        if asset.asset_iface == AssetType.BITCOIN:
-            network = SettingRepository.get_wallet_network()
-            if network == NetworkEnumModel.REGTEST:
-                self.address.setText(TokenSymbol.REGTEST_BITCOIN)
-            elif network == NetworkEnumModel.TESTNET:
-                self.address.setText(TokenSymbol.TESTNET_BITCOIN)
-        else:
-            self.address.setText(asset.asset_id)
-
+        self.address.setStyleSheet('padding-left:10px;')
+        self.address.setText(self._get_address_text(asset, img_path))
         self.grid_layout_fungible_frame.addWidget(
             self.address, 0, 2, Qt.AlignLeft,
         )
 
+        # Amount
         self.amount = QLabel(self.fungible_frame)
         self.amount.setObjectName('amount')
         self.amount.setMinimumSize(QSize(100, 40))
-
         self.amount.setText(str(asset.balance.future))
         self.grid_layout_fungible_frame.addWidget(
             self.amount, 0, 3, Qt.AlignLeft,
@@ -360,21 +398,16 @@ class FungibleAssetWidget(QWidget, ThreadManager):
         self.outbound_balance = QLabel(self.fungible_frame)
         self.outbound_balance.setObjectName('outbound_balance')
         self.outbound_balance.setMinimumSize(QSize(80, 40))
-
-        if asset.asset_iface == AssetType.RGB20:
-            self.outbound_balance.setText(
-                str(asset.balance.offchain_outbound) if asset.balance.offchain_outbound else 'N/A',
-            )
-        else:
-            # Fallback for other asset types
-            self.outbound_balance.setText('N/A')
+        self.outbound_balance.setText(
+            self._get_outbound_balance_text(asset, img_path),
+        )
         self.grid_layout_fungible_frame.addWidget(
             self.outbound_balance, 0, 4, Qt.AlignLeft,
         )
 
+        # Token Symbol
         self.token_symbol = QLabel(self.fungible_frame)
         self.token_symbol.setObjectName('token_symbol')
-
         self.token_symbol.setText(asset.ticker)
         self.grid_layout_fungible_frame.addWidget(
             self.token_symbol, 0, 5, Qt.AlignLeft,
@@ -384,19 +417,8 @@ class FungibleAssetWidget(QWidget, ThreadManager):
             self.grid_layout_fungible_frame,
         )
 
-        if 'BTC' in asset.ticker:
-            self.token_symbol.setText(TokenSymbol.SAT.value)
-            bitcoin_asset = AssetType.BITCOIN.value.lower()
-            if asset.ticker == TokenSymbol.BITCOIN.value:
-                self.asset_name.setText(bitcoin_asset)
-            if asset.ticker == TokenSymbol.TESTNET_BITCOIN.value:
-                self.asset_name.setText(
-                    f'{NetworkEnumModel.TESTNET.value} {bitcoin_asset}',
-                )
-            if asset.ticker == TokenSymbol.REGTEST_BITCOIN.value:
-                self.asset_name.setText(
-                    f'{NetworkEnumModel.REGTEST.value} {bitcoin_asset}',
-                )
+        # Apply Bitcoin-specific naming
+        self._apply_bitcoin_naming(asset)
 
         self.vertical_layout_3.addWidget(self.fungible_frame)
         self.fungible_frame.clicked.connect(self.handle_asset_frame_click)
@@ -411,7 +433,7 @@ class FungibleAssetWidget(QWidget, ThreadManager):
         )
         self.title_frame.action_button.clicked.connect(
             lambda: self._view_model.main_asset_view_model.navigate_issue_asset(
-                self._view_model.page_navigation.issue_rgb20_asset_page,
+                self._view_model.page_navigation.issue_nia_asset_page,
             ),
         )
         self._view_model.main_asset_view_model.loading_started.connect(
@@ -445,10 +467,10 @@ class FungibleAssetWidget(QWidget, ThreadManager):
         if asset_type == AssetType.BITCOIN.value:
             self._view_model.page_navigation.bitcoin_page()
         else:
-            self._view_model.rgb25_view_model.asset_info.emit(
+            self._view_model.cfa_view_model.asset_info.emit(
                 asset_id, asset_name, image_path, asset_type,
             )
-            self._view_model.page_navigation.rgb25_detail_page(
+            self._view_model.page_navigation.cfa_detail_page(
                 RgbAssetPageLoadModel(asset_type=asset_type),
             )
 

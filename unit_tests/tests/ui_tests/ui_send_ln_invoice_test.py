@@ -20,7 +20,7 @@ def send_ln_invoice_widget(qtbot):
     """Fixture to create and return an instance of SendLnInvoiceWidget."""
     mock_navigation = MagicMock()
     view_model = MagicMock(MainViewModel(mock_navigation))
-    asset_type = 'RGB20'
+    asset_type = 'NIA'
     widget = SendLnInvoiceWidget(view_model, asset_type)
     qtbot.addWidget(widget)
     return widget
@@ -30,7 +30,6 @@ def test_show_invoice_detail(send_ln_invoice_widget: SendLnInvoiceWidget):
     """Test the show_invoice_detail method with a valid invoice detail."""
     invoice_detail_mock = MagicMock()
     invoice_detail_mock.recipient_id = 'utxob:2PoDFyk-8aegNHZE4-inHHn4nWz-rNtAX3MWv-sTiVPQYrF-ed2bXM'
-    invoice_detail_mock.asset_iface = 'RGB20'
     invoice_detail_mock.asset_id = 'rgb:2eVw8uw-8G88LQ2tQ-kexM12SoD-nCX8DmQrw-yLMu6JDfK-xx1SCfc'
     invoice_detail_mock.amount = 69
     invoice_detail_mock.network = 'Regtest'
@@ -373,15 +372,15 @@ def test_send_asset(send_ln_invoice_widget):
 
 
 def test_on_success_sent_navigation_collectibles(send_ln_invoice_widget):
-    """Test the on_success_sent_navigation method when asset type is RGB25 (collectibles)."""
+    """Test the on_success_sent_navigation method when asset type is CFA (collectibles)."""
 
     # Mocking the widget's properties and methods
     send_ln_invoice_widget._view_model = MagicMock()
     send_ln_invoice_widget._view_model.page_navigation.collectibles_asset_page = MagicMock()
     send_ln_invoice_widget._view_model.page_navigation.fungibles_asset_page = MagicMock()
 
-    # Set the asset type to RGB25 (collectibles)
-    send_ln_invoice_widget.asset_type = AssetType.RGB25.value
+    # Set the asset type to CFA (collectibles)
+    send_ln_invoice_widget.asset_type = AssetType.CFA.value
 
     # Call the method
     send_ln_invoice_widget.on_success_sent_navigation()
@@ -394,14 +393,14 @@ def test_on_success_sent_navigation_collectibles(send_ln_invoice_widget):
 
 
 def test_on_success_sent_navigation_fungibles(send_ln_invoice_widget):
-    """Test the on_success_sent_navigation method when asset type is not RGB25 (fungibles)."""
+    """Test the on_success_sent_navigation method when asset type is not CFA (fungibles)."""
 
     # Mocking the widget's properties and methods
     send_ln_invoice_widget._view_model = MagicMock()
     send_ln_invoice_widget._view_model.page_navigation.collectibles_asset_page = MagicMock()
     send_ln_invoice_widget._view_model.page_navigation.fungibles_asset_page = MagicMock()
 
-    # Set the asset type to a non-RGB25 value (fungibles)
+    # Set the asset type to a non-CFA value (fungibles)
     send_ln_invoice_widget.asset_type = 'some_other_asset_type'
 
     # Call the method
@@ -453,15 +452,15 @@ def test_update_loading_state_not_loading(send_ln_invoice_widget):
 
 
 def test_on_click_close_button_collectibles(send_ln_invoice_widget):
-    """Test the on_click_close_button method when asset type is RGB25 (collectibles)."""
+    """Test the on_click_close_button method when asset type is CFA (collectibles)."""
 
     # Mocking the widget's properties and methods
     send_ln_invoice_widget._view_model = MagicMock()
     send_ln_invoice_widget._view_model.page_navigation.collectibles_asset_page = MagicMock()
     send_ln_invoice_widget._view_model.page_navigation.fungibles_asset_page = MagicMock()
 
-    # Set the asset type to RGB25 (collectibles)
-    send_ln_invoice_widget.asset_type = AssetType.RGB25.value
+    # Set the asset type to CFA (collectibles)
+    send_ln_invoice_widget.asset_type = AssetType.CFA.value
 
     # Call the method
     send_ln_invoice_widget.on_click_close_button()
@@ -474,14 +473,14 @@ def test_on_click_close_button_collectibles(send_ln_invoice_widget):
 
 
 def test_on_click_close_button_fungibles(send_ln_invoice_widget):
-    """Test the on_click_close_button method when asset type is not RGB25 (fungibles)."""
+    """Test the on_click_close_button method when asset type is not CFA (fungibles)."""
 
     # Mocking the widget's properties and methods
     send_ln_invoice_widget._view_model = MagicMock()
     send_ln_invoice_widget._view_model.page_navigation.collectibles_asset_page = MagicMock()
     send_ln_invoice_widget._view_model.page_navigation.fungibles_asset_page = MagicMock()
 
-    # Set the asset type to a non-RGB25 value (fungibles)
+    # Set the asset type to a non-CFA value (fungibles)
     send_ln_invoice_widget.asset_type = 'some_other_asset_type'
 
     # Call the method

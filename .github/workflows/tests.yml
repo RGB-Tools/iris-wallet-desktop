@@ -146,16 +146,16 @@ jobs:
           - test_ask_auth_for_imp_operations
           - test_settings
           - test_btc_channel_tx
-          - test_rgb20_channel_tx
+          - test_nia_channel_tx
           - test_help
           - test_about
           - test_backup_and_restore
-          - test_send_and_receive_rgb20_asset
-          - test_send_and_receive_rgb25_asset
+          - test_send_and_receive_nia_asset
+          - test_send_and_receive_cfa_asset
           - test_hide_exhausted_asset
           - test_fail_transfer
-          - test_issue_rgb20_asset
-          - test_issue_rgb25_asset
+          - test_issue_nia_asset
+          - test_issue_cfa_asset
           - test_view_unspent
           - test_refresh_transfer
     env:
@@ -270,8 +270,12 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     permissions:
-      contents: write
-      actions: write
+      contents: read
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
 
     steps:
       - name: Checkout repository

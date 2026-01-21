@@ -1,4 +1,4 @@
-"""This module contains the IssueRGB20ViewModel class, which represents the view model
+"""This module contains the IssueNIAViewModel class, which represents the view model
 for the issue RG20 page activities.
 """
 from __future__ import annotations
@@ -19,8 +19,8 @@ from src.utils.worker import ThreadManager
 from src.views.components.toast import ToastManager
 
 
-class IssueRGB20ViewModel(QObject, ThreadManager):
-    """This class represents the activities of the issue RGB20 page."""
+class IssueNIAViewModel(QObject, ThreadManager):
+    """This class represents the activities of the issue NIA page."""
 
     issue_button_clicked = Signal(bool)
     close_button_clicked = Signal(bool)
@@ -33,7 +33,7 @@ class IssueRGB20ViewModel(QObject, ThreadManager):
         super().__init__()
         self._page_navigation = page_navigation
 
-    def on_success_native_auth_rgb20(self, success: bool):
+    def on_success_native_auth_nia(self, success: bool):
         """Callback function after native authentication successful"""
         try:
             if not success:
@@ -64,7 +64,7 @@ class IssueRGB20ViewModel(QObject, ThreadManager):
                 description=ERROR_SOMETHING_WENT_WRONG,
             )
 
-    def on_error_native_auth_rgb20(self, error: Exception):
+    def on_error_native_auth_nia(self, error: Exception):
         """Callback function on error"""
         self.issue_button_clicked.emit(False)
         description = error.message if isinstance(
@@ -75,7 +75,7 @@ class IssueRGB20ViewModel(QObject, ThreadManager):
     def on_issue_click(self, short_identifier: str, asset_name: str, amount: str):
         """"
         Executes the set_wallet_password method in a separate thread.
-        This method starts a thread to execute the issue_rgb20 function with the provided arguments.
+        This method starts a thread to execute the issue_nia function with the provided arguments.
         It emits a signal to indicate loading state and defines a callback for when the operation is successful.
         """
         self.issue_button_clicked.emit(True)
@@ -86,23 +86,23 @@ class IssueRGB20ViewModel(QObject, ThreadManager):
             SettingRepository.native_authentication,
             {
                 'args': [NativeAuthType.MAJOR_OPERATION],
-                'callback': self.on_success_native_auth_rgb20,
-                'error_callback': self.on_error_native_auth_rgb20,
+                'callback': self.on_success_native_auth_nia,
+                'error_callback': self.on_error_native_auth_nia,
             },
         )
 
     def on_success(self, response: IssueAssetResponseModel) -> None:
-        """This method is used  handle onsuccess for the RGB20 issue page."""
+        """This method is used  handle onsuccess for the NIA issue page."""
         self.issue_button_clicked.emit(False)
         self.is_issued.emit(response.name)
 
     def on_error(self, error) -> None:
-        """This method is used  handle onerror for the RGB20 issue page."""
+        """This method is used  handle onerror for the NIA issue page."""
         self.issue_button_clicked.emit(False)
         ToastManager.error(
             description=error.message,
         )
 
     def on_close_click(self) -> None:
-        """This method is used for close the RGB20 issue page."""
+        """This method is used for close the NIA issue page."""
         self._page_navigation.fungibles_asset_page()

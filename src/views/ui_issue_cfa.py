@@ -1,6 +1,6 @@
 # pylint: disable=too-many-instance-attributes, too-many-statements, unused-import
-"""This module contains the IssueRGB25Widget class,
- which represents the UI for issuing RGB25 assets.
+"""This module contains the IssueCFAWidget class,
+ which represents the UI for issuing CFA assets.
  """
 from __future__ import annotations
 
@@ -23,12 +23,12 @@ from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
 import src.resources_rc
-from accessible_constant import ISSUE_RGB25_ASSET_CLOSE_BUTTON
-from accessible_constant import ISSUE_RGB25_BUTTON
-from accessible_constant import RGB25_ASSET_AMOUNT
-from accessible_constant import RGB25_ASSET_DESCRIPTION
-from accessible_constant import RGB25_ASSET_NAME
-from accessible_constant import RGB25_UPLOAD_FILE_BUTTON
+from accessible_constant import CFA_ASSET_AMOUNT
+from accessible_constant import CFA_ASSET_DESCRIPTION
+from accessible_constant import CFA_ASSET_NAME
+from accessible_constant import CFA_UPLOAD_FILE_BUTTON
+from accessible_constant import ISSUE_CFA_ASSET_CLOSE_BUTTON
+from accessible_constant import ISSUE_CFA_BUTTON
 from src.model.common_operation_model import NodeInfoResponseModel
 from src.model.node_info_model import NodeInfoModel
 from src.model.success_model import SuccessPageModel
@@ -43,14 +43,14 @@ from src.views.components.buttons import PrimaryButton
 from src.views.components.wallet_logo_frame import WalletLogoFrame
 
 
-class IssueRGB25Widget(QWidget):
-    """This class represents the UI for issuing RGB25 assets."""
+class IssueCFAWidget(QWidget):
+    """This class represents the UI for issuing CFA assets."""
 
     def __init__(self, view_model: MainViewModel):
-        """Initialize the IssueRGB25Widget class."""
+        """Initialize the IssueCFAWidget class."""
         super().__init__()
-        self.render_timer = RenderTimer(task_name='IssueRGB25Asset Rendering')
-        self.setStyleSheet(load_stylesheet('views/qss/issue_rgb25_style.qss'))
+        self.render_timer = RenderTimer(task_name='IssueCFAAsset Rendering')
+        self.setStyleSheet(load_stylesheet('views/qss/issue_cfa_style.qss'))
         self._view_model: MainViewModel = view_model
         self.grid_layout = QGridLayout(self)
         self.grid_layout.setObjectName('gridLayout')
@@ -64,11 +64,11 @@ class IssueRGB25Widget(QWidget):
 
         self.grid_layout.addItem(self.vertical_spacer, 0, 2, 1, 1)
 
-        self.issue_rgb_25_card = QWidget(self)
-        self.issue_rgb_25_card.setObjectName('issue_rgb_25_card')
-        self.issue_rgb_25_card.setMinimumSize(QSize(499, 608))
-        self.issue_rgb_25_card.setMaximumSize(QSize(499, 608))
-        self.grid_layout_1 = QGridLayout(self.issue_rgb_25_card)
+        self.issue_cfa_card = QWidget(self)
+        self.issue_cfa_card.setObjectName('issue_cfa_card')
+        self.issue_cfa_card.setMinimumSize(QSize(499, 608))
+        self.issue_cfa_card.setMaximumSize(QSize(499, 608))
+        self.grid_layout_1 = QGridLayout(self.issue_cfa_card)
         self.grid_layout_1.setObjectName('gridLayout_26')
         self.grid_layout_1.setContentsMargins(1, -1, 1, 35)
         self.horizontal_spacer_1 = QSpacerItem(
@@ -77,16 +77,16 @@ class IssueRGB25Widget(QWidget):
 
         self.grid_layout_1.addItem(self.horizontal_spacer_1, 6, 0)
 
-        self.issue_rgb25_button = PrimaryButton()
-        self.issue_rgb25_button.setAccessibleName(ISSUE_RGB25_BUTTON)
-        self.issue_rgb25_button.setMinimumSize(QSize(402, 40))
-        self.issue_rgb25_button.setMaximumSize(QSize(402, 40))
+        self.issue_cfa_button = PrimaryButton()
+        self.issue_cfa_button.setAccessibleName(ISSUE_CFA_BUTTON)
+        self.issue_cfa_button.setMinimumSize(QSize(402, 40))
+        self.issue_cfa_button.setMaximumSize(QSize(402, 40))
 
         self.grid_layout_1.addWidget(
-            self.issue_rgb25_button, 7, 0, Qt.AlignCenter,
+            self.issue_cfa_button, 7, 0, Qt.AlignCenter,
         )
 
-        self.header_line = QFrame(self.issue_rgb_25_card)
+        self.header_line = QFrame(self.issue_cfa_card)
         self.header_line.setObjectName('line_top')
 
         self.header_line.setFrameShape(QFrame.Shape.HLine)
@@ -94,63 +94,63 @@ class IssueRGB25Widget(QWidget):
 
         self.grid_layout_1.addWidget(self.header_line, 1, 0, 1, 1)
 
-        self.issue_rgb25_details_layout = QVBoxLayout()
-        self.issue_rgb25_details_layout.setSpacing(12)
-        self.issue_rgb25_details_layout.setObjectName('vertical_layout_6')
-        self.issue_rgb25_details_layout.setContentsMargins(45, 15, 45, -1)
-        self.asset_name_label = QLabel(self.issue_rgb_25_card)
+        self.issue_cfa_details_layout = QVBoxLayout()
+        self.issue_cfa_details_layout.setSpacing(12)
+        self.issue_cfa_details_layout.setObjectName('vertical_layout_6')
+        self.issue_cfa_details_layout.setContentsMargins(45, 15, 45, -1)
+        self.asset_name_label = QLabel(self.issue_cfa_card)
         self.asset_name_label.setObjectName('asset_name_label')
         self.asset_name_label.setAutoFillBackground(False)
 
         self.asset_name_label.setFrameShadow(QFrame.Plain)
         self.asset_name_label.setLineWidth(1)
 
-        self.issue_rgb25_details_layout.addWidget(self.asset_name_label)
+        self.issue_cfa_details_layout.addWidget(self.asset_name_label)
 
-        self.name_of_the_asset_input = QLineEdit(self.issue_rgb_25_card)
+        self.name_of_the_asset_input = QLineEdit(self.issue_cfa_card)
         self.name_of_the_asset_input.setObjectName('name_of_the_asset_input')
-        self.name_of_the_asset_input.setAccessibleName(RGB25_ASSET_NAME)
+        self.name_of_the_asset_input.setAccessibleName(CFA_ASSET_NAME)
         self.name_of_the_asset_input.setMinimumSize(QSize(403, 40))
         self.name_of_the_asset_input.setMaximumSize(QSize(403, 16777215))
         self.name_of_the_asset_input.setClearButtonEnabled(True)
-        self.issue_rgb25_details_layout.addWidget(self.name_of_the_asset_input)
+        self.issue_cfa_details_layout.addWidget(self.name_of_the_asset_input)
 
-        self.asset_description_label = QLabel(self.issue_rgb_25_card)
+        self.asset_description_label = QLabel(self.issue_cfa_card)
         self.asset_description_label.setObjectName('asset_description_label')
 
-        self.asset_description_input = QLineEdit(self.issue_rgb_25_card)
+        self.asset_description_input = QLineEdit(self.issue_cfa_card)
         self.asset_description_input.setObjectName('asset_description_input')
-        self.asset_description_input.setAccessibleName(RGB25_ASSET_DESCRIPTION)
+        self.asset_description_input.setAccessibleName(CFA_ASSET_DESCRIPTION)
         self.asset_description_input.setMinimumSize(QSize(403, 40))
         self.asset_description_input.setMaximumSize(QSize(403, 16777215))
         self.asset_description_input.setFrame(False)
         self.asset_description_input.setClearButtonEnabled(True)
 
-        self.issue_rgb25_details_layout.addWidget(self.asset_description_label)
+        self.issue_cfa_details_layout.addWidget(self.asset_description_label)
 
-        self.issue_rgb25_details_layout.addWidget(self.asset_description_input)
-        self.total_supply_label = QLabel(self.issue_rgb_25_card)
+        self.issue_cfa_details_layout.addWidget(self.asset_description_input)
+        self.total_supply_label = QLabel(self.issue_cfa_card)
         self.total_supply_label.setObjectName('total_supply_label')
 
-        self.issue_rgb25_details_layout.addWidget(self.total_supply_label)
+        self.issue_cfa_details_layout.addWidget(self.total_supply_label)
 
-        self.amount_input = QLineEdit(self.issue_rgb_25_card)
+        self.amount_input = QLineEdit(self.issue_cfa_card)
         self.amount_input.setObjectName('amount_input')
-        self.amount_input.setAccessibleName(RGB25_ASSET_AMOUNT)
+        self.amount_input.setAccessibleName(CFA_ASSET_AMOUNT)
         self.amount_input.setMinimumSize(QSize(403, 40))
         self.amount_input.setMaximumSize(QSize(403, 40))
         self.amount_input.setClearButtonEnabled(True)
         set_number_validator(self.amount_input)
 
-        self.issue_rgb25_details_layout.addWidget(self.amount_input)
+        self.issue_cfa_details_layout.addWidget(self.amount_input)
 
         self.vertical_spacer_3 = QSpacerItem(
             20, 30, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding,
         )
 
-        self.issue_rgb25_details_layout.addItem(self.vertical_spacer_3)
+        self.issue_cfa_details_layout.addItem(self.vertical_spacer_3)
 
-        self.form_divider_line = QFrame(self.issue_rgb_25_card)
+        self.form_divider_line = QFrame(self.issue_cfa_card)
         self.form_divider_line.setObjectName('line_bottom')
         self.form_divider_line.setMinimumSize(QSize(403, 1))
         self.form_divider_line.setMaximumSize(QSize(403, 1))
@@ -158,7 +158,7 @@ class IssueRGB25Widget(QWidget):
         self.form_divider_line.setFrameShape(QFrame.Shape.HLine)
         self.form_divider_line.setFrameShadow(QFrame.Shadow.Sunken)
 
-        self.issue_rgb25_details_layout.addWidget(
+        self.issue_cfa_details_layout.addWidget(
             self.form_divider_line, 0, Qt.AlignHCenter,
         )
 
@@ -166,18 +166,18 @@ class IssueRGB25Widget(QWidget):
             20, 20, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding,
         )
 
-        self.issue_rgb25_details_layout.addItem(self.vertical_spacer_4)
+        self.issue_cfa_details_layout.addItem(self.vertical_spacer_4)
 
-        self.asset_file = QLabel(self.issue_rgb_25_card)
+        self.asset_file = QLabel(self.issue_cfa_card)
         self.asset_file.setObjectName('asset_file')
         self.asset_file.setMinimumSize(QSize(403, 17))
         self.asset_file.setMaximumSize(QSize(403, 16777215))
 
-        self.issue_rgb25_details_layout.addWidget(self.asset_file)
+        self.issue_cfa_details_layout.addWidget(self.asset_file)
 
-        self.upload_file = QPushButton(self.issue_rgb_25_card)
+        self.upload_file = QPushButton(self.issue_cfa_card)
         self.upload_file.setObjectName('upload_file')
-        self.upload_file.setAccessibleName(RGB25_UPLOAD_FILE_BUTTON)
+        self.upload_file.setAccessibleName(CFA_UPLOAD_FILE_BUTTON)
         self.upload_file.setMinimumSize(QSize(403, 40))
         self.upload_file.setMaximumSize(QSize(403, 40))
         self.upload_file.setAcceptDrops(False)
@@ -190,59 +190,59 @@ class IssueRGB25Widget(QWidget):
         icon.addFile(':/assets/upload.png', QSize(), QIcon.Normal, QIcon.Off)
         self.upload_file.setIcon(icon)
 
-        self.issue_rgb25_details_layout.addWidget(
+        self.issue_cfa_details_layout.addWidget(
             self.upload_file, 0, Qt.AlignHCenter,
         )
-        self.file_path = QLabel(self.issue_rgb_25_card)
+        self.file_path = QLabel(self.issue_cfa_card)
         self.file_path.setObjectName('asset_ti')
 
-        self.issue_rgb25_details_layout.addWidget(
+        self.issue_cfa_details_layout.addWidget(
             self.file_path, 0, Qt.AlignHCenter,
         )
         self.vertical_spacer_5 = QSpacerItem(
             20, 70, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred,
         )
 
-        self.issue_rgb25_details_layout.addItem(self.vertical_spacer_5)
+        self.issue_cfa_details_layout.addItem(self.vertical_spacer_5)
 
         self.grid_layout_1.addLayout(
-            self.issue_rgb25_details_layout, 2, 0, 1, 1,
+            self.issue_cfa_details_layout, 2, 0, 1, 1,
         )
 
         self.grid_layout_2 = QGridLayout()
         self.grid_layout_2.setSpacing(0)
         self.grid_layout_2.setObjectName('grid_layout_2')
         self.grid_layout_2.setContentsMargins(36, 8, 40, -1)
-        self.issue_rgb_25_asset_title_label = QLabel(self.issue_rgb_25_card)
-        self.issue_rgb_25_asset_title_label.setObjectName(
-            'issue_rgb_25_asset_title_label',
+        self.issue_cfa_asset_title_label = QLabel(self.issue_cfa_card)
+        self.issue_cfa_asset_title_label.setObjectName(
+            'issue_cfa_asset_title_label',
         )
 
         self.grid_layout_2.addWidget(
-            self.issue_rgb_25_asset_title_label, 0, 0, 1, 1,
+            self.issue_cfa_asset_title_label, 0, 0, 1, 1,
         )
 
-        self.rgb_25_close_btn = QPushButton(self.issue_rgb_25_card)
-        self.rgb_25_close_btn.setObjectName('rgb_25_close_btn')
-        self.rgb_25_close_btn.setAccessibleName(ISSUE_RGB25_ASSET_CLOSE_BUTTON)
-        self.rgb_25_close_btn.setMinimumSize(QSize(24, 24))
-        self.rgb_25_close_btn.setMaximumSize(QSize(50, 65))
-        self.rgb_25_close_btn.setAutoFillBackground(False)
+        self.cfa_close_btn = QPushButton(self.issue_cfa_card)
+        self.cfa_close_btn.setObjectName('cfa_close_btn')
+        self.cfa_close_btn.setAccessibleName(ISSUE_CFA_ASSET_CLOSE_BUTTON)
+        self.cfa_close_btn.setMinimumSize(QSize(24, 24))
+        self.cfa_close_btn.setMaximumSize(QSize(50, 65))
+        self.cfa_close_btn.setAutoFillBackground(False)
 
         icon1 = QIcon()
         icon1.addFile(
             ':/assets/x_circle.png',
             QSize(), QIcon.Normal, QIcon.Off,
         )
-        self.rgb_25_close_btn.setIcon(icon1)
-        self.rgb_25_close_btn.setIconSize(QSize(24, 24))
-        self.rgb_25_close_btn.setCheckable(False)
-        self.rgb_25_close_btn.setChecked(False)
-        self.rgb_25_close_btn.setCursor(
+        self.cfa_close_btn.setIcon(icon1)
+        self.cfa_close_btn.setIconSize(QSize(24, 24))
+        self.cfa_close_btn.setCheckable(False)
+        self.cfa_close_btn.setChecked(False)
+        self.cfa_close_btn.setCursor(
             QCursor(Qt.CursorShape.PointingHandCursor),
         )
 
-        self.grid_layout_2.addWidget(self.rgb_25_close_btn, 0, 1, 1, 1)
+        self.grid_layout_2.addWidget(self.cfa_close_btn, 0, 1, 1, 1)
 
         self.grid_layout_1.addLayout(self.grid_layout_2, 0, 0, 1, 1)
 
@@ -258,7 +258,7 @@ class IssueRGB25Widget(QWidget):
 
         self.grid_layout_1.addItem(self.vertical_spacer_7, 7, 0, 1, 1)
 
-        self.footer_line = QFrame(self.issue_rgb_25_card)
+        self.footer_line = QFrame(self.issue_cfa_card)
         self.footer_line.setObjectName('line_6')
         self.footer_line.setMinimumSize(QSize(498, 1))
 
@@ -273,7 +273,7 @@ class IssueRGB25Widget(QWidget):
 
         self.grid_layout_1.addItem(self.vertical_spacer_8, 4, 0, 1, 1)
 
-        self.grid_layout.addWidget(self.issue_rgb_25_card, 1, 1, 2, 2)
+        self.grid_layout.addWidget(self.issue_cfa_card, 1, 1, 2, 2)
 
         self.horizontal_spacer_2 = QSpacerItem(
             301, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum,
@@ -292,13 +292,13 @@ class IssueRGB25Widget(QWidget):
         )
 
         self.grid_layout.addItem(self.vertical_spacer_2, 3, 1, 1, 1)
-        self.issue_rgb25_button.setDisabled(True)
+        self.issue_cfa_button.setDisabled(True)
         self.retranslate_ui()
         self.setup_ui_connections()
 
     def retranslate_ui(self):
         """Retranslate the UI elements."""
-        self.issue_rgb25_button.setText(
+        self.issue_cfa_button.setText(
             QCoreApplication.translate(
                 IRIS_WALLET_TRANSLATIONS_CONTEXT, 'issue_asset', None,
             ),
@@ -343,23 +343,23 @@ class IssueRGB25Widget(QWidget):
                 IRIS_WALLET_TRANSLATIONS_CONTEXT, 'upload_file', None,
             ),
         )
-        self.issue_rgb_25_asset_title_label.setText(
+        self.issue_cfa_asset_title_label.setText(
             QCoreApplication.translate(
-                IRIS_WALLET_TRANSLATIONS_CONTEXT, 'issue_new_rgb25_asset', None,
+                IRIS_WALLET_TRANSLATIONS_CONTEXT, 'issue_new_cfa_asset', None,
             ),
         )
 
     def setup_ui_connections(self):
         """Set up connections for UI elements."""
-        self.rgb_25_close_btn.clicked.connect(
+        self.cfa_close_btn.clicked.connect(
             self.on_close,
         )
-        self.issue_rgb25_button.clicked.connect(self.on_issue_rgb25)
+        self.issue_cfa_button.clicked.connect(self.on_issue_cfa)
         self.upload_file.clicked.connect(self.on_upload_asset_file)
-        self._view_model.issue_rgb25_asset_view_model.is_loading.connect(
+        self._view_model.issue_cfa_asset_view_model.is_loading.connect(
             self.update_loading_state,
         )
-        self._view_model.issue_rgb25_asset_view_model.file_upload_message.connect(
+        self._view_model.issue_cfa_asset_view_model.file_upload_message.connect(
             self.show_file_preview,
         )
         self.amount_input.textChanged.connect(self.handle_button_enabled)
@@ -369,7 +369,7 @@ class IssueRGB25Widget(QWidget):
         self.name_of_the_asset_input.textChanged.connect(
             self.handle_button_enabled,
         )
-        self._view_model.issue_rgb25_asset_view_model.success_page_message.connect(
+        self._view_model.issue_cfa_asset_view_model.success_page_message.connect(
             self.show_asset_issued,
         )
         self.amount_input.textChanged.connect(
@@ -387,11 +387,11 @@ class IssueRGB25Widget(QWidget):
                 IRIS_WALLET_TRANSLATIONS_CONTEXT, 'image_validation', None,
             ).format(get_max_file_size.max_media_upload_size_mb)
             self.file_path.setText(validation_text)
-            self.issue_rgb25_button.setDisabled(True)
-            self.issue_rgb_25_card.setMaximumSize(QSize(499, 608))
+            self.issue_cfa_button.setDisabled(True)
+            self.issue_cfa_card.setMaximumSize(QSize(499, 608))
         else:
             self.file_path.setText(file_upload_message)
-            self.issue_rgb_25_card.setMaximumSize(QSize(499, 808))
+            self.issue_cfa_card.setMaximumSize(QSize(499, 808))
             pixmap = resize_image(file_upload_message, 242, 242)
             self.file_path.setPixmap(
                 QPixmap(pixmap),
@@ -401,20 +401,20 @@ class IssueRGB25Widget(QWidget):
                     IRIS_WALLET_TRANSLATIONS_CONTEXT, 'change_uploaded_file', 'CHANGE UPLOADED FILE',
                 ),
             )
-            self.issue_rgb25_button.setDisabled(False)
+            self.issue_cfa_button.setDisabled(False)
 
-    def on_issue_rgb25(self):
-        """Issue rgb25 while issue rgb25 button clicked"""
+    def on_issue_cfa(self):
+        """Issue cfa while issue cfa button clicked"""
         asset_description = self.asset_description_input.text()
         asset_name = self.name_of_the_asset_input.text()
         total_supply = self.amount_input.text()
-        self._view_model.issue_rgb25_asset_view_model.issue_rgb25_asset(
+        self._view_model.issue_cfa_asset_view_model.issue_cfa_asset(
             asset_description, asset_name, total_supply,
         )
 
     def on_upload_asset_file(self):
         """This method handled upload asset file operation."""
-        self._view_model.issue_rgb25_asset_view_model.open_file_dialog()
+        self._view_model.issue_cfa_asset_view_model.open_file_dialog()
 
     def on_close(self):
         """Navigate to the collectibles page."""
@@ -423,9 +423,9 @@ class IssueRGB25Widget(QWidget):
     def handle_button_enabled(self):
         """Updates the enabled state of the send button."""
         if (self.amount_input.text() and self.asset_description_input.text() and self.name_of_the_asset_input.text() and self.amount_input.text() != '0'):
-            self.issue_rgb25_button.setDisabled(False)
+            self.issue_cfa_button.setDisabled(False)
         else:
-            self.issue_rgb25_button.setDisabled(True)
+            self.issue_cfa_button.setDisabled(True)
 
     def update_loading_state(self, is_loading: bool):
         """
@@ -436,11 +436,11 @@ class IssueRGB25Widget(QWidget):
         """
         if is_loading:
             self.render_timer.start()
-            self.issue_rgb25_button.start_loading()
-            self.rgb_25_close_btn.setDisabled(True)
+            self.issue_cfa_button.start_loading()
+            self.cfa_close_btn.setDisabled(True)
         else:
-            self.issue_rgb25_button.stop_loading()
-            self.rgb_25_close_btn.setDisabled(False)
+            self.issue_cfa_button.stop_loading()
+            self.cfa_close_btn.setDisabled(False)
 
     def show_asset_issued(self, asset_name):
         """This method handled after the asset issue"""

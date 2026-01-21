@@ -19,9 +19,14 @@ from src.utils.error_message import ERROR_SOMETHING_WENT_WRONG
 from src.utils.error_message import ERROR_WHILE_RESTORE
 from src.utils.gauth import authenticate
 from src.utils.info_message import INFO_RESTORE_COMPLETED
+from src.utils.info_message import INFO_WALLET_RESET
 from src.utils.keyring_storage import set_value
+from src.utils.local_store import local_store
+from src.utils.logging import logger
+from src.utils.reset_app import delete_app_data
 from src.utils.worker import ThreadManager
 from src.views.components.keyring_error_dialog import KeyringErrorDialog
+from src.views.components.node_incompatibility import NodeIncompatibilityDialog
 
 
 class RestoreViewModel(QObject, ThreadManager):
@@ -86,7 +91,9 @@ class RestoreViewModel(QObject, ThreadManager):
             exc (Exception): The exception that was raised.
         """
         self.is_loading.emit(False)
-        if isinstance(exc, CommonException):
+        if isinstance(exc, CommonException) and getattr(exc, 'message', '') == 'RGB_LIB_INCOMPATIBLE':
+            self.handle_rgb_lib_incompatibility()
+        elif isinstance(exc, CommonException):
             self.message.emit(
                 ToastPreset.ERROR,
                 exc.message,
@@ -124,3 +131,28 @@ class RestoreViewModel(QObject, ThreadManager):
         except Exception as exc:
             self.is_loading.emit(False)
             self.on_error(exc)
+
+    def handle_rgb_lib_incompatibility(self):
+        """Handles the case when the RGB lib version is incompatible."""
+        rgb_lib_incompatible_dialog = NodeIncompatibilityDialog()
+        rgb_lib_incompatible_dialog.show_node_incompatibility_dialog()
+        clicked_button = rgb_lib_incompatible_dialog.node_incompatibility_dialog.clickedButton()
+
+        if clicked_button == rgb_lib_incompatible_dialog.close_button:
+            QApplication.instance().exit()
+
+        elif clicked_button == rgb_lib_incompatible_dialog.delete_app_data_button:
+            rgb_lib_incompatible_dialog.show_confirmation_dialog()
+            confirm_button = rgb_lib_incompatible_dialog.confirmation_dialog.clickedButton()
+
+            if confirm_button == rgb_lib_incompatible_dialog.confirm_delete_button:
+                self.on_delete_app_data()
+            elif confirm_button == rgb_lib_incompatible_dialog.cancel:
+                self.handle_rgb_lib_incompatibility()
+
+    def on_delete_app_data(self):
+        """This function deletes the wallet data after user confirms when using an invalid rgb lib"""
+        basepath = local_store.get_path()
+        network_type = SettingRepository.get_wallet_network()
+        delete_app_data(basepath, network=network_type.value)
+        logger.info(INFO_WALLET_RESET)

@@ -437,7 +437,7 @@ class CreateLnInvoiceWidget(QWidget):
 
     def on_close(self):
         """Navigate to the fungibles page."""
-        if self.asset_type == AssetType.RGB25.value:
+        if self.asset_type == AssetType.CFA.value:
             self._view_model.page_navigation.collectibles_asset_page()
         else:
             self._view_model.page_navigation.fungibles_asset_page()
@@ -500,7 +500,7 @@ class CreateLnInvoiceWidget(QWidget):
                 asset_id=self.asset_id, amount=self.amount_input.text(), expiry=expiry_time, amount_msat=push_msat,
             )
         self.render_timer.stop()
-        self._view_model.page_navigation.receive_rgb25_page(
+        self._view_model.page_navigation.receive_cfa_page(
             params=AssetDataModel(
                 asset_type='create_invoice',
                 close_page_navigation=self.asset_type,

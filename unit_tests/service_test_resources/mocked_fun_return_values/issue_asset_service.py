@@ -38,7 +38,6 @@ mock_data_post_asset_api_res: PostAssetMediaModelResponseModel = PostAssetMediaM
 
 example_data_of_issue_asset_api = {
     'asset_id': 'rgb:2dkSTbr-jFhznbPmo-TQafzswCN-av4gTsJjX-ttx6CNou5-M98k8Zd',
-    'asset_iface': 'RGB20',
     'name': 'Collectible',
     'details': 'asset details',
     'precision': 0,

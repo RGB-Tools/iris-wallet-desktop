@@ -6,6 +6,7 @@ import hashlib
 from src.model.enums.enums_model import NetworkEnumModel
 from src.utils.constant import rgbMainnetFaucetURLs
 from src.utils.constant import rgbRegtestFaucetURLs
+from src.utils.constant import rgbTestnet4FaucetURLs
 from src.utils.constant import rgbTestnetFaucetURLs
 from src.utils.custom_exception import ServiceOperationException
 from src.utils.error_message import ERROR_FAILED_TO_GET_FAUCET_URL
@@ -19,6 +20,8 @@ def get_faucet_url(network: NetworkEnumModel) -> str:
             return rgbRegtestFaucetURLs[0]
         if network.value == NetworkEnumModel.TESTNET.value:
             return rgbTestnetFaucetURLs[0]
+        if network.value == NetworkEnumModel.TESTNET4.value:
+            return rgbTestnet4FaucetURLs[0]
         if network.value == NetworkEnumModel.MAINNET.value:
             return rgbMainnetFaucetURLs[0]
         raise ServiceOperationException(ERROR_INVALID_NETWORK_TYPE)

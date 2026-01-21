@@ -12,6 +12,7 @@ from pydantic import BaseModel
 
 from src.model.enums.enums_model import TransactionStatusEnumModel
 from src.model.enums.enums_model import TransferStatusEnumModel
+from src.model.rgb_model import AssignmentModel
 
 # -------------------- Helper models -----------------------
 
@@ -47,7 +48,7 @@ class Utxo(BaseModel):
 class RgbAllocation(BaseModel):
     """Model part of list unspents api response model"""
     asset_id: str | None = None
-    amount: int
+    assignment: AssignmentModel
     settled: bool
 
 
@@ -71,7 +72,6 @@ class OfflineAsset(BaseModel):
     ticker: str
     balance: BalanceStatus
     name: str
-    asset_iface: str = 'BITCOIN'
 
 
 # -------------------- Request Models -----------------------

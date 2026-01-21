@@ -8,20 +8,20 @@ from PySide6.QtCore import QObject
 
 from src.viewmodels.backup_view_model import BackupViewModel
 from src.viewmodels.bitcoin_view_model import BitcoinViewModel
+from src.viewmodels.cfa_view_model import CFAViewModel
 from src.viewmodels.channel_management_viewmodel import ChannelManagementViewModel
 from src.viewmodels.enter_password_view_model import EnterWalletPasswordViewModel
 from src.viewmodels.faucets_view_model import FaucetsViewModel
 from src.viewmodels.fee_rate_view_model import EstimateFeeViewModel
 from src.viewmodels.header_frame_view_model import HeaderFrameViewModel
-from src.viewmodels.issue_rgb20_view_model import IssueRGB20ViewModel
-from src.viewmodels.issue_rgb25_view_model import IssueRGB25ViewModel
+from src.viewmodels.issue_cfa_view_model import IssueCFAViewModel
+from src.viewmodels.issue_nia_view_model import IssueNIAViewModel
 from src.viewmodels.ln_endpoint_view_model import LnEndpointViewModel
 from src.viewmodels.ln_offchain_view_model import LnOffChainViewModel
 from src.viewmodels.main_asset_view_model import MainAssetViewModel
 from src.viewmodels.receive_bitcoin_view_model import ReceiveBitcoinViewModel
-from src.viewmodels.receive_rgb25_view_model import ReceiveRGB25ViewModel
+from src.viewmodels.receive_cfa_view_model import ReceiveCFAViewModel
 from src.viewmodels.restore_view_model import RestoreViewModel
-from src.viewmodels.rgb_25_view_model import RGB25ViewModel
 from src.viewmodels.send_bitcoin_view_model import SendBitcoinViewModel
 from src.viewmodels.set_wallet_password_view_model import SetWalletPasswordViewModel
 from src.viewmodels.setting_view_model import SettingViewModel
@@ -45,7 +45,7 @@ class MainViewModel(QObject):
 
         self.main_asset_view_model = MainAssetViewModel(self.page_navigation)
 
-        self.issue_rgb20_asset_view_model = IssueRGB20ViewModel(
+        self.issue_nia_asset_view_model = IssueNIAViewModel(
             self.page_navigation,
         )
         self.set_wallet_password_view_model = SetWalletPasswordViewModel(
@@ -65,20 +65,20 @@ class MainViewModel(QObject):
 
         self.unspent_view_model = UnspentListViewModel(self.page_navigation)
 
-        self.issue_rgb25_asset_view_model = IssueRGB25ViewModel(
+        self.issue_cfa_asset_view_model = IssueCFAViewModel(
             self.page_navigation,
         )
         self.ln_endpoint_view_model = LnEndpointViewModel(
             self.page_navigation,
         )
-        self.rgb25_view_model = RGB25ViewModel(
+        self.cfa_view_model = CFAViewModel(
             self.page_navigation,
         )
 
         self.enter_wallet_password_view_model = EnterWalletPasswordViewModel(
             self.page_navigation,
         )
-        self.receive_rgb25_view_model = ReceiveRGB25ViewModel(
+        self.receive_cfa_view_model = ReceiveCFAViewModel(
             self.page_navigation,
         )
 

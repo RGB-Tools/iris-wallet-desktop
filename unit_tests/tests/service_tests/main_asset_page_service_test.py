@@ -2,12 +2,6 @@
 # pylint: disable=redefined-outer-name,unused-argument,too-many-arguments,unused-import
 from __future__ import annotations
 
-from unittest import mock
-
-import pytest
-from pytest_mock import mocker
-
-from src.data.repository.rgb_repository import RgbRepository
 from src.data.service.main_asset_page_service import MainAssetPageDataService
 from src.model.common_operation_model import MainPageDataResponseModel
 from src.model.enums.enums_model import FilterAssetEnumModel
@@ -15,7 +9,6 @@ from src.model.enums.enums_model import WalletType
 from src.model.rgb_model import FilterAssetRequestModel
 from src.model.rgb_model import RefreshTransferResponseModel
 from src.model.setting_model import IsHideExhaustedAssetEnabled
-from src.utils.custom_exception import CommonException
 from unit_tests.repository_fixture.btc_repository_mock import mock_get_btc_balance
 from unit_tests.repository_fixture.rgb_repository_mock import mock_get_asset
 from unit_tests.repository_fixture.rgb_repository_mock import mock_refresh_transfer

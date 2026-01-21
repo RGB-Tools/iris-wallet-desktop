@@ -11,8 +11,8 @@ QLabel#logo_title {
     color: white;
 }
 
-/* Styles for the issue RGB20 widget */
-QWidget#issue_rgb20_widget {
+/* Styles for the issue NIA widget */
+QWidget#issue_nia_widget {
     background: transparent;
     background-color: rgb(3, 11, 37);
     border: 1px solid rgb(102, 108, 129);
@@ -20,8 +20,8 @@ QWidget#issue_rgb20_widget {
 
 }
 
-/* Styles for line edit elements within the issue RGB20 widget */
-QLineEdit#issue_rgb20_input, QLineEdit#asset_name_input, QLineEdit#amount_input {
+/* Styles for line edit elements within the issue NIA widget */
+QLineEdit#issue_nia_input, QLineEdit#asset_name_input, QLineEdit#amount_input {
     padding-left: 10px;
     font: 15px "Inter";
     color: rgb(102, 108, 129);
@@ -30,8 +30,8 @@ QLineEdit#issue_rgb20_input, QLineEdit#asset_name_input, QLineEdit#amount_input 
     border-radius: 4px;
 }
 
-/* Styles for label elements within the issue RGB20 widget */
-QLabel#issue_rgb20_label, QLabel#asset_ticker_label, QLabel#asset_name_label, QLabel#total_supply_label {
+/* Styles for label elements within the issue NIA widget */
+QLabel#issue_nia_label, QLabel#asset_ticker_label, QLabel#asset_name_label, QLabel#total_supply_label {
     font: 14px "Inter";
     color: rgb(121, 128, 148);
     background: transparent;
@@ -39,7 +39,7 @@ QLabel#issue_rgb20_label, QLabel#asset_ticker_label, QLabel#asset_name_label, QL
     font-weight: 600;
 }
 
-/* Styles for the issue RGB20 title */
+/* Styles for the issue NIA title */
 QLabel#set_wallet_password_label {
     font: 24px "Inter";
     border: none;
@@ -50,17 +50,17 @@ QLabel#set_wallet_password_label {
 
 }
 
-/* Styles for the RGB20 close button */
-QPushButton#rgb_20_close_btn {
+/* Styles for the NIA close button */
+QPushButton#nia_close_btn {
     background: transparent;
     border: none;
 }
 
-QFrame#issue_rgb20_wallet_logo{
+QFrame#issue_nia_wallet_logo{
     border:none
 }
 
-/* Styles for line elements within the issue RGB20 widget */
+/* Styles for line elements within the issue NIA widget */
 QFrame#line_3, QFrame#bottom_line_frame {
     border: none;
     border-bottom: 1px solid rgb(27, 35, 59);
